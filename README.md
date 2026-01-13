@@ -1,6 +1,26 @@
 # Orion Operator Lifecycle Automation
 
-**Single source of truth for operator certification requirements and compliance tracking.**
+**Data-driven operator certification requirements using Pizza Status inference system.**
+
+---
+
+## 🍕 Pizza Status Requirements System
+
+This system uses **inference** to determine certification requirements by grouping operators by their **PizzaStatusID**. 
+
+### How It Works
+
+1. **Group:** Operators are grouped by PizzaStatusID (~16 unique groups)
+2. **Analyze:** Count which certifications those operators have
+3. **Infer:** Certs with 80%+ coverage = required
+4. **Apply:** Same requirements for all Status+Division combos sharing that pizza status
+
+### Benefits
+
+- **Data-Driven:** Requirements reflect actual operator data
+- **Consistent:** Same pizza status = same requirements across divisions
+- **Efficient:** Manage 16 pizza statuses instead of 500+ Status+Division combinations
+- **Accurate:** Larger sample sizes (100+ operators per pizza status)
 
 ---
 
@@ -8,28 +28,22 @@
 
 ```
 Orion_Operator_Lifecycle_Automation/
-├── config/                        # Configuration files
-│   └── master_cert_requirements.json    # Master requirements definition
-├── data/                          # Raw database exports (JSON)
-│   ├── pay_Certifications.json
-│   ├── pay_Operators.json
-│   └── ...
+├── data/                          # Data files
+│   ├── pay_PizzaStatusRequirements.json  # Inferred requirements (source of truth)
+│   ├── pay_StatusTypes.json              # Status → PizzaStatusID mapping
+│   ├── pay_Operators.json                # Operator data
+│   └── pay_Certifications.json           # Certification data
+├── config/                        # Configuration
+│   └── certification_aliases.json        # Cert name normalization
 ├── tools/                         # User-facing tools
-│   ├── lifecycle-workflow-builder.html  # Requirements editor UI
-│   ├── pay_Operators.json              # Operator data for UI
-│   └── master_cert_requirements.json   # Requirements for UI
-├── scripts/                       # Python automation scripts
-│   ├── reports/                   # Report generators
-│   ├── utilities/                 # Helper scripts
-│   └── archive/                   # Deprecated scripts
+│   └── lifecycle-workflow-builder.html   # Visual requirements editor
+├── scripts/                       # Automation scripts
+│   ├── generate_pizza_status_requirements.py  # Generate from inference
+│   └── reports/
+│       └── generate_compliance_gap_report.py  # Gap analysis
 ├── sql/                           # SQL queries for database
 ├── docs/                          # Documentation
-│   ├── guides/                    # User guides
-│   ├── technical/                 # Technical documentation
-│   └── archive/                   # Old documentation
-├── output/                        # Generated reports
-│   ├── compliance_gap_report.json
-│   └── archive/                   # Historical reports
+├── generated/                     # Generated reports
 └── external/                      # External data sources
 ```
 
@@ -37,16 +51,34 @@ Orion_Operator_Lifecycle_Automation/
 
 ## 🚀 Quick Start
 
-### 1. View Operator Compliance
+### 1. Generate Requirements from Data
+
+```bash
+# Analyze operator data and infer requirements
+python3 scripts/generate_pizza_status_requirements.py
+
+# Output: data/pay_PizzaStatusRequirements.json
+```
+
+### 2. View Operator Compliance
 
 ```bash
 # Generate compliance gap report
 python3 scripts/reports/generate_compliance_gap_report.py
 
 # Output:
-# - output/compliance_gap_report.json (detailed)
-# - output/compliance_gap_report.txt (summary)
+# - generated/compliance_gap_report.json (detailed)
+# - generated/compliance_gap_report.txt (summary)
 ```
+
+### 3. Edit Requirements (Visual Editor)
+
+1. Open `tools/lifecycle-workflow-builder.html` in browser
+2. Drag and drop certifications to statuses
+3. Click "Save Changes"
+4. Download `pay_PizzaStatusRequirements.json`
+5. Replace file in `data/` directory
+6. Refresh browser
 
 ### 2. Edit Requirements (Web UI)
 
