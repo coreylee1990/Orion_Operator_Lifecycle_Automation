@@ -1,0 +1,229 @@
+{
+  "_metadata": {
+    "description": "Master Certification Requirements - Single Source of Truth",
+    "version": "1.0",
+    "last_updated": "2026-01-13",
+    "notes": [
+      "This file defines what certifications SHOULD be required at each lifecycle status.",
+      "All divisions follow these requirements unless overridden in division_overrides.",
+      "Use this as the source of truth to generate gap reports and compliance checks."
+    ]
+  },
+  
+  "global_requirements": {
+    "REGISTRATION": {
+      "order": "1",
+      "description": "Initial registration and documentation collection",
+      "required_certs": [
+        "Social Security Card",
+        "W9"
+      ],
+      "notes": "First step - collect basic identification and tax documents"
+    },
+    
+    "ONBOARDING": {
+      "order": "2",
+      "description": "Basic onboarding documentation and identification",
+      "required_certs": [
+        "Driver License",
+        "Driver's License_BACKSIDE",
+        "Social Security Card",
+        "W9"
+      ],
+      "notes": "Must have valid driver's license and basic documentation"
+    },
+    
+    "CREDENTIALING": {
+      "order": "3",
+      "description": "Background checks, drug testing, and compliance screenings",
+      "required_certs": [
+        "Background Check",
+        "MVR",
+        "Drug Test",
+        "Physical"
+      ],
+      "notes": "All safety and compliance checks must be completed"
+    },
+    
+    "DOT SCREENING": {
+      "order": "4",
+      "description": "DOT-specific requirements for commercial drivers",
+      "required_certs": [
+        "DOT Physical",
+        "Drug and Alcohol Policy",
+        "DOT Pre-Employment Drug Screen"
+      ],
+      "notes": "Only required for DOT drivers"
+    },
+    
+    "COMPLIANCE REVIEW": {
+      "order": "5",
+      "description": "Final compliance review before approval",
+      "required_certs": [
+        "All certifications from previous stages must be approved"
+      ],
+      "notes": "Review stage - verify all previous requirements met"
+    },
+    
+    "APPROVED FOR CONTRACTING": {
+      "order": "6",
+      "description": "Approved to begin contracting work",
+      "required_certs": [
+        "CTAA Passenger Assistance",
+        "Defensive Driving",
+        "Vehicle Inspection"
+      ],
+      "notes": "Training certifications required before active work"
+    },
+    
+    "APPROVED FOR LEASING": {
+      "order": "6",
+      "description": "Approved for vehicle leasing",
+      "required_certs": [
+        "Insurance Certificate",
+        "Vehicle Registration",
+        "Lease Agreement"
+      ],
+      "notes": "Vehicle-specific requirements"
+    },
+    
+    "SBPC APPROVED FOR SERVICE": {
+      "order": "7",
+      "description": "Santa Barbara Public Schools approval",
+      "required_certs": [
+        "Background Check",
+        "LiveScan",
+        "TB Test"
+      ],
+      "notes": "School district specific requirements"
+    },
+    
+    "OUT OF SERVICE": {
+      "order": "99",
+      "description": "Operator temporarily out of service",
+      "required_certs": [],
+      "notes": "No active requirements - operator not working"
+    },
+    
+    "TERMINATED": {
+      "order": "100",
+      "description": "Employment terminated",
+      "required_certs": [],
+      "notes": "No active requirements - employment ended"
+    }
+  },
+  
+  "division_overrides": {
+    "_description": "Division-specific requirement overrides. These override global_requirements for specific divisions.",
+    
+    "10 - OR": {
+      "ONBOARDING": {
+        "add_required_certs": [
+          "TriMet Background Release Form A&B",
+          "Badge Photo"
+        ],
+        "notes": "Oregon (TriMet) requires additional background release forms"
+      },
+      "CREDENTIALING": {
+        "add_required_certs": [
+          "TriMet Drug & Alcohol Policy"
+        ]
+      }
+    },
+    
+    "7 - MI": {
+      "ONBOARDING": {
+        "add_required_certs": [
+          "Michigan Driver Certification"
+        ],
+        "notes": "Michigan has state-specific driver requirements"
+      }
+    },
+    
+    "3 - TX": {
+      "ONBOARDING": {
+        "add_required_certs": [
+          "DART 5 STAR SRVC POLICY"
+        ],
+        "notes": "Texas (DART) requires service policy acknowledgment"
+      }
+    },
+    
+    "11 - GA": {
+      "ONBOARDING": {
+        "add_required_certs": [
+          "DriverMate Acknowledgement"
+        ],
+        "notes": "Georgia requires DriverMate system acknowledgement"
+      }
+    },
+    
+    "12 - PA": {
+      "CREDENTIALING": {
+        "add_required_certs": [
+          "CCF",
+          "Pennsylvania Act 153"
+        ],
+        "notes": "Pennsylvania has additional compliance requirements"
+      }
+    }
+  },
+  
+  "certification_aliases": {
+    "_description": "Different names for the same certification. Use this to normalize cert names.",
+    "Driver License": [
+      "Driver License",
+      "Driver License ",
+      "Drivers License",
+      "Driver's License",
+      "DL",
+      "DRIVERS LICENSE w/CHAUF ENDORSE"
+    ],
+    "Background Check": [
+      "Background Check",
+      "BackgroundCheck",
+      "BGC",
+      "Background Screening"
+    ],
+    "Drug Test": [
+      "Drug Test",
+      "Drug Screen",
+      "Drug Screening",
+      "Pre-Employment Drug Screen",
+      "NON-DOT Pre-Contract Drug/Alc Screen"
+    ],
+    "Physical": [
+      "Physical",
+      "DOT Physical",
+      "Medical Exam",
+      "Medical Examination"
+    ],
+    "CTAA Passenger Assistance": [
+      "CTAA Passenger Assistance",
+      "CTAA PASSENGER ASSISTANCE",
+      "CTAA Passenger Assist"
+    ],
+    "Defensive Driving": [
+      "Defensive Driving",
+      "Defensive Driving ",
+      "Defensive Driver Training"
+    ]
+  },
+  
+  "usage_instructions": {
+    "how_to_use": [
+      "1. Load this file as the master requirements definition",
+      "2. For each operator, check their status and division",
+      "3. Get required_certs from global_requirements[status]",
+      "4. If division exists in division_overrides, merge add_required_certs",
+      "5. Compare operator's actual certifications against requirements",
+      "6. Generate gap report showing missing certifications"
+    ],
+    "updating_requirements": [
+      "1. Edit this file to add/remove required certifications",
+      "2. Use the Requirements Editor UI to visually manage requirements",
+      "3. Export from Requirements Editor saves this file",
+      "4. Re-run gap analysis scripts to see compliance status"
+    ]
+  }
+}

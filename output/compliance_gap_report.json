@@ -1,0 +1,2888 @@
+{
+  "summary": {
+    "total_operators": 143,
+    "compliant_operators": 55,
+    "non_compliant_operators": 88,
+    "total_missing_certs": 190
+  },
+  "by_status": {
+    "APPROVED FOR CONTRACTING": {
+      "total_operators": 5,
+      "compliant": 0,
+      "non_compliant": 5,
+      "missing_cert_counts": {
+        "CTAA Passenger Assistance": 1,
+        "Vehicle Inspection": 5
+      }
+    },
+    "APPROVED FOR LEASING": {
+      "total_operators": 1,
+      "compliant": 0,
+      "non_compliant": 1,
+      "missing_cert_counts": {
+        "Insurance Certificate": 1,
+        "Lease Agreement": 1,
+        "Vehicle Registration": 1
+      }
+    },
+    "APPROVED-ORIENTATION BTW": {
+      "total_operators": 5,
+      "compliant": 5,
+      "non_compliant": 0,
+      "missing_cert_counts": {}
+    },
+    "COMPLIANCE REVIEW": {
+      "total_operators": 15,
+      "compliant": 0,
+      "non_compliant": 15,
+      "missing_cert_counts": {
+        "All certifications from previous stages must be approved": 15
+      }
+    },
+    "CREDENTIALING": {
+      "total_operators": 6,
+      "compliant": 0,
+      "non_compliant": 6,
+      "missing_cert_counts": {
+        "MVR": 6,
+        "Drug Test": 6,
+        "Background Check": 6,
+        "Physical": 6,
+        "CCF": 1,
+        "Pennsylvania Act 153": 1
+      }
+    },
+    "DOT SCREENING": {
+      "total_operators": 25,
+      "compliant": 0,
+      "non_compliant": 25,
+      "missing_cert_counts": {
+        "DOT Physical": 25,
+        "DOT Pre-Employment Drug Screen": 25,
+        "Drug and Alcohol Policy": 23
+      }
+    },
+    "IN-SERVICE": {
+      "total_operators": 36,
+      "compliant": 36,
+      "non_compliant": 0,
+      "missing_cert_counts": {}
+    },
+    "ONBOARDING": {
+      "total_operators": 31,
+      "compliant": 5,
+      "non_compliant": 26,
+      "missing_cert_counts": {
+        "W9": 15,
+        "Social Security Card": 9,
+        "Driver License": 6,
+        "Michigan Driver Certification": 4,
+        "DriverMate Acknowledgement": 2,
+        "Driver's License_BACKSIDE": 10,
+        "TriMet Background Release Form A&B": 1,
+        "Badge Photo": 1,
+        "DART 5 STAR SRVC POLICY": 2
+      }
+    },
+    "ORIENTATION-BIG STAR SAFETY & SERVICE": {
+      "total_operators": 7,
+      "compliant": 7,
+      "non_compliant": 0,
+      "missing_cert_counts": {}
+    },
+    "OUT OF SERVICE": {
+      "total_operators": 1,
+      "compliant": 1,
+      "non_compliant": 0,
+      "missing_cert_counts": {}
+    },
+    "REGISTRATION": {
+      "total_operators": 5,
+      "compliant": 0,
+      "non_compliant": 5,
+      "missing_cert_counts": {
+        "W9": 4,
+        "Social Security Card": 3
+      }
+    },
+    "SBPC APPROVED FOR SERVICE": {
+      "total_operators": 5,
+      "compliant": 0,
+      "non_compliant": 5,
+      "missing_cert_counts": {
+        "TB Test": 5,
+        "LiveScan": 5
+      }
+    },
+    "TERMINATED": {
+      "total_operators": 1,
+      "compliant": 1,
+      "non_compliant": 0,
+      "missing_cert_counts": {}
+    }
+  },
+  "by_division": {
+    "7 - MI": {
+      "total_operators": 23,
+      "compliant": 7,
+      "non_compliant": 16,
+      "missing_cert_counts": {
+        "CTAA Passenger Assistance": 1,
+        "Vehicle Inspection": 1,
+        "All certifications from previous stages must be approved": 3,
+        "MVR": 2,
+        "Drug Test": 2,
+        "Background Check": 2,
+        "Physical": 2,
+        "DOT Physical": 4,
+        "DOT Pre-Employment Drug Screen": 4,
+        "Drug and Alcohol Policy": 4,
+        "Driver License": 4,
+        "W9": 3,
+        "Michigan Driver Certification": 4,
+        "Social Security Card": 5,
+        "TB Test": 1,
+        "LiveScan": 1
+      }
+    },
+    "10 - OR": {
+      "total_operators": 15,
+      "compliant": 6,
+      "non_compliant": 9,
+      "missing_cert_counts": {
+        "Vehicle Inspection": 3,
+        "All certifications from previous stages must be approved": 1,
+        "DOT Physical": 3,
+        "DOT Pre-Employment Drug Screen": 3,
+        "Drug and Alcohol Policy": 3,
+        "TriMet Background Release Form A&B": 1,
+        "W9": 2,
+        "Badge Photo": 1
+      }
+    },
+    "8 - OH": {
+      "total_operators": 13,
+      "compliant": 6,
+      "non_compliant": 7,
+      "missing_cert_counts": {
+        "Vehicle Inspection": 1,
+        "DOT Physical": 2,
+        "DOT Pre-Employment Drug Screen": 2,
+        "Drug and Alcohol Policy": 2,
+        "Driver's License_BACKSIDE": 4,
+        "Social Security Card": 1
+      }
+    },
+    "11 - GA": {
+      "total_operators": 22,
+      "compliant": 4,
+      "non_compliant": 18,
+      "missing_cert_counts": {
+        "Insurance Certificate": 1,
+        "Lease Agreement": 1,
+        "Vehicle Registration": 1,
+        "All certifications from previous stages must be approved": 2,
+        "MVR": 1,
+        "Drug Test": 1,
+        "Background Check": 1,
+        "Physical": 1,
+        "DOT Physical": 4,
+        "DOT Pre-Employment Drug Screen": 4,
+        "Drug and Alcohol Policy": 4,
+        "DriverMate Acknowledgement": 2,
+        "Driver's License_BACKSIDE": 4,
+        "W9": 2,
+        "TB Test": 4,
+        "LiveScan": 4
+      }
+    },
+    "12 - PA": {
+      "total_operators": 20,
+      "compliant": 8,
+      "non_compliant": 12,
+      "missing_cert_counts": {
+        "All certifications from previous stages must be approved": 4,
+        "Background Check": 1,
+        "Physical": 1,
+        "MVR": 1,
+        "Drug Test": 1,
+        "CCF": 1,
+        "Pennsylvania Act 153": 1,
+        "DOT Physical": 4,
+        "DOT Pre-Employment Drug Screen": 4,
+        "Drug and Alcohol Policy": 2,
+        "W9": 3,
+        "Social Security Card": 2
+      }
+    },
+    "3 - TX": {
+      "total_operators": 24,
+      "compliant": 10,
+      "non_compliant": 14,
+      "missing_cert_counts": {
+        "All certifications from previous stages must be approved": 4,
+        "MVR": 2,
+        "Drug Test": 2,
+        "Background Check": 2,
+        "Physical": 2,
+        "DOT Physical": 4,
+        "DOT Pre-Employment Drug Screen": 4,
+        "Drug and Alcohol Policy": 4,
+        "W9": 2,
+        "DART 5 STAR SRVC POLICY": 2,
+        "Driver License": 1,
+        "Driver's License_BACKSIDE": 1,
+        "Social Security Card": 2
+      }
+    },
+    "6 - FL": {
+      "total_operators": 15,
+      "compliant": 6,
+      "non_compliant": 9,
+      "missing_cert_counts": {
+        "All certifications from previous stages must be approved": 1,
+        "DOT Physical": 4,
+        "DOT Pre-Employment Drug Screen": 4,
+        "Drug and Alcohol Policy": 4,
+        "W9": 4,
+        "Social Security Card": 2
+      }
+    },
+    "5 - CA": {
+      "total_operators": 5,
+      "compliant": 4,
+      "non_compliant": 1,
+      "missing_cert_counts": {
+        "W9": 1
+      }
+    },
+    "2 - IL": {
+      "total_operators": 6,
+      "compliant": 4,
+      "non_compliant": 2,
+      "missing_cert_counts": {
+        "W9": 2,
+        "Driver License": 1,
+        "Driver's License_BACKSIDE": 1
+      }
+    }
+  },
+  "operator_gaps": [
+    {
+      "operator_id": "A91D2F7D-ECF5-4892-8FB7-AA303AEDA5D0",
+      "first_name": "Damious ",
+      "last_name": "Eason ",
+      "status": "APPROVED FOR CONTRACTING",
+      "division": "7 - MI",
+      "missing_certs": [
+        "CTAA Passenger Assistance",
+        "Vehicle Inspection"
+      ],
+      "has_certs": [
+        "10 Habits of a Professional Paratransit Operator",
+        "BACKGROUND CHECK",
+        "CTAA PASSENGER ASSISTANCE",
+        "DOT Chain of Custody Form",
+        "DOT Driver Questionnaire ",
+        "DOT Drug & Alcohol Orientation",
+        "DOT Drug and Alcohol Policy ",
+        "DOT Physical Card",
+        "DOT Pre-Contract Drug/Alc DOT",
+        "DOT Release of Info Form 40.25",
+        "DRIVERS LICENSE w/CHAUF ENDORSE",
+        "Defensive Driving ",
+        "Driver's License_BACKSIDE ",
+        "Motor Vehicle Report ",
+        "Orientation- Behind the Wheel",
+        "Orientation-Big Star Safety and Service",
+        "SOCIAL SECURITY CARD",
+        "Workers Comp Coverage Waiver"
+      ],
+      "required_certs": [
+        "CTAA Passenger Assistance",
+        "Defensive Driving",
+        "Vehicle Inspection"
+      ]
+    },
+    {
+      "operator_id": "1E1609CE-A4E6-46B2-96E5-6F7505D7130E",
+      "first_name": "Kaleb",
+      "last_name": "Lewis",
+      "status": "APPROVED FOR CONTRACTING",
+      "division": "10 - OR",
+      "missing_certs": [
+        "Vehicle Inspection"
+      ],
+      "has_certs": [
+        "Background Check",
+        "Badge Photo",
+        "COMPLIANCE REVIEW",
+        "CTAA Passenger Assistance",
+        "DOT Chain of Custody Form",
+        "DOT Driver Questionnaire ",
+        "DOT Drug & Alcohol Orientation",
+        "DOT Drug and Alcohol Policy ",
+        "DOT Physical Card",
+        "DOT Pre Employment Donor Pass",
+        "DOT Release of Info Form 40.25",
+        "Defensive Driving ",
+        "Driver License ",
+        "Driver's License_BACKSIDE",
+        "Fuel Passthrough Policy",
+        "Motor Vehicle Report (MVR)",
+        "Orientation-Big Star Safety and Service",
+        "Orientation-Client Hosted",
+        "RESULTS TRIMET BG CHECK_FingerPrint",
+        "SERVICE AGREEMENT",
+        "Social Security Card",
+        "TriMet Background Release Form A&B",
+        "W9",
+        "WC Securement (Hands On)",
+        "Worker's Comp Coverage Waiver"
+      ],
+      "required_certs": [
+        "CTAA Passenger Assistance",
+        "Defensive Driving",
+        "Vehicle Inspection"
+      ]
+    },
+    {
+      "operator_id": "238EBB0F-FE9B-41DF-89AA-423EA4AFE98D",
+      "first_name": "David",
+      "last_name": "Moorman",
+      "status": "APPROVED FOR CONTRACTING",
+      "division": "8 - OH",
+      "missing_certs": [
+        "Vehicle Inspection"
+      ],
+      "has_certs": [
+        "BackgroundCheck",
+        "COMPLIANCE REVIEW",
+        "CTAA Passenger Assistance",
+        "DOT Chain of Custody Form",
+        "DOT Driver Questionnaire ",
+        "DOT Drug & Alcohol Orientation",
+        "DOT Drug/Alcohol Policy",
+        "DOT Pre Employment Donor Pass",
+        "DOT Pre-Contract Drug/Alc DOT",
+        "DOT Release of Info Form 40.25",
+        "Defensive Driving",
+        "Driver's License_BACKSIDE ",
+        "Drivers License",
+        "Motor Vehicle Report (MVR)",
+        "Ohio Driver's License Verification",
+        "Orientation- Behind the Wheel",
+        "Orientation-Big Star Safety and Service",
+        "Orientation-Client Hosted",
+        "Service Agreement",
+        "Service Agreement-Schedule A",
+        "Social Security Card",
+        "W9",
+        "Worker's Comp Coverage Waiver"
+      ],
+      "required_certs": [
+        "CTAA Passenger Assistance",
+        "Defensive Driving",
+        "Vehicle Inspection"
+      ]
+    },
+    {
+      "operator_id": "C921C7E7-4A5B-4F10-8E7B-CAE29206EFFB",
+      "first_name": "Jacob",
+      "last_name": "Walker",
+      "status": "APPROVED FOR CONTRACTING",
+      "division": "10 - OR",
+      "missing_certs": [
+        "Vehicle Inspection"
+      ],
+      "has_certs": [
+        "Background Check",
+        "Badge Photo",
+        "COMPLIANCE REVIEW",
+        "CTAA Passenger Assistance",
+        "DOT Chain of Custody Form",
+        "DOT Driver Questionnaire ",
+        "DOT Drug & Alcohol Orientation",
+        "DOT Drug and Alcohol Policy ",
+        "DOT Physical Card",
+        "DOT Pre Employment Donor Pass",
+        "DOT Release of Info Form 40.25",
+        "Defensive Driving ",
+        "Driver License ",
+        "Driver's License_BACKSIDE",
+        "Fuel Passthrough Policy",
+        "Motor Vehicle Report (MVR)",
+        "Orientation-Big Star Safety and Service",
+        "Orientation-Client Hosted",
+        "RESULTS TRIMET BG CHECK_FingerPrint",
+        "SERVICE AGREEMENT",
+        "Service Agreement-Schedule A",
+        "Social Security Card",
+        "TriMet Background Release Form A&B",
+        "W9",
+        "WC Securement (Hands On)",
+        "Worker's Comp Coverage Waiver"
+      ],
+      "required_certs": [
+        "CTAA Passenger Assistance",
+        "Defensive Driving",
+        "Vehicle Inspection"
+      ]
+    },
+    {
+      "operator_id": "13C53248-4B24-4186-9A82-91B2109166EA",
+      "first_name": "Senclair",
+      "last_name": "Whitney",
+      "status": "APPROVED FOR CONTRACTING",
+      "division": "10 - OR",
+      "missing_certs": [
+        "Vehicle Inspection"
+      ],
+      "has_certs": [
+        "Background Check",
+        "Badge Photo",
+        "COMPLIANCE REVIEW",
+        "CTAA Passenger Assistance",
+        "DOT Chain of Custody Form",
+        "DOT Driver Questionnaire ",
+        "DOT Drug & Alcohol Orientation",
+        "DOT Drug and Alcohol Policy ",
+        "DOT Physical Card",
+        "DOT Pre Employment Donor Pass",
+        "DOT Pre-Contract Drug/Alc DOT",
+        "DOT Release of Info Form 40.25",
+        "Defensive Driving ",
+        "Driver License ",
+        "Driver's License_BACKSIDE",
+        "Fuel Passthrough Policy",
+        "Motor Vehicle Report (MVR)",
+        "Orientation-Big Star Safety and Service",
+        "Orientation-Client Hosted",
+        "RESULTS TRIMET BG CHECK_FingerPrint",
+        "SERVICE AGREEMENT",
+        "Service Agreement-Schedule A",
+        "Social Security Card",
+        "TriMet Background Release Form A&B",
+        "VEHICLE LEASE INSPECTION",
+        "W9",
+        "WC Securement (Hands On)",
+        "Worker's Comp Coverage Waiver"
+      ],
+      "required_certs": [
+        "CTAA Passenger Assistance",
+        "Defensive Driving",
+        "Vehicle Inspection"
+      ]
+    },
+    {
+      "operator_id": "EF208EB2-29DD-493D-AFE5-89A5622000F4",
+      "first_name": "Torez",
+      "last_name": "Ponder",
+      "status": "APPROVED FOR LEASING",
+      "division": "11 - GA",
+      "missing_certs": [
+        "Insurance Certificate",
+        "Lease Agreement",
+        "Vehicle Registration"
+      ],
+      "has_certs": [
+        "BackgroundCheck",
+        "Big Star Compliance Form",
+        "CTAA Passenger Assistance",
+        "DOT Chain of Custody Form",
+        "DOT Driver Questionnaire ",
+        "DOT Drug & Alcohol Orientation",
+        "DOT Drug & Alcohol Policy ",
+        "DOT Physical Card",
+        "DOT Pre Employment Donor Pass",
+        "DOT Pre-Contracting Drug/Alc Screen ",
+        "DOT Release of Info Form 40.25",
+        "Defensive Driving",
+        "DriverMate Acknowledgement",
+        "Drivers License",
+        "Drivers License_BACKSIDE",
+        "FT Code of Business Conduct",
+        "First Transit Orientation Aknowldegement",
+        "Motor Vehicle Report (MVR)",
+        "Orientation- Behind the Wheel",
+        "Orientation-Big Star Safety and Service",
+        "Pre-E Notification Acknowledgement",
+        "Service Agreement",
+        "Service Agreement-Schedule A",
+        "Social Security Card",
+        "VEHICLE LEASE INSPECTION",
+        "Vehicle Lease Agreement",
+        "W9",
+        "Worker's Comp Coverage Waiver"
+      ],
+      "required_certs": [
+        "Insurance Certificate",
+        "Lease Agreement",
+        "Vehicle Registration"
+      ]
+    },
+    {
+      "operator_id": "4961BA74-4344-4892-8448-E69FE313A11F",
+      "first_name": "Paxton",
+      "last_name": "Everson",
+      "status": "COMPLIANCE REVIEW",
+      "division": "7 - MI",
+      "missing_certs": [
+        "All certifications from previous stages must be approved"
+      ],
+      "has_certs": [
+        "10 Habits of a Professional Paratransit Operator",
+        "BACKGROUND CHECK",
+        "CTAA PASSENGER ASSISTANCE",
+        "DOT Driver Questionnaire ",
+        "DOT Drug & Alcohol Orientation",
+        "DOT Drug and Alcohol Policy ",
+        "DOT Pre-Contract Drug/Alc DOT",
+        "DOT Release of Info Form 40.25",
+        "DRIVERS LICENSE w/CHAUF ENDORSE",
+        "Defensive Driving ",
+        "Driver's License_BACKSIDE ",
+        "Motor Vehicle Report ",
+        "SOCIAL SECURITY CARD",
+        "W9"
+      ],
+      "required_certs": [
+        "All certifications from previous stages must be approved"
+      ]
+    },
+    {
+      "operator_id": "069FE664-86D6-4799-AF03-2BC7375FE9AF",
+      "first_name": "REGINALD ",
+      "last_name": "GREEN ",
+      "status": "COMPLIANCE REVIEW",
+      "division": "7 - MI",
+      "missing_certs": [
+        "All certifications from previous stages must be approved"
+      ],
+      "has_certs": [
+        "10 Habits of a Professional Paratransit Operator",
+        "BACKGROUND CHECK",
+        "CTAA PASSENGER ASSISTANCE",
+        "DOT Drug & Alcohol Orientation",
+        "DOT Drug and Alcohol Policy ",
+        "DRIVERS LICENSE w/CHAUF ENDORSE",
+        "Defensive Driving ",
+        "Driver's License_BACKSIDE ",
+        "Motor Vehicle Report ",
+        "Purchase Your Courses",
+        "SOCIAL SECURITY CARD"
+      ],
+      "required_certs": [
+        "All certifications from previous stages must be approved"
+      ]
+    },
+    {
+      "operator_id": "10B0746F-A191-4E7E-8D2B-418BB61AF80D",
+      "first_name": "Crystal",
+      "last_name": "Walter",
+      "status": "COMPLIANCE REVIEW",
+      "division": "7 - MI",
+      "missing_certs": [
+        "All certifications from previous stages must be approved"
+      ],
+      "has_certs": [
+        "10 Habits of a Professional Paratransit Operator",
+        "BACKGROUND CHECK",
+        "CTAA PASSENGER ASSISTANCE",
+        "DOT Chain of Custody Form",
+        "DOT Driver Questionnaire ",
+        "DOT Drug & Alcohol Orientation",
+        "DOT Drug and Alcohol Policy ",
+        "DOT Physical Card",
+        "DOT Pre Employment Donor Pass",
+        "DOT Pre-Contract Drug/Alc DOT",
+        "DOT Release of Info Form 40.25",
+        "DRIVERS LICENSE w/CHAUF ENDORSE",
+        "Defensive Driving ",
+        "Driver's License_BACKSIDE ",
+        "Motor Vehicle Report ",
+        "SOCIAL SECURITY CARD",
+        "W9"
+      ],
+      "required_certs": [
+        "All certifications from previous stages must be approved"
+      ]
+    },
+    {
+      "operator_id": "E8EEB2E4-E7F0-4896-9768-3E36BE8428E1",
+      "first_name": "Mahmoud",
+      "last_name": "Alabed",
+      "status": "COMPLIANCE REVIEW",
+      "division": "12 - PA",
+      "missing_certs": [
+        "All certifications from previous stages must be approved"
+      ],
+      "has_certs": [
+        "BackgroundCheck",
+        "CCF",
+        "COMPLIANCE REVIEW",
+        "CTAA Passenger Assistance",
+        "DOT Chain of Custody Form",
+        "DOT Pre-Contract Drug/Alc DOT",
+        "Defensive Driving",
+        "Driver's License_BACKSIDE",
+        "Drivers License",
+        "Drug & Alcohol Orientation",
+        "Drug and Alcohol Policy ",
+        "MVR",
+        "NON DOT Pre Employment Donor Pass",
+        "NON-DOT Pre-Contract Drug/Alc Screen",
+        "Orientation- Behind the Wheel",
+        "Orientation-Big Star Safety and Service",
+        "Social Security Card",
+        "UBER WAV APP",
+        "W9",
+        "WAV WC Securement (Hands on)",
+        "Worker's Comp Coverage Waiver"
+      ],
+      "required_certs": [
+        "All certifications from previous stages must be approved"
+      ]
+    },
+    {
+      "operator_id": "6384A471-6779-4A42-AB6A-39A3F962C16E",
+      "first_name": "Arthur ",
+      "last_name": "Caulker ",
+      "status": "COMPLIANCE REVIEW",
+      "division": "12 - PA",
+      "missing_certs": [
+        "All certifications from previous stages must be approved"
+      ],
+      "has_certs": [
+        "BackgroundCheck",
+        "CCF",
+        "CTAA Passenger Assistance",
+        "Defensive Driving",
+        "Driver's License_BACKSIDE",
+        "Drivers License",
+        "Drug & Alcohol Orientation",
+        "Drug and Alcohol Policy ",
+        "MVR",
+        "NON-DOT Pre-Contract Drug/Alc Screen",
+        "Social Security Card",
+        "UBER WAV APP",
+        "Worker's Comp Coverage Waiver"
+      ],
+      "required_certs": [
+        "All certifications from previous stages must be approved"
+      ]
+    },
+    {
+      "operator_id": "47233F80-1909-428C-B977-34243CB6DBC7",
+      "first_name": "Marcus",
+      "last_name": "Dawkins",
+      "status": "COMPLIANCE REVIEW",
+      "division": "3 - TX",
+      "missing_certs": [
+        "All certifications from previous stages must be approved"
+      ],
+      "has_certs": [
+        "BackgroundCheck",
+        "CTAA Passenger Assistance",
+        "DART 5 STAR SRVC POLICY",
+        "DOT Chain of Custody Form",
+        "DOT Driver Questionnaire",
+        "DOT Drug & Alcohol Orientation",
+        "DOT Drug and Alcohol Policy ",
+        "DOT Physical Card",
+        "DOT Pre Employment Donor Pass",
+        "DOT Pre-Contract Drug/Alc DOT",
+        "DOT Release of Info Form 40.25",
+        "Defensive Driving",
+        "Driver's License_BACKSIDE",
+        "Drivers License",
+        "EVerify",
+        "I-9",
+        "Motor Vehicle Report (MVR)",
+        "Orientation-Client Hosted",
+        "Social Security Card",
+        "W9",
+        "Workers Comp Form"
+      ],
+      "required_certs": [
+        "All certifications from previous stages must be approved"
+      ]
+    },
+    {
+      "operator_id": "87E4B7EB-C319-4D54-9A0D-011FB8654F46",
+      "first_name": "Antonio",
+      "last_name": "Edwards",
+      "status": "COMPLIANCE REVIEW",
+      "division": "12 - PA",
+      "missing_certs": [
+        "All certifications from previous stages must be approved"
+      ],
+      "has_certs": [
+        "BackgroundCheck",
+        "CTAA Passenger Assistance",
+        "DART 5 STAR SRVC POLICY",
+        "Defensive Driving",
+        "Driver's License_BACKSIDE",
+        "Drivers License",
+        "Drug & Alcohol Orientation",
+        "Drug and Alcohol Policy ",
+        "MVR",
+        "Social Security Card",
+        "W9",
+        "Worker's Comp Coverage Waiver"
+      ],
+      "required_certs": [
+        "All certifications from previous stages must be approved"
+      ]
+    },
+    {
+      "operator_id": "8E40C1B5-C93B-4082-BE36-5CBA74A0C33B",
+      "first_name": "Krystal",
+      "last_name": "Green",
+      "status": "COMPLIANCE REVIEW",
+      "division": "3 - TX",
+      "missing_certs": [
+        "All certifications from previous stages must be approved"
+      ],
+      "has_certs": [
+        "BackgroundCheck",
+        "CTAA Passenger Assistance",
+        "DART 5 STAR SRVC POLICY",
+        "DOT Chain of Custody Form",
+        "DOT Driver Questionnaire",
+        "DOT Drug & Alcohol Orientation",
+        "DOT Drug and Alcohol Policy ",
+        "DOT Physical Card",
+        "DOT Pre Employment Donor Pass",
+        "DOT Pre-Contract Drug/Alc DOT",
+        "DOT Release of Info Form 40.25",
+        "Defensive Driving",
+        "Driver's License_BACKSIDE",
+        "Drivers License",
+        "EVerify",
+        "I-9",
+        "Motor Vehicle Report (MVR)",
+        "Orientation-Big Star Safety and Service",
+        "Orientation-Client Hosted",
+        "Social Security Card",
+        "W9",
+        "Workers Comp Form"
+      ],
+      "required_certs": [
+        "All certifications from previous stages must be approved"
+      ]
+    },
+    {
+      "operator_id": "6B8F137A-4D07-467E-BB67-2C4EF6B8E824",
+      "first_name": "Cherree ",
+      "last_name": "Greene",
+      "status": "COMPLIANCE REVIEW",
+      "division": "6 - FL",
+      "missing_certs": [
+        "All certifications from previous stages must be approved"
+      ],
+      "has_certs": [
+        "Background Check",
+        "CTAA Passenger Assistance",
+        "DOT Chain of Custody Form",
+        "DOT Driver Questionnaire",
+        "DOT Drug & Alcohol Orientation",
+        "DOT Drug and Alcohol Policy ",
+        "DOT Physical Card",
+        "DOT Pre Employment Donor Pass",
+        "DOT Pre-Contracting Drug/Alc Screen",
+        "DOT Release of Info Form 40.25",
+        "Defensive Driving",
+        "Driver's License_BACKSIDE",
+        "Drivers License",
+        "E-VERIFY",
+        "I-9 Form",
+        "Motor Vehicle Report (MVR)",
+        "Social Security Card",
+        "W9"
+      ],
+      "required_certs": [
+        "All certifications from previous stages must be approved"
+      ]
+    },
+    {
+      "operator_id": "ADB2A963-97E8-4B1D-A4F5-372A2DE4BD96",
+      "first_name": "DeVonte ",
+      "last_name": "Johnson",
+      "status": "COMPLIANCE REVIEW",
+      "division": "3 - TX",
+      "missing_certs": [
+        "All certifications from previous stages must be approved"
+      ],
+      "has_certs": [
+        "BackgroundCheck",
+        "COMPLIANCE REVIEW",
+        "CTAA Passenger Assistance",
+        "DART 5 STAR SRVC POLICY",
+        "DOT Chain of Custody Form",
+        "DOT Drug & Alcohol Orientation",
+        "DOT Drug and Alcohol Policy ",
+        "DOT Physical Card",
+        "DOT Pre-Contract Drug/Alc DOT",
+        "Defensive Driving",
+        "Driver's License_BACKSIDE",
+        "Drivers License",
+        "Motor Vehicle Report (MVR)",
+        "Orientation-BTW GO LINK",
+        "Orientation-Big Star Safety and Service",
+        "Orientation-Client Hosted",
+        "Social Security Card"
+      ],
+      "required_certs": [
+        "All certifications from previous stages must be approved"
+      ]
+    },
+    {
+      "operator_id": "DA74927D-840C-4B8E-B0E6-577C42CBCD50",
+      "first_name": "Monique ",
+      "last_name": "Mcnatt",
+      "status": "COMPLIANCE REVIEW",
+      "division": "11 - GA",
+      "missing_certs": [
+        "All certifications from previous stages must be approved"
+      ],
+      "has_certs": [
+        "BackgroundCheck",
+        "CTAA Passenger Assistance",
+        "DOT Chain of Custody Form",
+        "DOT Driver Questionnaire ",
+        "DOT Drug & Alcohol Orientation",
+        "DOT Drug & Alcohol Policy ",
+        "DOT Physical Card",
+        "DOT Pre-Contracting Drug/Alc Screen ",
+        "DOT Release of Info Form 40.25",
+        "Defensive Driving",
+        "DriverMate Acknowledgement",
+        "Drivers License",
+        "Drivers License_BACKSIDE",
+        "FT Code of Business Conduct",
+        "First Transit Orientation Aknowldegement",
+        "Orientation-Big Star Safety and Service",
+        "Pre-E Notification Acknowledgement",
+        "Social Security Card",
+        "W9",
+        "Worker's Comp Coverage Waiver"
+      ],
+      "required_certs": [
+        "All certifications from previous stages must be approved"
+      ]
+    },
+    {
+      "operator_id": "7576A481-1C78-46D0-B492-0D65D94175F0",
+      "first_name": "youssef",
+      "last_name": "Qachaou",
+      "status": "COMPLIANCE REVIEW",
+      "division": "12 - PA",
+      "missing_certs": [
+        "All certifications from previous stages must be approved"
+      ],
+      "has_certs": [
+        "BackgroundCheck",
+        "CCF",
+        "CTAA Passenger Assistance",
+        "DOT Chain of Custody Form",
+        "DOT Pre-Contract Drug/Alc DOT",
+        "Defensive Driving",
+        "Driver's License_BACKSIDE",
+        "Drivers License",
+        "Drug & Alcohol Orientation",
+        "Drug and Alcohol Policy ",
+        "MVR",
+        "NON DOT Pre Employment Donor Pass",
+        "NON-DOT Pre-Contract Drug/Alc Screen",
+        "Orientation-Big Star Safety and Service",
+        "Social Security Card",
+        "UBER WAV APP",
+        "W9",
+        "WAV WC Securement (Hands on)",
+        "Worker's Comp Coverage Waiver"
+      ],
+      "required_certs": [
+        "All certifications from previous stages must be approved"
+      ]
+    },
+    {
+      "operator_id": "92DEE45B-9AC2-44B3-A964-B1E6609EC637",
+      "first_name": "Alexis",
+      "last_name": "Rousseau",
+      "status": "COMPLIANCE REVIEW",
+      "division": "11 - GA",
+      "missing_certs": [
+        "All certifications from previous stages must be approved"
+      ],
+      "has_certs": [
+        "BackgroundCheck",
+        "CTAA Passenger Assistance",
+        "DOT Chain of Custody Form",
+        "DOT Driver Questionnaire ",
+        "DOT Drug & Alcohol Orientation",
+        "DOT Drug & Alcohol Policy ",
+        "DOT Physical Card",
+        "DOT Pre Employment Donor Pass",
+        "DOT Pre-Contract Drug/Alc DOT",
+        "DOT Pre-Contracting Drug/Alc Screen ",
+        "DOT Release of Info Form 40.25",
+        "Defensive Driving",
+        "DriverMate Acknowledgement",
+        "Drivers License",
+        "Drivers License_BACKSIDE",
+        "FT Code of Business Conduct",
+        "First Transit Orientation Aknowldegement",
+        "Motor Vehicle Report (MVR)",
+        "Orientation-Big Star Safety and Service",
+        "Pre-E Notification Acknowledgement",
+        "Social Security Card",
+        "W9",
+        "Worker's Comp Coverage Waiver"
+      ],
+      "required_certs": [
+        "All certifications from previous stages must be approved"
+      ]
+    },
+    {
+      "operator_id": "F5E64B46-7136-47EB-8465-0889677326C6",
+      "first_name": "Cora ",
+      "last_name": "Taylor",
+      "status": "COMPLIANCE REVIEW",
+      "division": "3 - TX",
+      "missing_certs": [
+        "All certifications from previous stages must be approved"
+      ],
+      "has_certs": [
+        "COMPLIANCE REVIEW",
+        "CTAA Passenger Assistance",
+        "DART 5 STAR SRVC POLICY",
+        "DOT Drug & Alcohol Orientation",
+        "DOT Drug and Alcohol Policy ",
+        "DOT Physical Card",
+        "Driver's License_BACKSIDE",
+        "Drivers License",
+        "Orientation-Big Star Safety and Service",
+        "Orientation-Client Hosted",
+        "Social Security Card",
+        "Workers Comp Form"
+      ],
+      "required_certs": [
+        "All certifications from previous stages must be approved"
+      ]
+    },
+    {
+      "operator_id": "6663CE80-C594-428C-B031-9B5F7A9E3368",
+      "first_name": "Brendynn",
+      "last_name": "Williams ",
+      "status": "COMPLIANCE REVIEW",
+      "division": "10 - OR",
+      "missing_certs": [
+        "All certifications from previous stages must be approved"
+      ],
+      "has_certs": [
+        "Background Check",
+        "Badge Photo",
+        "CTAA Passenger Assistance",
+        "DOT Chain of Custody Form",
+        "DOT Driver Questionnaire ",
+        "DOT Drug & Alcohol Orientation",
+        "DOT Drug and Alcohol Policy ",
+        "DOT Physical Card",
+        "DOT Pre Employment Donor Pass",
+        "DOT Pre-Contract Drug/Alc DOT",
+        "DOT Release of Info Form 40.25",
+        "Defensive Driving ",
+        "Driver License ",
+        "Driver's License_BACKSIDE",
+        "Motor Vehicle Report (MVR)",
+        "Orientation-Client Hosted",
+        "RESULTS TRIMET BG CHECK_FingerPrint",
+        "Social Security Card",
+        "TriMet Background Release Form A&B",
+        "W9"
+      ],
+      "required_certs": [
+        "All certifications from previous stages must be approved"
+      ]
+    },
+    {
+      "operator_id": "09C7D0D8-AA74-439A-86C0-152C13C97861",
+      "first_name": "Christopher",
+      "last_name": "Adams",
+      "status": "CREDENTIALING",
+      "division": "7 - MI",
+      "missing_certs": [
+        "Background Check",
+        "Drug Test",
+        "MVR",
+        "Physical"
+      ],
+      "has_certs": [
+        "10 Habits of a Professional Paratransit Operator",
+        "CTAA PASSENGER ASSISTANCE",
+        "DOT Drug & Alcohol Orientation",
+        "DOT Drug and Alcohol Policy ",
+        "DOT Physical Card",
+        "DOT Release of Info Form 40.25",
+        "DRIVERS LICENSE w/CHAUF ENDORSE",
+        "Defensive Driving ",
+        "Driver's License_BACKSIDE ",
+        "Motor Vehicle Report ",
+        "SOCIAL SECURITY CARD",
+        "W9",
+        "Workers Comp Coverage Waiver"
+      ],
+      "required_certs": [
+        "Background Check",
+        "Drug Test",
+        "MVR",
+        "Physical"
+      ]
+    },
+    {
+      "operator_id": "01182DEF-9741-4D84-8585-41A101FBDC5F",
+      "first_name": "Mildred",
+      "last_name": "Flowers",
+      "status": "CREDENTIALING",
+      "division": "3 - TX",
+      "missing_certs": [
+        "Background Check",
+        "Drug Test",
+        "MVR",
+        "Physical"
+      ],
+      "has_certs": [
+        "CTAA Passenger Assistance",
+        "DOT Chain of Custody Form",
+        "DOT Driver Questionnaire",
+        "DOT Drug & Alcohol Orientation",
+        "DOT Drug and Alcohol Policy ",
+        "DOT Physical Card",
+        "DOT Pre Employment Donor Pass",
+        "DOT Pre-Contract Drug/Alc DOT",
+        "DOT Release of Info Form 40.25",
+        "Defensive Driving",
+        "Driver's License_BACKSIDE",
+        "Drivers License",
+        "Social Security Card",
+        "W9"
+      ],
+      "required_certs": [
+        "Background Check",
+        "Drug Test",
+        "MVR",
+        "Physical"
+      ]
+    },
+    {
+      "operator_id": "918E0EA0-A75C-4F9B-8A7D-812DEA83439C",
+      "first_name": "Hakim",
+      "last_name": "Mathieu",
+      "status": "CREDENTIALING",
+      "division": "11 - GA",
+      "missing_certs": [
+        "Background Check",
+        "Drug Test",
+        "MVR",
+        "Physical"
+      ],
+      "has_certs": [
+        "CTAA Passenger Assistance",
+        "Defensive Driving",
+        "DriverMate Acknowledgement",
+        "Drivers License",
+        "Drivers License_BACKSIDE",
+        "Social Security Card",
+        "W9"
+      ],
+      "required_certs": [
+        "Background Check",
+        "Drug Test",
+        "MVR",
+        "Physical"
+      ]
+    },
+    {
+      "operator_id": "7B0759C1-C532-4308-9441-DE7F6B994865",
+      "first_name": "Abuelgasim ",
+      "last_name": "mohamedali",
+      "status": "CREDENTIALING",
+      "division": "12 - PA",
+      "missing_certs": [
+        "Background Check",
+        "CCF",
+        "Drug Test",
+        "MVR",
+        "Pennsylvania Act 153",
+        "Physical"
+      ],
+      "has_certs": [
+        "CTAA Passenger Assistance",
+        "Driver's License_BACKSIDE",
+        "Drivers License",
+        "Social Security Card"
+      ],
+      "required_certs": [
+        "Background Check",
+        "CCF",
+        "Drug Test",
+        "MVR",
+        "Pennsylvania Act 153",
+        "Physical"
+      ]
+    },
+    {
+      "operator_id": "E511C100-EBCF-4CD0-8984-C62A1B63EFFF",
+      "first_name": "Jasmine",
+      "last_name": "Noble",
+      "status": "CREDENTIALING",
+      "division": "7 - MI",
+      "missing_certs": [
+        "Background Check",
+        "Drug Test",
+        "MVR",
+        "Physical"
+      ],
+      "has_certs": [
+        "10 Habits of a Professional Paratransit Operator",
+        "CTAA PASSENGER ASSISTANCE",
+        "DOT Driver Questionnaire ",
+        "DOT Drug & Alcohol Orientation",
+        "DOT Drug and Alcohol Policy ",
+        "DOT Physical Card",
+        "DOT Release of Info Form 40.25",
+        "DRIVERS LICENSE w/CHAUF ENDORSE",
+        "Defensive Driving ",
+        "Fuel Passthrough Policy",
+        "Orientation-Big Star Safety and Service",
+        "SOCIAL SECURITY CARD",
+        "W9",
+        "Workers Comp Coverage Waiver"
+      ],
+      "required_certs": [
+        "Background Check",
+        "Drug Test",
+        "MVR",
+        "Physical"
+      ]
+    },
+    {
+      "operator_id": "44B70C2A-0209-4881-9494-1DCFE1753BC4",
+      "first_name": "John",
+      "last_name": "Williams ",
+      "status": "CREDENTIALING",
+      "division": "3 - TX",
+      "missing_certs": [
+        "Background Check",
+        "Drug Test",
+        "MVR",
+        "Physical"
+      ],
+      "has_certs": [
+        "CTAA Passenger Assistance",
+        "DART 5 STAR SRVC POLICY",
+        "Defensive Driving",
+        "Driver's License_BACKSIDE",
+        "Drivers License",
+        "EVerify",
+        "I-9",
+        "Social Security Card",
+        "W9"
+      ],
+      "required_certs": [
+        "Background Check",
+        "Drug Test",
+        "MVR",
+        "Physical"
+      ]
+    },
+    {
+      "operator_id": "67ED846D-0FA6-4616-A210-CE895AB713A7",
+      "first_name": "Kojo",
+      "last_name": "Agyemang",
+      "status": "DOT SCREENING",
+      "division": "8 - OH",
+      "missing_certs": [
+        "DOT Physical",
+        "DOT Pre-Employment Drug Screen",
+        "Drug and Alcohol Policy"
+      ],
+      "has_certs": [
+        "CTAA Passenger Assistance",
+        "DOT Drug & Alcohol Orientation",
+        "DOT Drug/Alcohol Policy",
+        "DOT Release of Info Form 40.25",
+        "Defensive Driving",
+        "Drivers License",
+        "Ohio Driver's License Verification",
+        "Social Security Card",
+        "W9"
+      ],
+      "required_certs": [
+        "DOT Physical",
+        "DOT Pre-Employment Drug Screen",
+        "Drug and Alcohol Policy"
+      ]
+    },
+    {
+      "operator_id": "64B67878-1875-4A09-A504-544CF4FE026F",
+      "first_name": "Flor",
+      "last_name": "Atencio",
+      "status": "DOT SCREENING",
+      "division": "6 - FL",
+      "missing_certs": [
+        "DOT Physical",
+        "DOT Pre-Employment Drug Screen",
+        "Drug and Alcohol Policy"
+      ],
+      "has_certs": [
+        "CTAA Passenger Assistance",
+        "DOT Drug & Alcohol Orientation",
+        "DOT Drug and Alcohol Policy ",
+        "DOT Physical Card",
+        "DOT Pre-Contracting Drug/Alc Screen",
+        "DOT Release of Info Form 40.25",
+        "Defensive Driving",
+        "Driver's License_BACKSIDE",
+        "Drivers License",
+        "I-9 Form",
+        "Social Security Card",
+        "Worker's Comp Coverage Waiver"
+      ],
+      "required_certs": [
+        "DOT Physical",
+        "DOT Pre-Employment Drug Screen",
+        "Drug and Alcohol Policy"
+      ]
+    },
+    {
+      "operator_id": "29291631-84FD-42AF-BAB3-4379D7DBC9D7",
+      "first_name": "Patrick ",
+      "last_name": "Babela",
+      "status": "DOT SCREENING",
+      "division": "3 - TX",
+      "missing_certs": [
+        "DOT Physical",
+        "DOT Pre-Employment Drug Screen",
+        "Drug and Alcohol Policy"
+      ],
+      "has_certs": [
+        "BackgroundCheck",
+        "CTAA Passenger Assistance",
+        "DART 5 STAR SRVC POLICY",
+        "DOT Chain of Custody Form",
+        "DOT Drug & Alcohol Orientation",
+        "DOT Drug and Alcohol Policy ",
+        "DOT Physical Card",
+        "DOT Pre Employment Donor Pass",
+        "DOT Pre-Contract Drug/Alc DOT",
+        "DOT Release of Info Form 40.25",
+        "Defensive Driving",
+        "Driver's License_BACKSIDE",
+        "Drivers License",
+        "EVerify",
+        "I-9",
+        "Motor Vehicle Report (MVR)",
+        "Social Security Card",
+        "W9"
+      ],
+      "required_certs": [
+        "DOT Physical",
+        "DOT Pre-Employment Drug Screen",
+        "Drug and Alcohol Policy"
+      ]
+    },
+    {
+      "operator_id": "FABDFC64-55DB-4636-96A3-46F7BA239C29",
+      "first_name": "Calvin Ray ",
+      "last_name": "Barrett",
+      "status": "DOT SCREENING",
+      "division": "3 - TX",
+      "missing_certs": [
+        "DOT Physical",
+        "DOT Pre-Employment Drug Screen",
+        "Drug and Alcohol Policy"
+      ],
+      "has_certs": [
+        "BackgroundCheck",
+        "CTAA Passenger Assistance",
+        "DOT Pre Employment Donor Pass",
+        "DOT Pre-Contract Drug/Alc DOT",
+        "Defensive Driving",
+        "Driver's License_BACKSIDE",
+        "Drivers License",
+        "Motor Vehicle Report (MVR)",
+        "Social Security Card",
+        "W9"
+      ],
+      "required_certs": [
+        "DOT Physical",
+        "DOT Pre-Employment Drug Screen",
+        "Drug and Alcohol Policy"
+      ]
+    },
+    {
+      "operator_id": "9454150F-F242-44B9-B4EC-1A59023D247D",
+      "first_name": "Khalil",
+      "last_name": "Cheely ",
+      "status": "DOT SCREENING",
+      "division": "12 - PA",
+      "missing_certs": [
+        "DOT Physical",
+        "DOT Pre-Employment Drug Screen"
+      ],
+      "has_certs": [
+        "BackgroundCheck",
+        "Driver's License_BACKSIDE",
+        "Drivers License",
+        "Drug & Alcohol Orientation",
+        "Drug and Alcohol Policy ",
+        "MVR",
+        "Social Security Card",
+        "W9"
+      ],
+      "required_certs": [
+        "DOT Physical",
+        "DOT Pre-Employment Drug Screen",
+        "Drug and Alcohol Policy"
+      ]
+    },
+    {
+      "operator_id": "5CB56314-5D4D-436D-8D39-8743F94EF93D",
+      "first_name": "Gwaun",
+      "last_name": "Dudley",
+      "status": "DOT SCREENING",
+      "division": "10 - OR",
+      "missing_certs": [
+        "DOT Physical",
+        "DOT Pre-Employment Drug Screen",
+        "Drug and Alcohol Policy"
+      ],
+      "has_certs": [
+        "Background Check",
+        "Badge Photo",
+        "CTAA Passenger Assistance",
+        "DOT Chain of Custody Form",
+        "DOT Driver Questionnaire ",
+        "DOT Drug & Alcohol Orientation",
+        "DOT Drug and Alcohol Policy ",
+        "DOT Physical Card",
+        "DOT Pre Employment Donor Pass",
+        "Defensive Driving ",
+        "Driver License ",
+        "Driver's License_BACKSIDE",
+        "Motor Vehicle Report (MVR)",
+        "Orientation-Client Hosted",
+        "RESULTS TRIMET BG CHECK_FingerPrint",
+        "Social Security Card",
+        "TriMet Background Release Form A&B",
+        "W9"
+      ],
+      "required_certs": [
+        "DOT Physical",
+        "DOT Pre-Employment Drug Screen",
+        "Drug and Alcohol Policy"
+      ]
+    },
+    {
+      "operator_id": "79DE0E84-360D-4B1F-9060-045D3C7B9221",
+      "first_name": "John ",
+      "last_name": "Elegbede ",
+      "status": "DOT SCREENING",
+      "division": "11 - GA",
+      "missing_certs": [
+        "DOT Physical",
+        "DOT Pre-Employment Drug Screen",
+        "Drug and Alcohol Policy"
+      ],
+      "has_certs": [
+        "BackgroundCheck",
+        "CTAA Passenger Assistance",
+        "DOT Driver Questionnaire ",
+        "DOT Drug & Alcohol Orientation",
+        "DOT Drug & Alcohol Policy ",
+        "Defensive Driving",
+        "DriverMate Acknowledgement",
+        "Drivers License",
+        "Drivers License_BACKSIDE",
+        "FT Code of Business Conduct",
+        "First Transit Orientation Aknowldegement",
+        "Motor Vehicle Report (MVR)",
+        "Pre-E Notification Acknowledgement",
+        "Social Security Card",
+        "W9",
+        "Worker's Comp Coverage Waiver"
+      ],
+      "required_certs": [
+        "DOT Physical",
+        "DOT Pre-Employment Drug Screen",
+        "Drug and Alcohol Policy"
+      ]
+    },
+    {
+      "operator_id": "D5E266AC-666D-4BB9-94C1-7DF5ED1E7438",
+      "first_name": "Abdoun",
+      "last_name": "Elfaki",
+      "status": "DOT SCREENING",
+      "division": "12 - PA",
+      "missing_certs": [
+        "DOT Physical",
+        "DOT Pre-Employment Drug Screen",
+        "Drug and Alcohol Policy"
+      ],
+      "has_certs": [
+        "BackgroundCheck",
+        "CCF",
+        "CTAA Passenger Assistance",
+        "Defensive Driving",
+        "Driver's License_BACKSIDE",
+        "Drivers License",
+        "MVR",
+        "NON-DOT Pre-Contract Drug/Alc Screen",
+        "Social Security Card",
+        "W9",
+        "WAV WC Securement (Hands on)",
+        "Worker's Comp Coverage Waiver"
+      ],
+      "required_certs": [
+        "DOT Physical",
+        "DOT Pre-Employment Drug Screen",
+        "Drug and Alcohol Policy"
+      ]
+    },
+    {
+      "operator_id": "6632B817-0DD9-4A9E-8852-171677D2EBAF",
+      "first_name": "Ona-Cristeen ",
+      "last_name": "Flowers ",
+      "status": "DOT SCREENING",
+      "division": "3 - TX",
+      "missing_certs": [
+        "DOT Physical",
+        "DOT Pre-Employment Drug Screen",
+        "Drug and Alcohol Policy"
+      ],
+      "has_certs": [
+        "BackgroundCheck",
+        "CTAA Passenger Assistance",
+        "DART 5 STAR SRVC POLICY",
+        "DOT Driver Questionnaire",
+        "DOT Drug & Alcohol Orientation",
+        "DOT Drug and Alcohol Policy ",
+        "DOT Pre Employment Donor Pass",
+        "Defensive Driving",
+        "Driver's License_BACKSIDE",
+        "Drivers License",
+        "Motor Vehicle Report (MVR)",
+        "Social Security Card",
+        "W9"
+      ],
+      "required_certs": [
+        "DOT Physical",
+        "DOT Pre-Employment Drug Screen",
+        "Drug and Alcohol Policy"
+      ]
+    },
+    {
+      "operator_id": "3D0DD65C-21A7-4829-941D-466176D614B9",
+      "first_name": "Ludwige",
+      "last_name": "GEDEON ",
+      "status": "DOT SCREENING",
+      "division": "6 - FL",
+      "missing_certs": [
+        "DOT Physical",
+        "DOT Pre-Employment Drug Screen",
+        "Drug and Alcohol Policy"
+      ],
+      "has_certs": [
+        "CTAA Passenger Assistance",
+        "DOT Driver Questionnaire",
+        "DOT Drug & Alcohol Orientation",
+        "DOT Drug and Alcohol Policy ",
+        "DOT Physical Card",
+        "DOT Release of Info Form 40.25",
+        "Defensive Driving",
+        "Driver's License_BACKSIDE",
+        "Drivers License",
+        "E-VERIFY",
+        "I-9 Form",
+        "Social Security Card",
+        "W9"
+      ],
+      "required_certs": [
+        "DOT Physical",
+        "DOT Pre-Employment Drug Screen",
+        "Drug and Alcohol Policy"
+      ]
+    },
+    {
+      "operator_id": "0495CCA1-19BF-48E9-BD6E-DCF8C09E99A0",
+      "first_name": "Monir",
+      "last_name": "Ghrafi ",
+      "status": "DOT SCREENING",
+      "division": "12 - PA",
+      "missing_certs": [
+        "DOT Physical",
+        "DOT Pre-Employment Drug Screen",
+        "Drug and Alcohol Policy"
+      ],
+      "has_certs": [
+        "BackgroundCheck",
+        "CCF",
+        "CTAA Passenger Assistance",
+        "Defensive Driving",
+        "Driver's License_BACKSIDE",
+        "Drivers License",
+        "MVR",
+        "Social Security Card"
+      ],
+      "required_certs": [
+        "DOT Physical",
+        "DOT Pre-Employment Drug Screen",
+        "Drug and Alcohol Policy"
+      ]
+    },
+    {
+      "operator_id": "A6B7ECD7-1C10-4020-9EE5-7BC55A6F66E2",
+      "first_name": "george",
+      "last_name": "graham",
+      "status": "DOT SCREENING",
+      "division": "11 - GA",
+      "missing_certs": [
+        "DOT Physical",
+        "DOT Pre-Employment Drug Screen",
+        "Drug and Alcohol Policy"
+      ],
+      "has_certs": [
+        "BackgroundCheck",
+        "CTAA Passenger Assistance",
+        "DOT Driver Questionnaire ",
+        "DOT Drug & Alcohol Orientation",
+        "DOT Drug & Alcohol Policy ",
+        "DOT Physical Card",
+        "DOT Pre Employment Donor Pass",
+        "DOT Release of Info Form 40.25",
+        "Defensive Driving",
+        "DriverMate Acknowledgement",
+        "Drivers License",
+        "Drivers License_BACKSIDE",
+        "FT Code of Business Conduct",
+        "Motor Vehicle Report (MVR)",
+        "Pre-E Notification Acknowledgement",
+        "Social Security Card",
+        "W9"
+      ],
+      "required_certs": [
+        "DOT Physical",
+        "DOT Pre-Employment Drug Screen",
+        "Drug and Alcohol Policy"
+      ]
+    },
+    {
+      "operator_id": "F6EB931D-E5C4-4936-B01D-AD2B29D4586F",
+      "first_name": "Lydell ",
+      "last_name": "Hall",
+      "status": "DOT SCREENING",
+      "division": "6 - FL",
+      "missing_certs": [
+        "DOT Physical",
+        "DOT Pre-Employment Drug Screen",
+        "Drug and Alcohol Policy"
+      ],
+      "has_certs": [
+        "Background Check",
+        "CTAA Passenger Assistance",
+        "DOT Driver Questionnaire",
+        "DOT Drug & Alcohol Orientation",
+        "DOT Drug and Alcohol Policy ",
+        "DOT Physical Card",
+        "DOT Pre-Contracting Drug/Alc Screen",
+        "DOT Release of Info Form 40.25",
+        "Defensive Driving",
+        "Driver's License_BACKSIDE",
+        "Drivers License",
+        "I-9 Form",
+        "Motor Vehicle Report (MVR)",
+        "Social Security Card",
+        "W9",
+        "Worker's Comp Coverage Waiver"
+      ],
+      "required_certs": [
+        "DOT Physical",
+        "DOT Pre-Employment Drug Screen",
+        "Drug and Alcohol Policy"
+      ]
+    },
+    {
+      "operator_id": "BBEDA86C-7E06-43F5-B211-7708808DE773",
+      "first_name": "shanteeia ",
+      "last_name": "Harvey",
+      "status": "DOT SCREENING",
+      "division": "8 - OH",
+      "missing_certs": [
+        "DOT Physical",
+        "DOT Pre-Employment Drug Screen",
+        "Drug and Alcohol Policy"
+      ],
+      "has_certs": [
+        "BackgroundCheck",
+        "DOT Drug/Alcohol Policy",
+        "DOT Pre-Contract Drug/Alc DOT",
+        "DOT Release of Info Form 40.25",
+        "Defensive Driving",
+        "Driver's License_BACKSIDE ",
+        "Drivers License",
+        "Ohio Driver's License Verification",
+        "Social Security Card",
+        "W9",
+        "Worker's Comp Coverage Waiver"
+      ],
+      "required_certs": [
+        "DOT Physical",
+        "DOT Pre-Employment Drug Screen",
+        "Drug and Alcohol Policy"
+      ]
+    },
+    {
+      "operator_id": "1FFC5608-8469-431D-9E72-8218DCC0F253",
+      "first_name": "James",
+      "last_name": "Hearst",
+      "status": "DOT SCREENING",
+      "division": "7 - MI",
+      "missing_certs": [
+        "DOT Physical",
+        "DOT Pre-Employment Drug Screen",
+        "Drug and Alcohol Policy"
+      ],
+      "has_certs": [
+        "10 Habits of a Professional Paratransit Operator",
+        "BACKGROUND CHECK",
+        "CTAA PASSENGER ASSISTANCE",
+        "DOT Driver Questionnaire ",
+        "DOT Drug & Alcohol Orientation",
+        "DOT Drug and Alcohol Policy ",
+        "DOT Physical Card",
+        "DRIVERS LICENSE w/CHAUF ENDORSE",
+        "Defensive Driving ",
+        "Driver's License_BACKSIDE ",
+        "Fuel Passthrough Policy",
+        "Motor Vehicle Report ",
+        "SOCIAL SECURITY CARD",
+        "W9",
+        "Workers Comp Coverage Waiver"
+      ],
+      "required_certs": [
+        "DOT Physical",
+        "DOT Pre-Employment Drug Screen",
+        "Drug and Alcohol Policy"
+      ]
+    },
+    {
+      "operator_id": "771A5AC2-1461-412B-8C08-5F92350963CD",
+      "first_name": "Sherice",
+      "last_name": "Jones",
+      "status": "DOT SCREENING",
+      "division": "7 - MI",
+      "missing_certs": [
+        "DOT Physical",
+        "DOT Pre-Employment Drug Screen",
+        "Drug and Alcohol Policy"
+      ],
+      "has_certs": [
+        "CTAA PASSENGER ASSISTANCE",
+        "Client Hosted Orientation",
+        "DOT Physical ",
+        "DRIVERS LICENSE w/CHAUF ENDORSE",
+        "Defensive Driving ",
+        "Driver's License_BACKSIDE ",
+        "Drug/Alcohol Policy",
+        "Motor Vehicle Report Court Purpose(MVR)",
+        "SOCIAL SECURITY CARD"
+      ],
+      "required_certs": [
+        "DOT Physical",
+        "DOT Pre-Employment Drug Screen",
+        "Drug and Alcohol Policy"
+      ]
+    },
+    {
+      "operator_id": "2ADF3C83-F3AC-435A-A49A-8157D0117F78",
+      "first_name": "Redricka ",
+      "last_name": "Lee",
+      "status": "DOT SCREENING",
+      "division": "7 - MI",
+      "missing_certs": [
+        "DOT Physical",
+        "DOT Pre-Employment Drug Screen",
+        "Drug and Alcohol Policy"
+      ],
+      "has_certs": [
+        "10 Habits of a Professional Paratransit Operator",
+        "BACKGROUND CHECK",
+        "CTAA PASSENGER ASSISTANCE",
+        "DOT Driver Questionnaire ",
+        "DOT Drug & Alcohol Orientation",
+        "DOT Drug and Alcohol Policy ",
+        "DOT Pre-Contract Drug/Alc DOT",
+        "DOT Release of Info Form 40.25",
+        "DRIVERS LICENSE w/CHAUF ENDORSE",
+        "Defensive Driving ",
+        "Driver's License_BACKSIDE ",
+        "Motor Vehicle Report ",
+        "SOCIAL SECURITY CARD",
+        "W9"
+      ],
+      "required_certs": [
+        "DOT Physical",
+        "DOT Pre-Employment Drug Screen",
+        "Drug and Alcohol Policy"
+      ]
+    },
+    {
+      "operator_id": "33CC5B3F-3246-4E41-930D-BFE5428645D1",
+      "first_name": "Romello",
+      "last_name": "McClain",
+      "status": "DOT SCREENING",
+      "division": "11 - GA",
+      "missing_certs": [
+        "DOT Physical",
+        "DOT Pre-Employment Drug Screen",
+        "Drug and Alcohol Policy"
+      ],
+      "has_certs": [
+        "BackgroundCheck",
+        "DOT Drug & Alcohol Orientation",
+        "DriverMate Acknowledgement",
+        "Drivers License",
+        "Motor Vehicle Report (MVR)",
+        "Social Security Card",
+        "W9"
+      ],
+      "required_certs": [
+        "DOT Physical",
+        "DOT Pre-Employment Drug Screen",
+        "Drug and Alcohol Policy"
+      ]
+    },
+    {
+      "operator_id": "3978DF8F-A0B8-4B8D-AC0A-2AEF3306AB32",
+      "first_name": "Andre",
+      "last_name": "Non",
+      "status": "DOT SCREENING",
+      "division": "3 - TX",
+      "missing_certs": [
+        "DOT Physical",
+        "DOT Pre-Employment Drug Screen",
+        "Drug and Alcohol Policy"
+      ],
+      "has_certs": [
+        "BackgroundCheck",
+        "CTAA Passenger Assistance",
+        "DART 5 STAR SRVC POLICY",
+        "DOT Driver Questionnaire",
+        "DOT Drug & Alcohol Orientation",
+        "DOT Drug and Alcohol Policy ",
+        "DOT Physical Card",
+        "DOT Pre Employment Donor Pass",
+        "DOT Pre-Contract Drug/Alc DOT",
+        "DOT Release of Info Form 40.25",
+        "Defensive Driving",
+        "Driver's License_BACKSIDE",
+        "Drivers License",
+        "EVerify",
+        "I-9",
+        "Motor Vehicle Report (MVR)",
+        "Social Security Card",
+        "W9"
+      ],
+      "required_certs": [
+        "DOT Physical",
+        "DOT Pre-Employment Drug Screen",
+        "Drug and Alcohol Policy"
+      ]
+    },
+    {
+      "operator_id": "E1BB9768-7D64-469E-94D3-986B901D8985",
+      "first_name": "Shaun",
+      "last_name": "Persaud",
+      "status": "DOT SCREENING",
+      "division": "6 - FL",
+      "missing_certs": [
+        "DOT Physical",
+        "DOT Pre-Employment Drug Screen",
+        "Drug and Alcohol Policy"
+      ],
+      "has_certs": [
+        "Background Check",
+        "CTAA Passenger Assistance",
+        "DOT Driver Questionnaire",
+        "DOT Drug & Alcohol Orientation",
+        "DOT Drug and Alcohol Policy ",
+        "DOT Release of Info Form 40.25",
+        "Defensive Driving",
+        "Driver's License_BACKSIDE",
+        "Drivers License",
+        "E-VERIFY",
+        "I-9 Form",
+        "Motor Vehicle Report (MVR)",
+        "Social Security Card"
+      ],
+      "required_certs": [
+        "DOT Physical",
+        "DOT Pre-Employment Drug Screen",
+        "Drug and Alcohol Policy"
+      ]
+    },
+    {
+      "operator_id": "1E8FA042-6E0D-49FF-B864-7FB42E6C666C",
+      "first_name": "Ashley ",
+      "last_name": "Russell",
+      "status": "DOT SCREENING",
+      "division": "12 - PA",
+      "missing_certs": [
+        "DOT Physical",
+        "DOT Pre-Employment Drug Screen"
+      ],
+      "has_certs": [
+        "CTAA Passenger Assistance",
+        "Defensive Driving",
+        "Driver's License_BACKSIDE",
+        "Drivers License",
+        "Drug & Alcohol Orientation",
+        "Drug and Alcohol Policy ",
+        "Social Security Card"
+      ],
+      "required_certs": [
+        "DOT Physical",
+        "DOT Pre-Employment Drug Screen",
+        "Drug and Alcohol Policy"
+      ]
+    },
+    {
+      "operator_id": "7B1A2DBD-F31D-46C8-8C71-638EB2F6C200",
+      "first_name": "Tamia",
+      "last_name": "Swann",
+      "status": "DOT SCREENING",
+      "division": "10 - OR",
+      "missing_certs": [
+        "DOT Physical",
+        "DOT Pre-Employment Drug Screen",
+        "Drug and Alcohol Policy"
+      ],
+      "has_certs": [
+        "Background Check",
+        "Badge Photo",
+        "CTAA Passenger Assistance",
+        "DOT Chain of Custody Form",
+        "DOT Driver Questionnaire ",
+        "DOT Drug and Alcohol Policy ",
+        "DOT Physical Card",
+        "DOT Pre Employment Donor Pass",
+        "Defensive Driving ",
+        "Driver License ",
+        "Driver's License_BACKSIDE",
+        "Motor Vehicle Report (MVR)",
+        "Social Security Card",
+        "TriMet Background Release Form A&B",
+        "W9"
+      ],
+      "required_certs": [
+        "DOT Physical",
+        "DOT Pre-Employment Drug Screen",
+        "Drug and Alcohol Policy"
+      ]
+    },
+    {
+      "operator_id": "F07C48D2-5E05-4452-8522-4CA2F366ECCE",
+      "first_name": "Linda",
+      "last_name": "Warren",
+      "status": "DOT SCREENING",
+      "division": "7 - MI",
+      "missing_certs": [
+        "DOT Physical",
+        "DOT Pre-Employment Drug Screen",
+        "Drug and Alcohol Policy"
+      ],
+      "has_certs": [
+        "BACKGROUND CHECK",
+        "CTAA PASSENGER ASSISTANCE",
+        "DOT Driver Questionnaire ",
+        "DOT Drug & Alcohol Orientation",
+        "DOT Drug and Alcohol Policy ",
+        "DOT Physical Card",
+        "DOT Release of Info Form 40.25",
+        "DRIVERS LICENSE w/CHAUF ENDORSE",
+        "Defensive Driving ",
+        "Motor Vehicle Report ",
+        "Orientation-Big Star Safety and Service",
+        "SOCIAL SECURITY CARD",
+        "W9"
+      ],
+      "required_certs": [
+        "DOT Physical",
+        "DOT Pre-Employment Drug Screen",
+        "Drug and Alcohol Policy"
+      ]
+    },
+    {
+      "operator_id": "390C18CC-FD6B-4935-835F-5B4FA53AFD30",
+      "first_name": "Melissa",
+      "last_name": "Whittaker",
+      "status": "DOT SCREENING",
+      "division": "10 - OR",
+      "missing_certs": [
+        "DOT Physical",
+        "DOT Pre-Employment Drug Screen",
+        "Drug and Alcohol Policy"
+      ],
+      "has_certs": [
+        "Background Check",
+        "Badge Photo",
+        "CTAA Passenger Assistance",
+        "DOT Driver Questionnaire ",
+        "DOT Drug and Alcohol Policy ",
+        "Defensive Driving ",
+        "Driver License ",
+        "Driver's License_BACKSIDE",
+        "Motor Vehicle Report (MVR)",
+        "RESULTS TRIMET BG CHECK_FingerPrint",
+        "Social Security Card",
+        "TriMet Background Release Form A&B",
+        "W9"
+      ],
+      "required_certs": [
+        "DOT Physical",
+        "DOT Pre-Employment Drug Screen",
+        "Drug and Alcohol Policy"
+      ]
+    },
+    {
+      "operator_id": "882B3EE6-9591-437A-AF19-14C7B513D659",
+      "first_name": "Corinthia",
+      "last_name": "Wiles-Griffith",
+      "status": "DOT SCREENING",
+      "division": "11 - GA",
+      "missing_certs": [
+        "DOT Physical",
+        "DOT Pre-Employment Drug Screen",
+        "Drug and Alcohol Policy"
+      ],
+      "has_certs": [
+        "BackgroundCheck",
+        "CTAA Passenger Assistance",
+        "DOT Driver Questionnaire ",
+        "DOT Drug & Alcohol Orientation",
+        "DOT Drug & Alcohol Policy ",
+        "DOT Physical Card",
+        "DOT Release of Info Form 40.25",
+        "DriverMate Acknowledgement",
+        "Drivers License",
+        "Drivers License_BACKSIDE",
+        "FT Code of Business Conduct",
+        "First Transit Orientation Aknowldegement",
+        "Motor Vehicle Report (MVR)",
+        "Pre-E Notification Acknowledgement",
+        "Social Security Card",
+        "W9",
+        "Worker's Comp Coverage Waiver"
+      ],
+      "required_certs": [
+        "DOT Physical",
+        "DOT Pre-Employment Drug Screen",
+        "Drug and Alcohol Policy"
+      ]
+    },
+    {
+      "operator_id": "0231156C-9B5D-427E-98B1-69756B8265F9",
+      "first_name": "Mohamed",
+      "last_name": "Ahmed",
+      "status": "ONBOARDING",
+      "division": "12 - PA",
+      "missing_certs": [
+        "Social Security Card",
+        "W9"
+      ],
+      "has_certs": [
+        "BackgroundCheck",
+        "CTAA Passenger Assistance",
+        "Defensive Driving",
+        "Driver's License_BACKSIDE",
+        "Drivers License"
+      ],
+      "required_certs": [
+        "Driver License",
+        "Driver's License_BACKSIDE",
+        "Social Security Card",
+        "W9"
+      ]
+    },
+    {
+      "operator_id": "95F7DDCA-AC7A-4149-AA56-25CE0FB789F2",
+      "first_name": "Mohamed ",
+      "last_name": "ait hammou",
+      "status": "ONBOARDING",
+      "division": "12 - PA",
+      "missing_certs": [
+        "Social Security Card",
+        "W9"
+      ],
+      "has_certs": [
+        "Driver's License_BACKSIDE",
+        "Drivers License"
+      ],
+      "required_certs": [
+        "Driver License",
+        "Driver's License_BACKSIDE",
+        "Social Security Card",
+        "W9"
+      ]
+    },
+    {
+      "operator_id": "6680A0AE-15B6-4B7F-B6D2-73E25D2FC75C",
+      "first_name": "Osman ",
+      "last_name": "Almahdi ",
+      "status": "ONBOARDING",
+      "division": "12 - PA",
+      "missing_certs": [
+        "W9"
+      ],
+      "has_certs": [
+        "Driver's License_BACKSIDE",
+        "Drivers License",
+        "Social Security Card"
+      ],
+      "required_certs": [
+        "Driver License",
+        "Driver's License_BACKSIDE",
+        "Social Security Card",
+        "W9"
+      ]
+    },
+    {
+      "operator_id": "806A3ED4-46F2-4D6E-9553-13045E8B2E8C",
+      "first_name": "saker",
+      "last_name": "almishraki ",
+      "status": "ONBOARDING",
+      "division": "7 - MI",
+      "missing_certs": [
+        "Driver License",
+        "Michigan Driver Certification",
+        "Social Security Card",
+        "W9"
+      ],
+      "has_certs": [
+        "DRIVERS LICENSE w/CHAUF ENDORSE",
+        "Driver's License_BACKSIDE ",
+        "SOCIAL SECURITY CARD"
+      ],
+      "required_certs": [
+        "Driver License",
+        "Driver's License_BACKSIDE",
+        "Michigan Driver Certification",
+        "Social Security Card",
+        "W9"
+      ]
+    },
+    {
+      "operator_id": "A909B0C5-FE17-48A5-9A0E-2D6CDA5A4F61",
+      "first_name": "Lionel",
+      "last_name": "Anderson",
+      "status": "ONBOARDING",
+      "division": "7 - MI",
+      "missing_certs": [
+        "Driver License",
+        "Michigan Driver Certification",
+        "Social Security Card",
+        "W9"
+      ],
+      "has_certs": [
+        "BACKGROUND CHECK",
+        "DRIVERS LICENSE w/CHAUF ENDORSE",
+        "Driver's License_BACKSIDE ",
+        "Motor Vehicle Report ",
+        "SOCIAL SECURITY CARD"
+      ],
+      "required_certs": [
+        "Driver License",
+        "Driver's License_BACKSIDE",
+        "Michigan Driver Certification",
+        "Social Security Card",
+        "W9"
+      ]
+    },
+    {
+      "operator_id": "072695DD-AB79-4A00-87E4-0702B779C33E",
+      "first_name": "laquita",
+      "last_name": "Boyd ",
+      "status": "ONBOARDING",
+      "division": "11 - GA",
+      "missing_certs": [
+        "Driver's License_BACKSIDE",
+        "DriverMate Acknowledgement"
+      ],
+      "has_certs": [
+        "Drivers License",
+        "Social Security Card",
+        "W9"
+      ],
+      "required_certs": [
+        "Driver License",
+        "Driver's License_BACKSIDE",
+        "DriverMate Acknowledgement",
+        "Social Security Card",
+        "W9"
+      ]
+    },
+    {
+      "operator_id": "674E1014-6066-492D-8827-0ABD6D51C441",
+      "first_name": "miesha ",
+      "last_name": "brown ",
+      "status": "ONBOARDING",
+      "division": "10 - OR",
+      "missing_certs": [
+        "Badge Photo",
+        "TriMet Background Release Form A&B",
+        "W9"
+      ],
+      "has_certs": [
+        "Driver License ",
+        "Driver's License_BACKSIDE",
+        "Social Security Card"
+      ],
+      "required_certs": [
+        "Badge Photo",
+        "Driver License",
+        "Driver's License_BACKSIDE",
+        "Social Security Card",
+        "TriMet Background Release Form A&B",
+        "W9"
+      ]
+    },
+    {
+      "operator_id": "6103FCB7-2F3E-45F4-9726-100412DE63B1",
+      "first_name": "Alicia",
+      "last_name": "Castillo",
+      "status": "ONBOARDING",
+      "division": "3 - TX",
+      "missing_certs": [
+        "DART 5 STAR SRVC POLICY",
+        "W9"
+      ],
+      "has_certs": [
+        "Driver's License_BACKSIDE",
+        "Drivers License",
+        "Social Security Card"
+      ],
+      "required_certs": [
+        "DART 5 STAR SRVC POLICY",
+        "Driver License",
+        "Driver's License_BACKSIDE",
+        "Social Security Card",
+        "W9"
+      ]
+    },
+    {
+      "operator_id": "91C189C5-2C06-45B0-92B8-2B85678BD392",
+      "first_name": "Antonio ",
+      "last_name": "Cervantes jr",
+      "status": "ONBOARDING",
+      "division": "7 - MI",
+      "missing_certs": [
+        "Driver License",
+        "Michigan Driver Certification",
+        "Social Security Card",
+        "W9"
+      ],
+      "has_certs": [
+        "DRIVERS LICENSE w/CHAUF ENDORSE",
+        "Driver's License_BACKSIDE ",
+        "SOCIAL SECURITY CARD"
+      ],
+      "required_certs": [
+        "Driver License",
+        "Driver's License_BACKSIDE",
+        "Michigan Driver Certification",
+        "Social Security Card",
+        "W9"
+      ]
+    },
+    {
+      "operator_id": "CF7FCC50-05C4-4E52-989C-0AA9610CD5C0",
+      "first_name": "Anjeanette",
+      "last_name": "Conner",
+      "status": "ONBOARDING",
+      "division": "6 - FL",
+      "missing_certs": [
+        "W9"
+      ],
+      "has_certs": [
+        "Driver's License_BACKSIDE",
+        "Drivers License",
+        "Social Security Card"
+      ],
+      "required_certs": [
+        "Driver License",
+        "Driver's License_BACKSIDE",
+        "Social Security Card",
+        "W9"
+      ]
+    },
+    {
+      "operator_id": "8D06607A-91D3-49FC-B4D3-23BEC353E694",
+      "first_name": "Danny",
+      "last_name": "Cosper",
+      "status": "ONBOARDING",
+      "division": "8 - OH",
+      "missing_certs": [
+        "Driver's License_BACKSIDE"
+      ],
+      "has_certs": [
+        "Drivers License",
+        "Social Security Card",
+        "W9"
+      ],
+      "required_certs": [
+        "Driver License",
+        "Driver's License_BACKSIDE",
+        "Social Security Card",
+        "W9"
+      ]
+    },
+    {
+      "operator_id": "7B46915A-FFFF-4B2D-A2D0-006A93AA4FC0",
+      "first_name": "Doreisha",
+      "last_name": "Freeman",
+      "status": "ONBOARDING",
+      "division": "3 - TX",
+      "missing_certs": [
+        "DART 5 STAR SRVC POLICY"
+      ],
+      "has_certs": [
+        "Driver's License_BACKSIDE",
+        "Drivers License",
+        "Social Security Card",
+        "W9"
+      ],
+      "required_certs": [
+        "DART 5 STAR SRVC POLICY",
+        "Driver License",
+        "Driver's License_BACKSIDE",
+        "Social Security Card",
+        "W9"
+      ]
+    },
+    {
+      "operator_id": "67825B9C-2512-4BB0-923E-10D59BEAA2C6",
+      "first_name": "Joseph ",
+      "last_name": "Harley ",
+      "status": "ONBOARDING",
+      "division": "11 - GA",
+      "missing_certs": [
+        "Driver's License_BACKSIDE"
+      ],
+      "has_certs": [
+        "DriverMate Acknowledgement",
+        "Drivers License",
+        "Social Security Card",
+        "W9"
+      ],
+      "required_certs": [
+        "Driver License",
+        "Driver's License_BACKSIDE",
+        "DriverMate Acknowledgement",
+        "Social Security Card",
+        "W9"
+      ]
+    },
+    {
+      "operator_id": "6C7C43F0-96B3-4475-A239-041B0D7801C0",
+      "first_name": "Pamela ",
+      "last_name": "Hinkley ",
+      "status": "ONBOARDING",
+      "division": "6 - FL",
+      "missing_certs": [
+        "W9"
+      ],
+      "has_certs": [
+        "Driver's License_BACKSIDE",
+        "Drivers License",
+        "Social Security Card"
+      ],
+      "required_certs": [
+        "Driver License",
+        "Driver's License_BACKSIDE",
+        "Social Security Card",
+        "W9"
+      ]
+    },
+    {
+      "operator_id": "01131127-55D6-408C-99ED-19AFEB3CAFA0",
+      "first_name": "Kendra ",
+      "last_name": "Johnson ",
+      "status": "ONBOARDING",
+      "division": "11 - GA",
+      "missing_certs": [
+        "Driver's License_BACKSIDE"
+      ],
+      "has_certs": [
+        "DriverMate Acknowledgement",
+        "Drivers License",
+        "Social Security Card",
+        "W9"
+      ],
+      "required_certs": [
+        "Driver License",
+        "Driver's License_BACKSIDE",
+        "DriverMate Acknowledgement",
+        "Social Security Card",
+        "W9"
+      ]
+    },
+    {
+      "operator_id": "646B4F4E-A96F-437E-9603-036F88A395EA",
+      "first_name": "ase",
+      "last_name": "Nore",
+      "status": "ONBOARDING",
+      "division": "6 - FL",
+      "missing_certs": [
+        "Social Security Card",
+        "W9"
+      ],
+      "has_certs": [
+        "Driver's License_BACKSIDE",
+        "Drivers License"
+      ],
+      "required_certs": [
+        "Driver License",
+        "Driver's License_BACKSIDE",
+        "Social Security Card",
+        "W9"
+      ]
+    },
+    {
+      "operator_id": "CFE5C010-ECF6-4571-9A4A-06464BFB4123",
+      "first_name": "Darnell",
+      "last_name": "Palmer ",
+      "status": "ONBOARDING",
+      "division": "8 - OH",
+      "missing_certs": [
+        "Driver's License_BACKSIDE"
+      ],
+      "has_certs": [
+        "Drivers License",
+        "Ohio Driver's License Verification",
+        "Social Security Card",
+        "W9"
+      ],
+      "required_certs": [
+        "Driver License",
+        "Driver's License_BACKSIDE",
+        "Social Security Card",
+        "W9"
+      ]
+    },
+    {
+      "operator_id": "AAAE51DE-AA6F-4105-B897-CB271DB9A132",
+      "first_name": "Samuel ",
+      "last_name": "Randolph ",
+      "status": "ONBOARDING",
+      "division": "5 - CA",
+      "missing_certs": [
+        "W9"
+      ],
+      "has_certs": [
+        "CPR/AED/FIRST AID",
+        "CTAA Passenger Assistance",
+        "DOT Driver Questionnaire ",
+        "DOT Drug & Alcohol Orientation",
+        "DOT Drug and Alcohol Policy ",
+        "DOT Pre-Contract Drug/Alc Screen",
+        "DOT Release of Info Form 40.25",
+        "Defensive Driving",
+        "Driver's License_BACKSIDE",
+        "Drivers License",
+        "Motor Vehicle Report (MVR)",
+        "Social Security Card",
+        "Workers Comp Coverage Waiver"
+      ],
+      "required_certs": [
+        "Driver License",
+        "Driver's License_BACKSIDE",
+        "Social Security Card",
+        "W9"
+      ]
+    },
+    {
+      "operator_id": "1C24CFBA-7D0F-4CC7-B746-1EA6C26EE083",
+      "first_name": "Javon",
+      "last_name": "Robinson",
+      "status": "ONBOARDING",
+      "division": "8 - OH",
+      "missing_certs": [
+        "Driver's License_BACKSIDE"
+      ],
+      "has_certs": [
+        "Drivers License",
+        "Ohio Driver's License Verification",
+        "Social Security Card",
+        "W9"
+      ],
+      "required_certs": [
+        "Driver License",
+        "Driver's License_BACKSIDE",
+        "Social Security Card",
+        "W9"
+      ]
+    },
+    {
+      "operator_id": "E7A842A0-F788-436D-A92C-1ED5C04E73EC",
+      "first_name": "Shaniah",
+      "last_name": "Smith",
+      "status": "ONBOARDING",
+      "division": "11 - GA",
+      "missing_certs": [
+        "Driver's License_BACKSIDE",
+        "DriverMate Acknowledgement"
+      ],
+      "has_certs": [
+        "CTAA Passenger Assistance",
+        "Defensive Driving",
+        "Drivers License",
+        "Social Security Card",
+        "W9"
+      ],
+      "required_certs": [
+        "Driver License",
+        "Driver's License_BACKSIDE",
+        "DriverMate Acknowledgement",
+        "Social Security Card",
+        "W9"
+      ]
+    },
+    {
+      "operator_id": "C4813171-180B-4B01-88F4-1B3B518EE54E",
+      "first_name": "Derek",
+      "last_name": "Taylor",
+      "status": "ONBOARDING",
+      "division": "7 - MI",
+      "missing_certs": [
+        "Driver License",
+        "Michigan Driver Certification",
+        "Social Security Card"
+      ],
+      "has_certs": [
+        "10 Habits of a Professional Paratransit Operator",
+        "DOT Drug & Alcohol Orientation",
+        "DOT Drug and Alcohol Policy ",
+        "DOT Release of Info Form 40.25",
+        "DRIVERS LICENSE w/CHAUF ENDORSE",
+        "Driver's License_BACKSIDE ",
+        "SOCIAL SECURITY CARD",
+        "W9"
+      ],
+      "required_certs": [
+        "Driver License",
+        "Driver's License_BACKSIDE",
+        "Michigan Driver Certification",
+        "Social Security Card",
+        "W9"
+      ]
+    },
+    {
+      "operator_id": "FF9359EE-400F-4D9C-95D8-8C3C9CD1E500",
+      "first_name": "Orion",
+      "last_name": "Transit iOS",
+      "status": "ONBOARDING",
+      "division": "2 - IL",
+      "missing_certs": [
+        "W9"
+      ],
+      "has_certs": [
+        "Driver's License_BACKSIDE",
+        "Drivers License",
+        "Social Security Card"
+      ],
+      "required_certs": [
+        "Driver License",
+        "Driver's License_BACKSIDE",
+        "Social Security Card",
+        "W9"
+      ]
+    },
+    {
+      "operator_id": "222E2ED8-8CF5-4885-9755-099E56185815",
+      "first_name": "Safety",
+      "last_name": "Two",
+      "status": "ONBOARDING",
+      "division": "3 - TX",
+      "missing_certs": [
+        "Driver License",
+        "Driver's License_BACKSIDE",
+        "Social Security Card"
+      ],
+      "has_certs": [
+        "DART 5 STAR SRVC POLICY",
+        "W9"
+      ],
+      "required_certs": [
+        "DART 5 STAR SRVC POLICY",
+        "Driver License",
+        "Driver's License_BACKSIDE",
+        "Social Security Card",
+        "W9"
+      ]
+    },
+    {
+      "operator_id": "C1C59E3D-BD85-4659-9DCB-05B38635E7CC",
+      "first_name": "Charlotte ",
+      "last_name": "West",
+      "status": "ONBOARDING",
+      "division": "10 - OR",
+      "missing_certs": [
+        "W9"
+      ],
+      "has_certs": [
+        "Badge Photo",
+        "Driver License ",
+        "Driver's License_BACKSIDE",
+        "Social Security Card",
+        "TriMet Background Release Form A&B"
+      ],
+      "required_certs": [
+        "Badge Photo",
+        "Driver License",
+        "Driver's License_BACKSIDE",
+        "Social Security Card",
+        "TriMet Background Release Form A&B",
+        "W9"
+      ]
+    },
+    {
+      "operator_id": "F2603040-5FDD-4B33-A5F1-D1BA217E57A7",
+      "first_name": "Jalen",
+      "last_name": "Winston",
+      "status": "ONBOARDING",
+      "division": "2 - IL",
+      "missing_certs": [
+        "Driver License",
+        "Driver's License_BACKSIDE",
+        "W9"
+      ],
+      "has_certs": [
+        "Social Security Card"
+      ],
+      "required_certs": [
+        "Driver License",
+        "Driver's License_BACKSIDE",
+        "Social Security Card",
+        "W9"
+      ]
+    },
+    {
+      "operator_id": "86391A26-3375-4291-88E5-09260C012917",
+      "first_name": "diamond ",
+      "last_name": "woods ",
+      "status": "ONBOARDING",
+      "division": "8 - OH",
+      "missing_certs": [
+        "Driver's License_BACKSIDE",
+        "Social Security Card"
+      ],
+      "has_certs": [
+        "Drivers License",
+        "Ohio Driver's License Verification",
+        "W9"
+      ],
+      "required_certs": [
+        "Driver License",
+        "Driver's License_BACKSIDE",
+        "Social Security Card",
+        "W9"
+      ]
+    },
+    {
+      "operator_id": "B1D96C60-FE97-4A13-87B5-037332D9B976",
+      "first_name": "Corrie",
+      "last_name": "Carter",
+      "status": "REGISTRATION",
+      "division": "3 - TX",
+      "missing_certs": [
+        "Social Security Card",
+        "W9"
+      ],
+      "has_certs": [
+        "Driver's License_BACKSIDE",
+        "Drivers License"
+      ],
+      "required_certs": [
+        "Social Security Card",
+        "W9"
+      ]
+    },
+    {
+      "operator_id": "205F3773-961D-4676-B825-B4C4ED575EA7",
+      "first_name": "Aaron ",
+      "last_name": "El-Duamutef ",
+      "status": "REGISTRATION",
+      "division": "7 - MI",
+      "missing_certs": [
+        "Social Security Card"
+      ],
+      "has_certs": [
+        "10 Habits of a Professional Paratransit Operator",
+        "DOT Drug & Alcohol Orientation",
+        "SOCIAL SECURITY CARD",
+        "W9"
+      ],
+      "required_certs": [
+        "Social Security Card",
+        "W9"
+      ]
+    },
+    {
+      "operator_id": "603E8657-4115-4D34-BD5B-0DD2A415ADAB",
+      "first_name": "Doretha",
+      "last_name": "Engleman-Mitchell",
+      "status": "REGISTRATION",
+      "division": "6 - FL",
+      "missing_certs": [
+        "Social Security Card",
+        "W9"
+      ],
+      "has_certs": [
+        "Driver's License_BACKSIDE",
+        "Drivers License"
+      ],
+      "required_certs": [
+        "Social Security Card",
+        "W9"
+      ]
+    },
+    {
+      "operator_id": "34E504FB-E2A5-49AF-817D-D057E90F96B1",
+      "first_name": "Miuana",
+      "last_name": "fair",
+      "status": "REGISTRATION",
+      "division": "11 - GA",
+      "missing_certs": [
+        "W9"
+      ],
+      "has_certs": [
+        "Drivers License",
+        "Social Security Card"
+      ],
+      "required_certs": [
+        "Social Security Card",
+        "W9"
+      ]
+    },
+    {
+      "operator_id": "9CB8148F-A4B7-4EEB-8628-4079FE2E4E8C",
+      "first_name": "Mary",
+      "last_name": "McPherson",
+      "status": "REGISTRATION",
+      "division": "11 - GA",
+      "missing_certs": [
+        "W9"
+      ],
+      "has_certs": [
+        "Drivers License",
+        "Social Security Card"
+      ],
+      "required_certs": [
+        "Social Security Card",
+        "W9"
+      ]
+    },
+    {
+      "operator_id": "6E89BDD9-BD7E-4D5F-B2B4-E081BE0C6383",
+      "first_name": "April ",
+      "last_name": "Smith ",
+      "status": "SBPC APPROVED FOR SERVICE",
+      "division": "7 - MI",
+      "missing_certs": [
+        "LiveScan",
+        "TB Test"
+      ],
+      "has_certs": [
+        "10 Habits of a Professional Paratransit Operator",
+        "BACKGROUND CHECK",
+        "COMPLIANCE REVIEW",
+        "CTAA PASSENGER ASSISTANCE",
+        "DOT Chain of Custody Form",
+        "DOT Driver Questionnaire ",
+        "DOT Drug & Alcohol Orientation",
+        "DOT Drug and Alcohol Policy ",
+        "DOT Physical Card",
+        "DOT Pre Employment Donor Pass",
+        "DOT Pre-Contract Drug/Alc DOT",
+        "DOT Release of Info Form 40.25",
+        "DRIVERS LICENSE w/CHAUF ENDORSE",
+        "Defensive Driving ",
+        "Driver's License_BACKSIDE ",
+        "Fuel Passthrough Policy",
+        "Motor Vehicle Report ",
+        "Orientation- Behind the Wheel",
+        "Orientation-Big Star Safety and Service",
+        "SOCIAL SECURITY CARD",
+        "W9",
+        "Workers Comp Coverage Waiver"
+      ],
+      "required_certs": [
+        "Background Check",
+        "LiveScan",
+        "TB Test"
+      ]
+    },
+    {
+      "operator_id": "9F2AEAFC-E5CA-47A5-AC7D-FEB1BE0A6272",
+      "first_name": "Tierra",
+      "last_name": "Gilbert ",
+      "status": "SBPC APPROVED FOR SERVICE",
+      "division": "11 - GA",
+      "missing_certs": [
+        "LiveScan",
+        "TB Test"
+      ],
+      "has_certs": [
+        "BackgroundCheck",
+        "Big Star Compliance Form",
+        "CTAA Passenger Assistance",
+        "DOT Chain of Custody Form",
+        "DOT Driver Questionnaire ",
+        "DOT Drug & Alcohol Orientation",
+        "DOT Drug & Alcohol Policy ",
+        "DOT Physical Card",
+        "DOT Pre Employment Donor Pass",
+        "DOT Pre-Contracting Drug/Alc Screen ",
+        "DOT Release of Info Form 40.25",
+        "Defensive Driving",
+        "DriverMate Acknowledgement",
+        "Drivers License",
+        "Drivers License_BACKSIDE",
+        "FT Code of Business Conduct",
+        "First Transit Orientation Aknowldegement",
+        "Motor Vehicle Report (MVR)",
+        "Orientation- Behind the Wheel",
+        "Orientation-Big Star Safety and Service",
+        "Pre-E Notification Acknowledgement",
+        "Social Security Card",
+        "W9",
+        "Worker's Comp Coverage Waiver"
+      ],
+      "required_certs": [
+        "Background Check",
+        "LiveScan",
+        "TB Test"
+      ]
+    },
+    {
+      "operator_id": "79E5C541-F2BC-4370-B3A5-B344D7B8BBB4",
+      "first_name": "lyntoya",
+      "last_name": "lockett",
+      "status": "SBPC APPROVED FOR SERVICE",
+      "division": "11 - GA",
+      "missing_certs": [
+        "LiveScan",
+        "TB Test"
+      ],
+      "has_certs": [
+        "BackgroundCheck",
+        "Big Star Compliance Form",
+        "CTAA Passenger Assistance",
+        "DOT Chain of Custody Form",
+        "DOT Drug & Alcohol Orientation",
+        "DOT Drug & Alcohol Policy ",
+        "DOT Physical Card",
+        "DOT Pre-Contracting Drug/Alc Screen ",
+        "Defensive Driving",
+        "Drivers License",
+        "Drivers License_BACKSIDE",
+        "FT Code of Business Conduct",
+        "First Transit Orientation Aknowldegement",
+        "Motor Vehicle Report (MVR)",
+        "Orientation- Behind the Wheel",
+        "Orientation-Big Star Safety and Service",
+        "Social Security Card",
+        "Worker's Comp Coverage Waiver"
+      ],
+      "required_certs": [
+        "Background Check",
+        "LiveScan",
+        "TB Test"
+      ]
+    },
+    {
+      "operator_id": "D26F5019-AB3F-49F2-9A88-9B1CBDCC1284",
+      "first_name": "Tara",
+      "last_name": "Lockett ",
+      "status": "SBPC APPROVED FOR SERVICE",
+      "division": "11 - GA",
+      "missing_certs": [
+        "LiveScan",
+        "TB Test"
+      ],
+      "has_certs": [
+        "BTW Orientation",
+        "BackgroundCheck",
+        "Big Star Safety and Service Orientation",
+        "CTAA Passenger Assistance",
+        "DOT Chain of Custody Form",
+        "DOT Drug & Alcohol Orientation",
+        "DOT Drug & Alcohol Policy ",
+        "DOT Pre-Contracting Drug/Alc Screen ",
+        "Defensive Driving",
+        "Motor Vehicle Report (MVR)",
+        "Social Security Card",
+        "WORKERS' COMP INSURANCE WAIVER"
+      ],
+      "required_certs": [
+        "Background Check",
+        "LiveScan",
+        "TB Test"
+      ]
+    },
+    {
+      "operator_id": "278BE6A4-5274-4F59-A8E9-790C64B85A43",
+      "first_name": "Linda",
+      "last_name": "Turner",
+      "status": "SBPC APPROVED FOR SERVICE",
+      "division": "11 - GA",
+      "missing_certs": [
+        "LiveScan",
+        "TB Test"
+      ],
+      "has_certs": [
+        "BackgroundCheck",
+        "Big Star Compliance Form",
+        "CTAA Passenger Assistance",
+        "DOT Chain of Custody Form",
+        "DOT Driver Questionnaire ",
+        "DOT Drug & Alcohol Orientation",
+        "DOT Drug & Alcohol Policy ",
+        "DOT Physical Card",
+        "DOT Pre Employment Donor Pass",
+        "DOT Pre-Contracting Drug/Alc Screen ",
+        "DOT Release of Info Form 40.25",
+        "Defensive Driving",
+        "DriverMate Acknowledgement",
+        "Drivers License",
+        "Drivers License_BACKSIDE",
+        "FT Code of Business Conduct",
+        "First Transit Orientation Aknowldegement",
+        "Motor Vehicle Report (MVR)",
+        "Orientation- Behind the Wheel",
+        "Orientation-Big Star Safety and Service",
+        "Pre-E Notification Acknowledgement",
+        "Social Security Card",
+        "W9",
+        "Worker's Comp Coverage Waiver"
+      ],
+      "required_certs": [
+        "Background Check",
+        "LiveScan",
+        "TB Test"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,4170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operator Lifecycle Workflow Builder</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #e2e8f0;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: rgba(15, 23, 42, 0.6);
+            border-radius: 16px;
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #60a5fa, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #94a3b8;
+            font-size: 1.1rem;
+        }
+
+        .controls {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(239, 68, 68, 0.4);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #6b7280, #4b5563);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(107, 114, 128, 0.4);
+        }
+
+        .btn-toggle {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+            color: white;
+        }
+
+        .btn-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(139, 92, 246, 0.4);
+        }
+
+        .btn-toggle.active {
+            background: linear-gradient(135deg, #10b981, #059669);
+        }
+
+        select.division-select {
+            padding: 12px 16px;
+            border: 2px solid rgba(148, 163, 184, 0.2);
+            border-radius: 8px;
+            font-size: 1rem;
+            background: rgba(30, 41, 59, 0.6);
+            color: #e2e8f0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 200px;
+        }
+
+        select.division-select:hover {
+            border-color: rgba(96, 165, 250, 0.5);
+        }
+
+        select.division-select:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .editor-container {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .cert-pool {
+            background: rgba(15, 23, 42, 0.6);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            max-height: 800px;
+            overflow-y: auto;
+        }
+
+        .cert-pool h3 {
+            color: #60a5fa;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .cert-badge {
+            background: linear-gradient(135deg, #1e293b, #334155);
+            padding: 10px 14px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            cursor: move;
+            border: 2px solid rgba(148, 163, 184, 0.2);
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+        }
+
+        .cert-badge:hover {
+            border-color: #60a5fa;
+            transform: translateX(5px);
+            box-shadow: 0 4px 12px rgba(96, 165, 250, 0.3);
+        }
+
+        .cert-badge-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .delete-cert-type-btn {
+            background: rgba(239, 68, 68, 0.2);
+            border: none;
+            color: #fca5a5;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            transition: all 0.2s ease;
+            margin-left: 8px;
+        }
+
+        .delete-cert-type-btn:hover {
+            background: #ef4444;
+            color: white;
+        }
+
+        .cert-badge.dragging {
+            opacity: 0.5;
+            transform: scale(0.95);
+        }
+
+        .requirements-grid {
+            display: grid;
+            gap: 15px;
+        }
+
+        .status-requirement-card {
+            background: rgba(15, 23, 42, 0.6);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        .status-requirement-card h3 {
+            color: #60a5fa;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cert-count-badge {
+            background: rgba(96, 165, 250, 0.2);
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            color: #60a5fa;
+        }
+
+        .drop-zone {
+            min-height: 100px;
+            border: 2px dashed rgba(148, 163, 184, 0.3);
+            border-radius: 8px;
+            padding: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .drop-zone.drag-over {
+            border-color: #10b981;
+            background: rgba(16, 185, 129, 0.1);
+            transform: scale(1.02);
+        }
+
+        .assigned-cert {
+            background: linear-gradient(135deg, #1e40af, #1e3a8a);
+            padding: 8px 12px;
+            border-radius: 6px;
+            margin-bottom: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+
+        .remove-cert-btn {
+            background: rgba(239, 68, 68, 0.3);
+            border: none;
+            color: #fca5a5;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+        }
+
+        .remove-cert-btn:hover {
+            background: #ef4444;
+            color: white;
+        }
+
+        .save-panel {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(15, 23, 42, 0.95);
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px solid rgba(96, 165, 250, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            display: none;
+            z-index: 1000;
+        }
+
+        .save-panel.show {
+            display: block;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .change-summary {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .change-summary strong {
+            color: #60a5fa;
+        }
+
+        .workflow-canvas {
+            background: rgba(15, 23, 42, 0.4);
+            border-radius: 16px;
+            padding: 40px;
+            min-height: 600px;
+            border: 2px dashed rgba(148, 163, 184, 0.2);
+            position: relative;
+        }
+
+        .workflow-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            overflow: visible;
+        }
+
+        .step-card {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(51, 65, 85, 0.9));
+            border-radius: 12px;
+            padding: 20px;
+            border: 2px solid rgba(148, 163, 184, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            cursor: move;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+            overflow: visible;
+        }
+
+        .step-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+            border-color: rgba(96, 165, 250, 0.5);
+        }
+
+        .step-card.dragging {
+            opacity: 0.5;
+            transform: scale(0.95);
+        }
+
+        .step-card.drag-over {
+            border-color: #60a5fa;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(37, 99, 235, 0.2));
+        }
+
+        .step-card.valid {
+            border-left: 4px solid #10b981;
+        }
+
+        .step-card.invalid {
+            border-left: 4px solid #ef4444;
+        }
+
+        .step-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .step-number {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .step-info {
+            flex: 1;
+            margin-left: 15px;
+        }
+
+        .step-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #e2e8f0;
+            margin-bottom: 5px;
+        }
+
+        .step-meta {
+            display: flex;
+            gap: 15px;
+            font-size: 0.9rem;
+            color: #94a3b8;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .status-indicator.valid {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+        }
+
+        .status-indicator.invalid {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .status-indicator.valid .status-dot {
+            background: #10b981;
+        }
+
+        .status-indicator.invalid .status-dot {
+            background: #ef4444;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .operators-dropdown {
+            margin-top: 15px;
+        }
+
+        .dropdown-trigger {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-trigger:hover {
+            background: rgba(15, 23, 42, 0.8);
+            border-color: rgba(96, 165, 250, 0.5);
+        }
+
+        .dropdown-trigger .count {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+        }
+
+        .dropdown-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .dropdown-content.open {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .operator-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 16px;
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            border-radius: 6px;
+            margin-bottom: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .operator-item:hover {
+            background: rgba(15, 23, 42, 0.6);
+            border-color: rgba(96, 165, 250, 0.3);
+        }
+
+        .operator-name {
+            font-weight: 600;
+            color: #e2e8f0;
+        }
+
+        .cert-status {
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .cert-status.complete {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+        }
+
+        .cert-status.incomplete {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+
+        .cert-details {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(15, 23, 42, 0.4);
+            border-radius: 8px;
+            border: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        .cert-title {
+            font-weight: 700;
+            color: #e2e8f0;
+            margin-bottom: 10px;
+        }
+
+        .cert-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .cert-badge {
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            background: rgba(59, 130, 246, 0.2);
+            color: #60a5fa;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            cursor: move;
+            position: relative;
+            padding-right: 28px;
+            transition: all 0.2s ease;
+        }
+
+        .cert-badge:hover {
+            background: rgba(59, 130, 246, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .cert-badge.dragging-cert {
+            opacity: 0.5;
+        }
+
+        .cert-badge .remove-cert {
+            position: absolute;
+            right: 6px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #ef4444;
+            font-weight: 700;
+            padding: 0 4px;
+            opacity: 0.7;
+            transition: opacity 0.2s ease;
+        }
+
+        .cert-badge .remove-cert:hover {
+            opacity: 1;
+        }
+
+        .add-cert-section {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(15, 23, 42, 0.4);
+            border-radius: 8px;
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            position: relative;
+            overflow: visible;
+            z-index: 200;
+        }
+
+        .add-cert-input {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            position: relative;
+            overflow: visible;
+            z-index: 201;
+        }
+
+        .add-cert-input-wrapper {
+            flex: 1;
+            position: relative;
+            z-index: 202;
+            overflow: visible;
+        }
+
+        .add-cert-input input {
+            width: 100%;
+            padding: 10px 15px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(148, 163, 184, 0.3);
+            border-radius: 6px;
+            color: #e2e8f0;
+            font-size: 0.9rem;
+        }
+
+        .add-cert-input input:focus {
+            outline: none;
+            border-color: #60a5fa;
+        }
+
+        .autocomplete-dropdown {
+            position: relative;
+            max-height: 300px;
+            overflow-y: auto;
+            background: rgba(15, 23, 42, 0.98);
+            border: 1px solid rgba(96, 165, 250, 0.5);
+            border-radius: 6px;
+            margin-top: 5px;
+            z-index: 9999;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(96, 165, 250, 0.3);
+            display: none;
+            backdrop-filter: blur(10px);
+        }
+
+        .autocomplete-dropdown.active {
+            display: block;
+        }
+
+        .autocomplete-item {
+            padding: 10px 15px;
+            cursor: pointer;
+            color: #e2e8f0;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        .autocomplete-item:last-child {
+            border-bottom: none;
+        }
+
+        .autocomplete-item:hover {
+            background: rgba(59, 130, 246, 0.2);
+        }
+
+        .autocomplete-item.highlighted {
+            background: rgba(59, 130, 246, 0.3);
+        }
+
+        .autocomplete-no-results {
+            padding: 12px;
+            color: #94a3b8;
+            font-size: 13px;
+            font-style: italic;
+        }
+
+        .autocomplete-item .cert-name {
+            font-weight: 600;
+        }
+
+        /* Control Center Features */
+        .control-panel {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .control-panel h3 {
+            margin: 0 0 15px 0;
+            color: #e2e8f0;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .search-bar {
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 40px 12px 40px;
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            color: #e2e8f0;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            background: #0f172a;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #64748b;
+            font-size: 16px;
+        }
+
+        .clear-search {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #64748b;
+            cursor: pointer;
+            font-size: 18px;
+            padding: 4px 8px;
+            transition: color 0.2s;
+        }
+
+        .clear-search:hover {
+            color: #e2e8f0;
+        }
+
+        .filter-options {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 6px;
+            color: #94a3b8;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+
+        .filter-btn:hover {
+            background: #334155;
+            color: #e2e8f0;
+        }
+
+        .filter-btn.active {
+            background: #3b82f6;
+            border-color: #3b82f6;
+            color: white;
+        }
+
+        .bulk-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .bulk-btn {
+            padding: 10px 18px;
+            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .bulk-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+        }
+
+        .bulk-btn.danger {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        }
+
+        .bulk-btn.danger:hover {
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+        }
+
+        .bulk-btn.success {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        .bulk-btn.success:hover {
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+        }
+
+        .details-panel {
+            position: fixed;
+            right: -400px;
+            top: 0;
+            width: 400px;
+            height: 100vh;
+            background: #0f172a;
+            border-left: 1px solid #334155;
+            box-shadow: -4px 0 20px rgba(0, 0, 0, 0.3);
+            transition: right 0.3s ease;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .details-panel.open {
+            right: 0;
+        }
+
+        .details-header {
+            padding: 20px;
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border-bottom: 1px solid #334155;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .details-header h3 {
+            margin: 0 0 5px 0;
+            color: #e2e8f0;
+            font-size: 1.2rem;
+        }
+
+        .details-subtitle {
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        .close-panel {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: #94a3b8;
+            cursor: pointer;
+            font-size: 24px;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.2s;
+        }
+
+        .close-panel:hover {
+            color: #e2e8f0;
+        }
+
+        .details-content {
+            padding: 20px;
+        }
+
+        .details-section {
+            margin-bottom: 25px;
+        }
+
+        .details-section h4 {
+            color: #e2e8f0;
+            font-size: 1rem;
+            margin: 0 0 12px 0;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #334155;
+        }
+
+        .operator-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .operator-item {
+            padding: 10px;
+            background: #1e293b;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .operator-name {
+            color: #e2e8f0;
+            font-weight: 500;
+        }
+
+        .operator-status-badge {
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .operator-status-badge.has-cert {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+        }
+
+        .operator-status-badge.missing-cert {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+
+        .operator-status-badge.expired {
+            background: rgba(251, 191, 36, 0.2);
+            color: #fbbf24;
+        }
+
+        .highlight {
+            background: rgba(251, 191, 36, 0.3);
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+
+        .export-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .export-modal.open {
+            display: flex;
+        }
+
+        .export-content {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+        }
+
+        .export-content h3 {
+            margin: 0 0 20px 0;
+            color: #e2e8f0;
+        }
+
+        .export-options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .export-option {
+            padding: 15px;
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .export-option:hover {
+            background: #1e293b;
+            border-color: #3b82f6;
+        }
+
+        .export-option h4 {
+            margin: 0 0 5px 0;
+            color: #e2e8f0;
+            font-size: 1rem;
+        }
+
+        .export-option p {
+            margin: 0;
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        /* Operator Profile Modal */
+        .operator-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .operator-modal.open {
+            display: flex;
+        }
+
+        .operator-modal-content {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border: 1px solid #334155;
+            border-radius: 16px;
+            padding: 0;
+            max-width: 700px;
+            width: 90%;
+            max-height: 85vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .operator-modal-header {
+            padding: 25px 30px;
+            background: linear-gradient(135deg, #334155 0%, #1e293b 100%);
+            border-bottom: 1px solid #475569;
+            position: relative;
+        }
+
+        .operator-modal-header h2 {
+            margin: 0 0 8px 0;
+            color: #e2e8f0;
+            font-size: 1.5rem;
+        }
+
+        .operator-modal-subtitle {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        .close-operator-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(51, 65, 85, 0.5);
+            border: 1px solid #475569;
+            color: #e2e8f0;
+            cursor: pointer;
+            font-size: 24px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: all 0.2s;
+            line-height: 1;
+        }
+
+        .close-operator-modal:hover {
+            background: rgba(239, 68, 68, 0.3);
+            border-color: #ef4444;
+            color: #ef4444;
+        }
+
+        .operator-modal-body {
+            padding: 25px 30px;
+            overflow-y: auto;
+        }
+
+        .operator-info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+            padding: 20px;
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 12px;
+            border: 1px solid #334155;
+        }
+
+        .operator-info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .operator-info-label {
+            color: #94a3b8;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .operator-info-value {
+            color: #e2e8f0;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .certs-section-title {
+            color: #e2e8f0;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin: 0 0 15px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #334155;
+        }
+
+        .cert-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .cert-card {
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: 1px solid;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s;
+        }
+
+        .cert-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .cert-card.has-cert {
+            background: rgba(16, 185, 129, 0.1);
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+
+        .cert-card.expired {
+            background: rgba(251, 191, 36, 0.1);
+            border-color: rgba(251, 191, 36, 0.3);
+        }
+
+        .cert-card.missing {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+
+        .cert-card-name {
+            color: #e2e8f0;
+            font-size: 0.9rem;
+            font-weight: 500;
+            flex: 1;
+        }
+
+        .cert-card-status {
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .cert-card.has-cert .cert-card-status {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+        }
+
+        .cert-card.expired .cert-card-status {
+            background: rgba(251, 191, 36, 0.2);
+            color: #fbbf24;
+        }
+
+        .cert-card.missing .cert-card-status {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+
+        .cert-stats {
+            display: flex;
+            gap: 20px;
+            padding: 15px;
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .cert-stat {
+            flex: 1;
+            text-align: center;
+        }
+
+        .cert-stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .cert-stat-value.valid { color: #10b981; }
+        .cert-stat-value.expired { color: #fbbf24; }
+        .cert-stat-value.missing { color: #ef4444; }
+
+        .cert-stat-label {
+            color: #94a3b8;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        /* Operator Progress Bar */
+        .operator-progress {
+            display: flex;
+            height: 8px;
+            background: rgba(239, 68, 68, 0.3);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 6px;
+            border: 1px solid rgba(51, 65, 85, 0.3);
+            flex: 1;
+            max-width: 120px;
+        }
+
+        .operator-progress-segment {
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+
+        .operator-progress-segment.valid {
+            background: #10b981;
+        }
+
+        .operator-progress-segment.expired {
+            background: #fbbf24;
+        }
+
+        .operator-progress-segment.missing {
+            background: #ef4444;
+        }
+
+        .operator-item {
+            padding: 10px 12px;
+            background: rgba(15, 23, 42, 0.3);
+            border-radius: 8px;
+            border: 1px solid rgba(51, 65, 85, 0.5);
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .operator-item:hover {
+            background: rgba(15, 23, 42, 0.5);
+            border-color: rgba(99, 102, 241, 0.5);
+            transform: translateX(4px);
+        }
+
+        .operator-name {
+            flex: 1;
+        }
+
+        /* Operator Progress Bar */
+        .operator-progress {
+            display: flex;
+            height: 6px;
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 6px;
+            border: 1px solid rgba(51, 65, 85, 0.5);
+        }
+
+        .operator-progress-segment {
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+
+        .operator-progress-segment.valid {
+            background: linear-gradient(90deg, #10b981, #059669);
+        }
+
+        .operator-progress-segment.expired {
+            background: linear-gradient(90deg, #fbbf24, #f59e0b);
+        }
+
+        .operator-progress-segment.missing {
+            background: linear-gradient(90deg, #ef4444, #dc2626);
+        }
+
+        .operator-cert-stats {
+            display: flex;
+            gap: 8px;
+            margin-top: 4px;
+            font-size: 0.75rem;
+            color: #94a3b8;
+        }
+
+        .operator-cert-stat {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .operator-cert-stat-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .operator-cert-stat-dot.valid { background: #10b981; }
+        .operator-cert-stat-dot.expired { background: #fbbf24; }
+        .operator-cert-stat-dot.missing { background: #ef4444; }
+
+        .operator-item {
+            padding: 12px;
+            background: rgba(15, 23, 42, 0.3);
+            border-radius: 8px;
+            border: 1px solid rgba(51, 65, 85, 0.5);
+            transition: all 0.2s;
+        }
+
+        .operator-item:hover {
+            background: rgba(15, 23, 42, 0.5);
+            border-color: rgba(99, 102, 241, 0.5);
+            transform: translateX(4px);
+        }
+
+        .autocomplete-item .cert-status-list {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            margin-top: 3px;
+        }
+
+        .autocomplete-no-results {
+            padding: 10px 15px;
+            color: #94a3b8;
+            font-style: italic;
+            text-align: center;
+        }
+
+        .btn-small {
+            padding: 8px 16px;
+            font-size: 0.85rem;
+        }
+
+        .cert-list.drop-zone {
+            min-height: 50px;
+            border: 2px dashed rgba(96, 165, 250, 0.3);
+            padding: 10px;
+            border-radius: 6px;
+        }
+
+        .unsaved-indicator {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 16px rgba(245, 158, 11, 0.4);
+            font-weight: 600;
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .cert-list-editable {
+            min-height: 40px;
+        }
+
+        .stats-panel {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(51, 65, 85, 0.9));
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #60a5fa, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .legend {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 30px;
+            padding: 15px;
+            background: rgba(15, 23, 42, 0.4);
+            border-radius: 12px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+
+        .legend-color.valid {
+            background: #10b981;
+        }
+
+        .legend-color.invalid {
+            background: #ef4444;
+        }
+
+        /* Scrollbar styling */
+        .dropdown-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .dropdown-content::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.4);
+            border-radius: 4px;
+        }
+
+        .dropdown-content::-webkit-scrollbar-thumb {
+            background: rgba(96, 165, 250, 0.5);
+            border-radius: 4px;
+        }
+
+        .dropdown-content::-webkit-scrollbar-thumb:hover {
+            background: rgba(96, 165, 250, 0.7);
+        }
+
+        .arrow {
+            transition: transform 0.3s ease;
+        }
+
+        .arrow.open {
+            transform: rotate(180deg);
+        }
+
+        .drag-handle {
+            cursor: grab;
+            padding: 8px;
+            color: #94a3b8;
+        }
+
+        .drag-handle:active {
+            cursor: grabbing;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔄 Operator Lifecycle Workflow Builder</h1>
+            <p class="subtitle">Drag and drop to reorder steps • Validate certification requirements in real-time</p>
+        </header>
+
+        <div class="unsaved-indicator" id="unsavedIndicator">
+            ⚠ Unsaved Changes
+        </div>
+
+        <div class="stats-panel" id="statsPanel">
+            <div class="stat-card">
+                <div class="stat-value" id="totalOperators">81</div>
+                <div class="stat-label">Total Operators</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="validSteps">0</div>
+                <div class="stat-label">Valid Steps</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="invalidSteps">0</div>
+                <div class="stat-label">Steps with Issues</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="complianceRate">0%</div>
+                <div class="stat-label">Compliance Rate</div>
+            </div>
+        </div>
+
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color valid"></div>
+                <span>All operators have required certifications</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color invalid"></div>
+                <span>Some operators missing required certifications</span>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="btn btn-toggle" id="modeToggle" onclick="toggleViewMode()">📝 Edit Requirements</button>
+            <select class="division-select" id="divisionFilter" onchange="handleDivisionChange()" style="display: none;">
+                <option value="">Select Division...</option>
+            </select>
+            <button class="btn btn-primary" onclick="resetToIdealFlow()" id="resetBtn">🔄 Reset to Ideal Flow</button>
+            <button class="btn btn-success" onclick="validateAll()" id="validateBtn">✓ Validate All</button>
+            <button class="btn btn-danger" onclick="showIssues()" id="issuesBtn">⚠ Show Issues</button>
+            <button class="btn btn-success" id="saveBtn" onclick="saveChanges()" style="display: none;">💾 Save Changes</button>
+            <button class="btn btn-secondary" id="cancelEditBtn" onclick="cancelEdit()" style="display: none;">✕ Cancel Edit</button>
+        </div>
+
+        <!-- Control Center Panel -->
+        <div class="control-panel">
+            <h3>🎛️ Control Center</h3>
+            
+            <div class="search-bar">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="globalSearch" class="search-input" placeholder="Search certifications, operators, or statuses..." oninput="handleGlobalSearch()">
+                <button class="clear-search" onclick="clearGlobalSearch()" style="display: none;">×</button>
+            </div>
+            
+            <div class="filter-options">
+                <button class="filter-btn active" data-filter="all" onclick="setFilter('all')">All Statuses</button>
+                <button class="filter-btn" data-filter="valid" onclick="setFilter('valid')">✓ Valid Only</button>
+                <button class="filter-btn" data-filter="invalid" onclick="setFilter('invalid')">⚠ Invalid Only</button>
+                <button class="filter-btn" data-filter="division" onclick="toggleDivisionFilter()">Division Filter</button>
+            </div>
+            
+            <div class="bulk-actions">
+                <button class="bulk-btn" onclick="showBulkAddModal()">➕ Bulk Add Cert</button>
+                <button class="bulk-btn success" onclick="showExportModal()">📊 Export Report</button>
+                <button class="bulk-btn" onclick="showCertAnalytics()">📈 Analytics</button>
+                <button class="bulk-btn danger" onclick="confirmClearAll()">🗑️ Clear All Certs</button>
+            </div>
+        </div>
+
+        <div class="workflow-canvas">
+            <div class="workflow-steps" id="workflowSteps">
+                <!-- Steps will be dynamically generated here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Certification Details Panel -->
+    <div class="details-panel" id="detailsPanel">
+        <div class="details-header">
+            <h3 id="detailsTitle">Certification Details</h3>
+            <div class="details-subtitle" id="detailsSubtitle"></div>
+            <button class="close-panel" onclick="closeDetailsPanel()">×</button>
+        </div>
+        <div class="details-content" id="detailsContent">
+        </div>
+    </div>
+
+    <!-- Export Modal -->
+    <div class="export-modal" id="exportModal">
+        <div class="export-content">
+            <h3>Export Options</h3>
+            <div class="export-options">
+                <div class="export-option" onclick="exportAsCSV()">
+                    <h4>📄 CSV Export</h4>
+                    <p>Export all requirements as CSV for Excel/Sheets</p>
+                </div>
+                <div class="export-option" onclick="exportComplianceReport()">
+                    <h4>📊 Compliance Report</h4>
+                    <p>Detailed compliance report with operator status</p>
+                </div>
+                <div class="export-option" onclick="exportBottleneckAnalysis()">
+                    <h4>🚦 Bottleneck Analysis</h4>
+                    <p>Identify problematic statuses and certs</p>
+                </div>
+                <div class="export-option" onclick="exportJSON()">
+                    <h4>💾 JSON Backup</h4>
+                    <p>Full configuration backup in JSON format</p>
+                </div>
+            </div>
+            <button class="btn" onclick="closeExportModal()">Cancel</button>
+        </div>
+    </div>
+
+    <!-- Operator Profile Modal -->
+    <div class="operator-modal" id="operatorModal">
+        <div class="operator-modal-content">
+            <div class="operator-modal-header">
+                <h2 id="operatorModalName">Operator Profile</h2>
+                <p class="operator-modal-subtitle" id="operatorModalSubtitle"></p>
+                <button class="close-operator-modal" onclick="closeOperatorModal()">×</button>
+            </div>
+            <div class="operator-modal-body" id="operatorModalBody">
+                <!-- Content will be dynamically generated -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        console.log('🚀 Script loading started');
+        
+        let operators = [];
+        let statusTypes = [];
+        let certRequirements = {};
+        let currentWorkflow = [];
+        let hasUnsavedChanges = false;
+        let originalCertRequirements = {};
+        let allExistingCerts = [];
+        let currentAutocompleteIndex = -1;
+        let currentFilter = 'all';
+        let searchQuery = '';
+        let editMode = false;
+        let selectedDivision = '';
+        let editedRequirements = {};
+        let changesMade = false;
+        let sqlStatements = [];
+        let operatorDivisionMap = {};
+        
+        console.log('✅ Variables declared successfully');
+        console.log('   - currentFilter:', currentFilter);
+        console.log('   - searchQuery:', searchQuery);
+
+        // Certification name normalization for matching
+        function normalizeCertName(name) {
+            if (!name || typeof name !== 'string') return '';
+            return name.toLowerCase().trim().replace(/\s+/g, ' ');
+        }
+
+        function certNamesMatch(cert1, cert2) {
+            return normalizeCertName(cert1) === normalizeCertName(cert2);
+        }
+
+        function findMatchingCert(certName, certList) {
+            if (!certList || !Array.isArray(certList)) return null;
+            const normalized = normalizeCertName(certName);
+            return certList.find(c => {
+                const certType = typeof c === 'string' ? c : (c?.CertType || '');
+                return normalizeCertName(certType) === normalized;
+            });
+        }
+
+        // Build requirements structure from master definition
+        function buildRequirementsFromMaster(masterReqs) {
+            const requirements = {};
+            const globalReqs = masterReqs.global_requirements || {};
+            const divisionOverrides = masterReqs.division_overrides || {};
+            const excludedDivisions = ['PA - BROOKES', '2 - LAHORE'];
+            
+            // Get all unique divisions from operators (excluding test/excluded divisions)
+            const divisions = [...new Set(operators.map(op => op.DivisionID))]
+                .filter(div => !excludedDivisions.some(excluded => div.includes(excluded)));
+            
+            // For each status in global requirements
+            for (const [statusName, statusDef] of Object.entries(globalReqs)) {
+                requirements[statusName] = {
+                    order: statusDef.order || '',
+                    divisions: {}
+                };
+                
+                // For each division, build requirements
+                for (const division of divisions) {
+                    const requiredCerts = [...(statusDef.required_certs || [])];
+                    
+                    // Apply division-specific overrides
+                    if (divisionOverrides[division] && divisionOverrides[division][statusName]) {
+                        const override = divisionOverrides[division][statusName];
+                        
+                        // Add division-specific certs
+                        if (override.add_required_certs) {
+                            requiredCerts.push(...override.add_required_certs);
+                        }
+                        
+                        // Remove certs if specified
+                        if (override.remove_required_certs) {
+                            override.remove_required_certs.forEach(cert => {
+                                const idx = requiredCerts.indexOf(cert);
+                                if (idx > -1) requiredCerts.splice(idx, 1);
+                            });
+                        }
+                    }
+                    
+                    // Count operators in this division/status
+                    const operatorsInStatus = operators.filter(op => 
+                        op.DivisionID === division && op.StatusName === statusName
+                    );
+                    
+                    requirements[statusName].divisions[division] = {
+                        order: statusDef.order || '',
+                        total_operators: operatorsInStatus.length,
+                        required: requiredCerts.map(cert => ({
+                            cert: cert,
+                            count: operatorsInStatus.length,
+                            total: operatorsInStatus.length,
+                            percentage: 100.0
+                        })),
+                        common: [],
+                        optional: []
+                    };
+                }
+            }
+            
+            return requirements;
+        }
+
+        // Convert current requirements back to master format for saving
+        function convertToMasterFormat(requirements) {
+            const master = {
+                "_metadata": {
+                    "description": "Master Certification Requirements - Single Source of Truth",
+                    "version": "1.0",
+                    "last_updated": new Date().toISOString().split('T')[0],
+                    "notes": [
+                        "This file defines what certifications SHOULD be required at each lifecycle status.",
+                        "All divisions follow these requirements unless overridden in division_overrides.",
+                        "Use this as the source of truth to generate gap reports and compliance checks."
+                    ]
+                },
+                "global_requirements": {},
+                "division_overrides": {},
+                "certification_aliases": {},
+                "usage_instructions": {
+                    "how_to_use": [
+                        "1. Load this file as the master requirements definition",
+                        "2. For each operator, check their status and division",
+                        "3. Get required_certs from global_requirements[status]",
+                        "4. If division exists in division_overrides, merge add_required_certs",
+                        "5. Compare operator's actual certifications against requirements",
+                        "6. Generate gap report showing missing certifications"
+                    ]
+                }
+            };
+            
+            // Build global requirements (common across all divisions)
+            for (const [statusName, statusData] of Object.entries(requirements)) {
+                const divisions = statusData.divisions || {};
+                const divisionKeys = Object.keys(divisions);
+                
+                if (divisionKeys.length === 0) continue;
+                
+                // Find certs that appear in ALL divisions (global requirements)
+                const firstDivision = divisions[divisionKeys[0]];
+                const globalCerts = (firstDivision.required || [])
+                    .map(c => c.cert)
+                    .filter(cert => {
+                        // Check if this cert exists in all divisions
+                        return divisionKeys.every(divKey => {
+                            const divReqs = divisions[divKey].required || [];
+                            return divReqs.some(c => c.cert === cert);
+                        });
+                    });
+                
+                master.global_requirements[statusName] = {
+                    order: statusData.order || '',
+                    description: `Requirements for ${statusName}`,
+                    required_certs: globalCerts,
+                    notes: ""
+                };
+                
+                // Find division-specific overrides (certs not in global)
+                for (const [divKey, divData] of Object.entries(divisions)) {
+                    const divCerts = (divData.required || []).map(c => c.cert);
+                    const additionalCerts = divCerts.filter(cert => !globalCerts.includes(cert));
+                    
+                    if (additionalCerts.length > 0) {
+                        if (!master.division_overrides[divKey]) {
+                            master.division_overrides[divKey] = {};
+                        }
+                        master.division_overrides[divKey][statusName] = {
+                            add_required_certs: additionalCerts,
+                            notes: `Division-specific requirements for ${divKey}`
+                        };
+                    }
+                }
+            }
+            
+            return master;
+        }
+
+        // Ideal lifecycle flow
+        const idealFlow = [
+            { step: 1, status: 'REGISTRATION' },
+            { step: 2, status: 'ONBOARDING' },
+            { step: 3, status: 'CREDENTIALING' },
+            { step: 4, status: 'DOT SCREENING' },
+            { step: 5, status: 'ORIENTATION-BIG STAR SAFETY & SERVICE' },
+            { step: 7, status: 'APPROVED-ORIENTATION BTW' },
+            { step: 8, status: 'COMPLIANCE REVIEW' },
+            { step: 9, status: 'SBPC APPROVED FOR SERVICE' },
+            { step: 11, status: 'APPROVED FOR CONTRACTING' },
+            { step: 13, status: 'IN-SERVICE' }
+        ];
+
+        // Load data
+        async function loadData() {
+            try {
+                console.log('🚀 Starting data load...');
+                
+                // Cache buster to force fresh load
+                const cacheBuster = '?v=' + Date.now();
+                
+                console.log('📥 Fetching operators...');
+                // Load operators - now in same directory
+                const operatorsResponse = await fetch('pay_Operators.json' + cacheBuster);
+                if (!operatorsResponse.ok) {
+                    throw new Error('Failed to load operators data: ' + operatorsResponse.status);
+                }
+                operators = await operatorsResponse.json();
+                console.log('✅ Operators loaded successfully');
+                
+                console.log('🔵 Loaded operators:', operators.length);
+                const willie = operators.find(op => op.LastName === 'Quainton');
+                if (willie) {
+                    console.log('🔵 Willie Quainton found!');
+                    console.log('  - DivisionID:', willie.DivisionID);
+                    console.log('  - StatusName:', willie.StatusName);
+                    console.log('  - Certifications:', willie.certifications?.length || 0);
+                } else {
+                    console.log('❌ Willie Quainton NOT found');
+                }
+
+                console.log('📥 Fetching master requirements...');
+                // Load master requirements (single source of truth)
+                const masterReqResponse = await fetch('master_cert_requirements.json' + cacheBuster);
+                if (!masterReqResponse.ok) {
+                    throw new Error('Failed to load master requirements: ' + masterReqResponse.status);
+                }
+                const masterRequirements = await masterReqResponse.json();
+                console.log('✅ Master requirements loaded successfully');
+                
+                // Build cert requirements structure from master definition
+                certRequirements = buildRequirementsFromMaster(masterRequirements);
+                console.log('✅ Requirements built from master definition');
+                
+                // Keep a copy of original data for comparison
+                originalCertRequirements = JSON.parse(JSON.stringify(certRequirements));
+                
+                console.log('Loaded cert requirements for statuses:', Object.keys(certRequirements).length);
+
+                console.log('🏗️ Building existing certs list...');
+                // Build list of all existing certifications
+                buildExistingCertsList();
+                console.log('✅ Existing certs list built');
+
+                console.log('🎨 Initializing workflow...');
+                // Initialize workflow
+                console.log('🔄 Initializing workflow with', idealFlow.length, 'steps');
+                currentWorkflow = [...idealFlow];
+                console.log('📊 Current workflow:', currentWorkflow);
+                console.log('👥 Total operators loaded:', operators.length);
+                console.log('🎯 Current filter:', currentFilter);
+                console.log('🔍 Search query:', searchQuery);
+                
+                console.log('🎨 Rendering workflow...');
+                renderWorkflow();
+                console.log('✅ Workflow rendered');
+                
+                console.log('📊 Updating stats...');
+                updateStats();
+                console.log('✅ Stats updated');
+                
+                console.log('✅ Initialization complete');
+            } catch (error) {
+                console.error('❌ Error loading data:', error);
+                console.error('❌ Error stack:', error.stack);
+                console.error('❌ Error message:', error.message);
+                alert('Error loading data: ' + error.message + '\nCheck console for details.');
+            }
+        }
+
+        // Render the workflow
+        function renderWorkflow() {
+            console.log('🎨 renderWorkflow() called');
+            console.log('   - currentWorkflow length:', currentWorkflow.length);
+            console.log('   - currentFilter:', currentFilter);
+            console.log('   - searchQuery:', searchQuery);
+            
+            const container = document.getElementById('workflowSteps');
+            console.log('   - container element:', container ? 'Found' : 'NOT FOUND');
+            container.innerHTML = '';
+            
+            let renderedCount = 0;
+
+            currentWorkflow.forEach((flowStep, index) => {
+                // Apply filters
+                const statusName = flowStep.status;
+                const operatorsInStep = operators.filter(op => 
+                    op.StatusName === statusName || 
+                    (op.StatusName && op.StatusName.toUpperCase() === statusName.toUpperCase())
+                );
+                
+                const allRequiredCerts = getRequiredCertsForStatus(statusName);
+                const validation = validateOperatorsInStep(operatorsInStep, allRequiredCerts, index);
+                
+                console.log(`   Step ${index + 1}: ${statusName} - valid: ${validation.isValid}, operators: ${operatorsInStep.length}, certs: ${allRequiredCerts.length}`);
+                
+                // Filter logic
+                if (currentFilter === 'valid' && !validation.isValid) {
+                    console.log(`     ⏭️ Skipping (filter: valid only)`);
+                    return;
+                }
+                if (currentFilter === 'invalid' && validation.isValid) {
+                    console.log(`     ⏭️ Skipping (filter: invalid only)`);
+                    return;
+                }
+                
+                // Search logic
+                if (searchQuery) {
+                    const statusMatch = statusName.toLowerCase().includes(searchQuery);
+                    const certsMatch = allRequiredCerts.some(cert => 
+                        cert.toLowerCase().includes(searchQuery)
+                    );
+                    const operatorsMatch = operatorsInStep.some(op => 
+                        op.FullName?.toLowerCase().includes(searchQuery)
+                    );
+                    if (!statusMatch && !certsMatch && !operatorsMatch) {
+                        console.log(`     ⏭️ Skipping (no search match)`);
+                        return;
+                    }
+                }
+                
+                console.log(`     ✅ Rendering step`);
+                renderedCount++;
+                const stepCard = createStepCard(flowStep, index);
+                container.appendChild(stepCard);
+            });
+
+            console.log(`🎨 Rendered ${renderedCount} of ${currentWorkflow.length} steps`);
+
+            // Add drag and drop event listeners
+            addDragAndDropListeners();
+        }
+
+        // Create a step card
+        function createStepCard(flowStep, index) {
+            const statusName = flowStep.status;
+            const operatorsInStep = operators.filter(op => 
+                op.StatusName === statusName || 
+                (op.StatusName && op.StatusName.toUpperCase() === statusName.toUpperCase())
+            );
+
+            // Get required certifications for this status
+            const allRequiredCerts = getRequiredCertsForStatus(statusName);
+            
+            console.log(`\n📋 Step ${index + 1} (${statusName}):`);
+            console.log(`   All required certs (${allRequiredCerts.length}):`, allRequiredCerts);
+            
+            // Get certs from previous steps to exclude (show only in FIRST occurrence)
+            const previousCerts = new Set();
+            for (let i = 0; i < index; i++) {
+                const prevStatus = currentWorkflow[i].status;
+                const prevRequiredCerts = getRequiredCertsForStatus(prevStatus);
+                console.log(`   Previous step ${i + 1} (${prevStatus}) had:`, prevRequiredCerts);
+                prevRequiredCerts.forEach(cert => previousCerts.add(cert));
+            }
+            
+            console.log(`   Total previous certs (${previousCerts.size}):`, Array.from(previousCerts));
+            
+            // Only show certs that haven't appeared in previous steps (first occurrence only)
+            const certsToDisplay = allRequiredCerts.filter(cert => !previousCerts.has(cert));
+            
+            // Build map of which divisions require each cert
+            const certDivisionMap = {};
+            const statusData = certRequirements[statusName] || certRequirements[statusName.toUpperCase()];
+            if (statusData && statusData.divisions) {
+                Object.entries(statusData.divisions).forEach(([divId, divData]) => {
+                    (divData.required || []).forEach(certObj => {
+                        const certName = certObj.cert;
+                        if (!certDivisionMap[certName]) {
+                            certDivisionMap[certName] = [];
+                        }
+                        certDivisionMap[certName].push(divId);
+                    });
+                });
+            }
+            
+            console.log(`   Certs to display (${certsToDisplay.length}):`, certsToDisplay);
+            console.log(`   Cert division map:`, certDivisionMap);
+            
+            // Check for duplicates or near-duplicates
+            const duplicateCheck = allRequiredCerts.filter(cert => 
+                previousCerts.has(cert)
+            );
+            if (duplicateCheck.length > 0) {
+                console.log(`   🔄 Filtered out duplicates (${duplicateCheck.length}):`, duplicateCheck);
+            }
+
+            // Check if all operators have required certs (cumulative - includes previous steps)
+            const validation = validateOperatorsInStep(operatorsInStep, allRequiredCerts, index);
+
+            const card = document.createElement('div');
+            card.className = `step-card ${validation.isValid ? 'valid' : 'invalid'}`;
+            card.draggable = true;
+            card.dataset.index = index;
+            card.dataset.status = statusName;
+            
+            // Get divisions for this status (reusing statusData from earlier)
+            const divisionsList = statusData ? Object.keys(statusData.divisions || {}) : [];
+            const divisionsText = divisionsList.length > 0 ? divisionsList.join(', ') : 'No divisions';
+
+            card.innerHTML = `
+                <div class="step-header">
+                    <div class="step-number">${index + 1}</div>
+                    <div class="step-info">
+                        <div class="step-title">${statusName}</div>
+                        <div class="step-meta">
+                            <span>Original Step: ${flowStep.step}</span>
+                            <span>|</span>
+                            <span>Divisions: ${divisionsText}</span>
+                            <span>|</span>
+                            <span>${certsToDisplay.length} New Required Cert${certsToDisplay.length !== 1 ? 's' : ''}</span>
+                            ${previousCerts.size > 0 ? `<span>|</span><span style="color: #94a3b8;">${previousCerts.size} from previous steps</span>` : ''}
+                        </div>
+                    </div>
+                    <div class="status-indicator ${validation.isValid ? 'valid' : 'invalid'}">
+                        <div class="status-dot"></div>
+                        ${validation.isValid ? '✓ Valid' : '⚠ Issues'}
+                    </div>
+                </div>
+
+                <div class="operators-dropdown">
+                    <div class="dropdown-trigger" onclick="toggleDropdown(this)">
+                        <span>
+                            <strong>Operators in this step</strong>
+                            <span class="count">${operatorsInStep.length}</span>
+                        </span>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="dropdown-content">
+                        ${operatorsInStep.length > 0 ? 
+                            operatorsInStep.map(op => {
+                                // Get certs needed for THIS operator's division - CUMULATIVE from all previous steps
+                                const allCertsNeeded = new Set();
+                                const opDivision = op.DivisionID || '';
+                                const opStatus = op.StatusName || '';
+                                
+                                // Find operator's current step in the workflow
+                                const currentStepIndex = idealFlow.findIndex(s => s.status === opStatus);
+                                
+                                // DEBUG LOGGING
+                                if (op.LastName === 'Carr') {
+                                    console.log('🔍 DEBUG Dominique Carr:');
+                                    console.log('  opDivision:', opDivision);
+                                    console.log('  opStatus:', opStatus);
+                                    console.log('  currentStepIndex:', currentStepIndex);
+                                }
+                                
+                                // Accumulate requirements from current status AND all previous statuses
+                                if (currentStepIndex >= 0) {
+                                    // Get all statuses up to and including current
+                                    const relevantStatuses = idealFlow.slice(0, currentStepIndex + 1).map(s => s.status);
+                                    
+                                    if (op.LastName === 'Carr') {
+                                        console.log('  relevantStatuses:', relevantStatuses);
+                                    }
+                                    
+                                    // Collect requirements from all these statuses for operator's division
+                                    relevantStatuses.forEach(statusName => {
+                                        const statusData = certRequirements[statusName];
+                                        if (statusData) {
+                                            const divisions = statusData.divisions || {};
+                                            if (opDivision && divisions[opDivision]) {
+                                                (divisions[opDivision].required || []).forEach(cert => {
+                                                    allCertsNeeded.add(cert.cert);
+                                                });
+                                            }
+                                        }
+                                    });
+                                }
+
+                                // Get operator's certifications
+                                const operatorCerts = op.certifications || [];
+                                
+                                if (op.LastName === 'Carr') {
+                                    console.log('  allCertsNeeded:', Array.from(allCertsNeeded));
+                                    console.log('  operatorCerts count:', operatorCerts.length);
+                                }
+                                
+                                // Calculate cert status
+                                let validCount = 0;
+                                let expiredCount = 0;
+                                let missingCount = 0;
+                                let notApprovedCount = 0;
+
+                                allCertsNeeded.forEach(certName => {
+                                    const cert = findMatchingCert(certName, operatorCerts);
+                                    if (cert) {
+                                        // Check if approved (Status != '0' AND has dates)
+                                        const isApproved = cert.Status !== '0' && (cert.IssueDate || cert.ExpireDate);
+                                        
+                                        if (!isApproved) {
+                                            // Not approved yet
+                                            notApprovedCount++;
+                                            missingCount++; // Count as missing until approved
+                                        } else {
+                                            // Approved - check if expired
+                                            const expireDate = cert.ExpireDate ? new Date(cert.ExpireDate) : null;
+                                            const isExpired = expireDate && expireDate < new Date();
+                                            if (isExpired) {
+                                                expiredCount++;
+                                            } else {
+                                                validCount++;
+                                            }
+                                        }
+                                    } else {
+                                        missingCount++;
+                                    }
+                                });
+                                
+                                if (op.LastName === 'Quainton') {
+                                    console.log('  COUNTS - valid:', validCount, 'expired:', expiredCount, 'missing:', missingCount);
+                                }
+
+                                const total = validCount + expiredCount + missingCount;
+                                const validPercent = total > 0 ? (validCount / total * 100) : 0;
+                                const expiredPercent = total > 0 ? (expiredCount / total * 100) : 0;
+                                const missingPercent = total > 0 ? (missingCount / total * 100) : 0;
+
+                                return `
+                                    <div class="operator-item" onclick="showOperatorProfile('${op.ID}')" style="cursor: pointer;" title="${validCount} Valid, ${expiredCount} Expired, ${missingCount} Missing">
+                                        <span class="operator-name">${op.FirstName} ${op.LastName}</span>
+                                        <div class="operator-progress">
+                                            ${validPercent > 0 ? `<div class="operator-progress-segment valid" style="width: ${validPercent}%"></div>` : ''}
+                                            ${expiredPercent > 0 ? `<div class="operator-progress-segment expired" style="width: ${expiredPercent}%"></div>` : ''}
+                                            ${missingPercent > 0 ? `<div class="operator-progress-segment missing" style="width: ${missingPercent}%"></div>` : ''}
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('') : 
+                            '<div class="operator-item"><span style="color: #94a3b8;">No operators in this step</span></div>'
+                        }
+                    </div>
+                </div>
+
+                <div class="cert-details">
+                    <div class="cert-title">New Required Certifications (${certsToDisplay.length}):</div>
+                    <div class="cert-list cert-list-editable drop-zone" data-status="${statusName}" ondrop="handleCertDrop(event, this)" ondragover="handleCertDragOver(event)">
+                        ${certsToDisplay.length > 0 ? 
+                            certsToDisplay.slice(0, 50).map(cert => {
+                                const divisions = certDivisionMap[cert] || [];
+                                const divText = divisions.length > 0 ? ` (${divisions.join(', ')})` : '';
+                                return `
+                                    <span class="cert-badge" draggable="true" ondragstart="handleCertDragStart(event, this)" data-cert="${cert}" onclick="showCertDetails('${cert.replace(/'/g, "\\'")}', '${statusName}')" style="cursor: pointer;">
+                                        ${cert}${divText}
+                                        <span class="remove-cert" onclick="event.stopPropagation(); removeCert(event, '${statusName}', '${cert.replace(/'/g, "\\'")}')">×</span>
+                                    </span>
+                                `;
+                            }).join('') :
+                            '<span style="color: #94a3b8;">No new certifications required at this step</span>'
+                        }
+                    </div>
+                    <div class="add-cert-section">
+                        <div class="add-cert-input">
+                            <div class="add-cert-input-wrapper">
+                                <input type="text" 
+                                       placeholder="Type to search or add new certification..." 
+                                       id="newCert_${index}" 
+                                       autocomplete="off"
+                                       oninput="handleCertInput(event, ${index})"
+                                       onkeydown="handleCertKeydown(event, ${index})"
+                                       onfocus="handleCertFocus(event, ${index})"
+                                       onblur="handleCertBlur(event, ${index})" />
+                                <div class="autocomplete-dropdown" id="autocomplete_${index}"></div>
+                            </div>
+                            <button class="btn btn-primary btn-small" onclick="addCert('${statusName}', ${index})">+ Add</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            return card;
+        }
+
+        // Get required certifications for a status
+        function getRequiredCertsForStatus(statusName) {
+            const statusData = certRequirements[statusName] || certRequirements[statusName.toUpperCase()];
+            if (!statusData) {
+                console.log(`   ⚠️ No status data found for: ${statusName}`);
+                return [];
+            }
+
+            const certs = new Set();
+            const divisions = statusData.divisions || {};
+
+            // Collect all required certs from all divisions
+            Object.entries(divisions).forEach(([divId, divData]) => {
+                const divCerts = (divData.required || []).map(cert => cert.cert);
+                console.log(`      Division ${divId}: ${divCerts.length} certs`);
+                divCerts.forEach(cert => {
+                    if (certs.has(cert)) {
+                        console.log(`         🔄 Duplicate cert in another division: "${cert}"`);
+                    }
+                    certs.add(cert);
+                });
+            });
+
+            const result = Array.from(certs);
+            console.log(`   ✅ Total unique certs for ${statusName}: ${result.length}`);
+            return result;
+        }
+
+        // Build list of all existing certifications
+        function buildExistingCertsList() {
+            const certsMap = new Map();
+            
+            // Collect all certs from all statuses
+            Object.entries(certRequirements).forEach(([statusName, statusData]) => {
+                const divisions = statusData.divisions || {};
+                
+                Object.values(divisions).forEach(divData => {
+                    ['required', 'common', 'optional'].forEach(level => {
+                        const certs = divData[level] || [];
+                        certs.forEach(cert => {
+                            const certName = cert.cert;
+                            if (!certsMap.has(certName)) {
+                                certsMap.set(certName, new Set());
+                            }
+                            certsMap.get(certName).add(statusName);
+                        });
+                    });
+                });
+            });
+            
+            // Convert to array with metadata
+            allExistingCerts = Array.from(certsMap.entries()).map(([certName, statuses]) => ({
+                name: certName,
+                statuses: Array.from(statuses),
+                count: statuses.size
+            }));
+            
+            // Sort by frequency (most common first)
+            allExistingCerts.sort((a, b) => b.count - a.count);
+            
+            console.log(`Found ${allExistingCerts.length} unique certifications across all statuses`);
+        }
+
+        // Handle input in cert field (autocomplete)
+        function handleCertInput(event, stepIndex) {
+            const input = event.target;
+            const value = input.value.trim().toLowerCase();
+            const dropdown = document.getElementById(`autocomplete_${stepIndex}`);
+            
+            if (!value) {
+                dropdown.classList.remove('active');
+                return;
+            }
+            
+            // Filter certifications
+            const matches = allExistingCerts.filter(cert => 
+                cert.name.toLowerCase().includes(value)
+            ).slice(0, 20); // Limit to top 20 matches
+            
+            if (matches.length === 0) {
+                dropdown.innerHTML = '<div class="autocomplete-no-results">No matches found. Press Enter to add as new certification.</div>';
+                dropdown.classList.add('active');
+            } else {
+                dropdown.innerHTML = matches.map((cert, idx) => `
+                    <div class="autocomplete-item ${idx === 0 ? 'highlighted' : ''}" 
+                         data-cert="${cert.name}"
+                         onmousedown="selectCert(event, '${cert.name.replace(/'/g, "\\'")}', ${stepIndex})">
+                        <div class="cert-name">${cert.name}</div>
+                        <div class="cert-status-list">Used in ${cert.count} status${cert.count > 1 ? 'es' : ''}: ${cert.statuses.slice(0, 3).join(', ')}${cert.statuses.length > 3 ? '...' : ''}</div>
+                    </div>
+                `).join('');
+                dropdown.classList.add('active');
+                currentAutocompleteIndex = 0;
+            }
+        }
+
+        // Handle keyboard navigation in autocomplete
+        function handleCertKeydown(event, stepIndex) {
+            const dropdown = document.getElementById(`autocomplete_${stepIndex}`);
+            const items = dropdown.querySelectorAll('.autocomplete-item');
+            
+            if (event.key === 'ArrowDown') {
+                event.preventDefault();
+                if (currentAutocompleteIndex < items.length - 1) {
+                    items[currentAutocompleteIndex]?.classList.remove('highlighted');
+                    currentAutocompleteIndex++;
+                    items[currentAutocompleteIndex]?.classList.add('highlighted');
+                    items[currentAutocompleteIndex]?.scrollIntoView({ block: 'nearest' });
+                }
+            } else if (event.key === 'ArrowUp') {
+                event.preventDefault();
+                if (currentAutocompleteIndex > 0) {
+                    items[currentAutocompleteIndex]?.classList.remove('highlighted');
+                    currentAutocompleteIndex--;
+                    items[currentAutocompleteIndex]?.classList.add('highlighted');
+                    items[currentAutocompleteIndex]?.scrollIntoView({ block: 'nearest' });
+                }
+            } else if (event.key === 'Enter') {
+                event.preventDefault();
+                const highlighted = items[currentAutocompleteIndex];
+                if (highlighted) {
+                    const certName = highlighted.dataset.cert;
+                    selectCert(event, certName, stepIndex);
+                } else {
+                    // No selection, treat as new cert
+                    const statusName = currentWorkflow[stepIndex].status;
+                    addCert(statusName, stepIndex);
+                }
+            } else if (event.key === 'Escape') {
+                dropdown.classList.remove('active');
+            }
+        }
+
+        // Handle focus on input
+        function handleCertFocus(event, stepIndex) {
+            const input = event.target;
+            if (input.value.trim()) {
+                handleCertInput(event, stepIndex);
+            }
+        }
+
+        // Handle blur on input
+        function handleCertBlur(event, stepIndex) {
+            // Delay to allow click on dropdown item
+            setTimeout(() => {
+                const dropdown = document.getElementById(`autocomplete_${stepIndex}`);
+                dropdown.classList.remove('active');
+                currentAutocompleteIndex = -1;
+            }, 200);
+        }
+
+        // Select certification from autocomplete
+        function selectCert(event, certName, stepIndex) {
+            event.preventDefault();
+            const input = document.getElementById(`newCert_${stepIndex}`);
+            input.value = certName;
+            
+            const dropdown = document.getElementById(`autocomplete_${stepIndex}`);
+            dropdown.classList.remove('active');
+            
+            // Auto-add the selected cert
+            const statusName = currentWorkflow[stepIndex].status;
+            addCertToStatus(statusName, certName);
+            input.value = '';
+            renderWorkflow();
+            markUnsaved();
+        }
+
+        // Check if operator has required certs considering step order
+        function checkOperatorHasRequiredCerts(operator, requiredCerts, currentStepIndex) {
+            if (!operator.certifications || operator.certifications.length === 0) {
+                return requiredCerts.length === 0;
+            }
+
+            // Get all certs the operator has
+            const operatorCerts = new Set(
+                operator.certifications.map(cert => cert.CertType)
+            );
+
+            // Also check if operator should have completed certs from previous steps
+            let allRequiredCerts = new Set(requiredCerts);
+            
+            // Add certs from all previous steps
+            for (let i = 0; i < currentStepIndex; i++) {
+                const prevStatus = currentWorkflow[i].status;
+                const prevRequiredCerts = getRequiredCertsForStatus(prevStatus);
+                prevRequiredCerts.forEach(cert => allRequiredCerts.add(cert));
+            }
+
+            // Check if operator has all required certs
+            for (let cert of allRequiredCerts) {
+                if (!operatorCerts.has(cert)) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        // Validate all operators in a step
+        function validateOperatorsInStep(operatorsInStep, requiredCerts, stepIndex) {
+            if (operatorsInStep.length === 0) {
+                return { isValid: true, missingCount: 0 };
+            }
+
+            let missingCount = 0;
+            operatorsInStep.forEach(op => {
+                if (!checkOperatorHasRequiredCerts(op, requiredCerts, stepIndex)) {
+                    missingCount++;
+                }
+            });
+
+            return {
+                isValid: missingCount === 0,
+                missingCount: missingCount,
+                total: operatorsInStep.length
+            };
+        }
+
+        // Toggle dropdown
+        function toggleDropdown(trigger) {
+            const content = trigger.nextElementSibling;
+            const arrow = trigger.querySelector('.arrow');
+            
+            content.classList.toggle('open');
+            arrow.classList.toggle('open');
+        }
+
+        // Drag and drop functionality
+        let draggedElement = null;
+        let draggedIndex = null;
+
+        function addDragAndDropListeners() {
+            const stepCards = document.querySelectorAll('.step-card');
+
+            stepCards.forEach(card => {
+                card.addEventListener('dragstart', handleDragStart);
+                card.addEventListener('dragend', handleDragEnd);
+                card.addEventListener('dragover', handleDragOver);
+                card.addEventListener('drop', handleDrop);
+                card.addEventListener('dragenter', handleDragEnter);
+                card.addEventListener('dragleave', handleDragLeave);
+            });
+        }
+
+        function handleDragStart(e) {
+            draggedElement = this;
+            draggedIndex = parseInt(this.dataset.index);
+            this.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+        }
+
+        function handleDragEnd(e) {
+            this.classList.remove('dragging');
+            
+            // Remove drag-over class from all cards
+            document.querySelectorAll('.step-card').forEach(card => {
+                card.classList.remove('drag-over');
+            });
+        }
+
+        function handleDragOver(e) {
+            if (e.preventDefault) {
+                e.preventDefault();
+            }
+            e.dataTransfer.dropEffect = 'move';
+            return false;
+        }
+
+        function handleDragEnter(e) {
+            if (this !== draggedElement) {
+                this.classList.add('drag-over');
+            }
+        }
+
+        function handleDragLeave(e) {
+            this.classList.remove('drag-over');
+        }
+
+        function handleDrop(e) {
+            if (e.stopPropagation) {
+                e.stopPropagation();
+            }
+
+            const dropIndex = parseInt(this.dataset.index);
+
+            if (draggedIndex !== dropIndex) {
+                // Reorder the workflow
+                const [removed] = currentWorkflow.splice(draggedIndex, 1);
+                currentWorkflow.splice(dropIndex, 0, removed);
+
+                // Re-render
+                renderWorkflow();
+                updateStats();
+            }
+
+            return false;
+        }
+
+        // Update statistics
+        function updateStats() {
+            let validSteps = 0;
+            let invalidSteps = 0;
+
+            currentWorkflow.forEach((flowStep, index) => {
+                const statusName = flowStep.status;
+                const operatorsInStep = operators.filter(op => 
+                    op.StatusName === statusName || 
+                    (op.StatusName && op.StatusName.toUpperCase() === statusName.toUpperCase())
+                );
+
+                const requiredCerts = getRequiredCertsForStatus(statusName);
+                const validation = validateOperatorsInStep(operatorsInStep, requiredCerts, index);
+
+                if (validation.isValid) {
+                    validSteps++;
+                } else {
+                    invalidSteps++;
+                }
+            });
+
+            const complianceRate = currentWorkflow.length > 0 ? 
+                Math.round((validSteps / currentWorkflow.length) * 100) : 0;
+
+            document.getElementById('totalOperators').textContent = operators.length;
+            document.getElementById('validSteps').textContent = validSteps;
+            document.getElementById('invalidSteps').textContent = invalidSteps;
+            document.getElementById('complianceRate').textContent = `${complianceRate}%`;
+        }
+
+        // Reset to ideal flow
+        function resetToIdealFlow() {
+            currentWorkflow = [...idealFlow];
+            renderWorkflow();
+            updateStats();
+        }
+
+        // Validate all steps
+        function validateAll() {
+            updateStats();
+            alert('Validation complete! Check the stats above for results.');
+        }
+
+        // Show issues
+        function showIssues() {
+            let issuesList = [];
+
+            currentWorkflow.forEach((flowStep, index) => {
+                const statusName = flowStep.status;
+                const operatorsInStep = operators.filter(op => 
+                    op.StatusName === statusName || 
+                    (op.StatusName && op.StatusName.toUpperCase() === statusName.toUpperCase())
+                );
+
+                const requiredCerts = getRequiredCertsForStatus(statusName);
+                const validation = validateOperatorsInStep(operatorsInStep, requiredCerts, index);
+
+                if (!validation.isValid) {
+                    issuesList.push(`Step ${index + 1} (${statusName}): ${validation.missingCount}/${validation.total} operators missing certifications`);
+                }
+            });
+
+            if (issuesList.length === 0) {
+                alert('✓ No issues found! All operators have required certifications.');
+            } else {
+                alert('⚠ Issues Found:\n\n' + issuesList.join('\n'));
+            }
+        }
+
+        // Cert drag and drop
+        let draggedCert = null;
+        let draggedCertName = null;
+
+        function handleCertDragStart(e, element) {
+            draggedCert = element;
+            draggedCertName = element.dataset.cert;
+            element.classList.add('dragging-cert');
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/plain', draggedCertName);
+        }
+
+        function handleCertDragOver(e) {
+            if (e.preventDefault) {
+                e.preventDefault();
+            }
+            e.dataTransfer.dropEffect = 'move';
+            return false;
+        }
+
+        function handleCertDrop(e, dropZone) {
+            if (e.stopPropagation) {
+                e.stopPropagation();
+            }
+            e.preventDefault();
+
+            const certName = e.dataTransfer.getData('text/plain');
+            const targetStatus = dropZone.dataset.status;
+            
+            if (draggedCert && certName) {
+                // Remove from original location
+                const sourceStatus = draggedCert.closest('.cert-list').dataset.status;
+                
+                // Add to new location
+                addCertToStatus(targetStatus, certName);
+                
+                // Remove from old location if different
+                if (sourceStatus !== targetStatus) {
+                    removeCertFromStatus(sourceStatus, certName);
+                }
+                
+                draggedCert.classList.remove('dragging-cert');
+                draggedCert = null;
+                draggedCertName = null;
+                
+                renderWorkflow();
+                markUnsaved();
+            }
+
+            return false;
+        }
+
+        // Add certification to a status
+        function addCert(statusName, stepIndex) {
+            const input = document.getElementById(`newCert_${stepIndex}`);
+            const certName = input.value.trim();
+            
+            if (!certName) {
+                alert('Please enter a certification name');
+                return;
+            }
+            
+            addCertToStatus(statusName, certName);
+            input.value = '';
+            renderWorkflow();
+            markUnsaved();
+        }
+
+        function addCertToStatus(statusName, certName) {
+            const statusData = certRequirements[statusName] || certRequirements[statusName.toUpperCase()];
+            if (!statusData) {
+                console.error('Status not found:', statusName);
+                return;
+            }
+
+            const divisions = statusData.divisions || {};
+            
+            // Add to all divisions for this status
+            Object.values(divisions).forEach(divData => {
+                const required = divData.required || [];
+                
+                // Check if cert already exists
+                const exists = required.some(c => c.cert === certName);
+                if (!exists) {
+                    required.push({
+                        cert: certName,
+                        count: divData.total_operators || 0,
+                        total: divData.total_operators || 0,
+                        percentage: 100.0
+                    });
+                    divData.required = required;
+                }
+            });
+        }
+
+        // Remove certification
+        function removeCert(e, statusName, certName) {
+            e.stopPropagation();
+            
+            if (confirm(`Remove "${certName}" from ${statusName}?`)) {
+                removeCertFromStatus(statusName, certName);
+                renderWorkflow();
+                markUnsaved();
+            }
+        }
+
+        function removeCertFromStatus(statusName, certName) {
+            const statusData = certRequirements[statusName] || certRequirements[statusName.toUpperCase()];
+            if (!statusData) return;
+
+            const divisions = statusData.divisions || {};
+            
+            // Remove from all divisions
+            Object.values(divisions).forEach(divData => {
+                if (divData.required) {
+                    divData.required = divData.required.filter(c => c.cert !== certName);
+                }
+            });
+        }
+
+        // Mark as having unsaved changes
+        function markUnsaved() {
+            hasUnsavedChanges = true;
+            document.getElementById('unsavedIndicator').style.display = 'block';
+            document.getElementById('saveBtn').style.display = 'inline-block';
+        }
+
+        // Save changes - exports to master_cert_requirements.json format
+        async function saveChanges() {
+            if (!hasUnsavedChanges) {
+                alert('No changes to save');
+                return;
+            }
+
+            // Convert current requirements back to master format
+            const masterFormat = convertToMasterFormat(certRequirements);
+            
+            // Create the JSON blob
+            const jsonData = JSON.stringify(masterFormat, null, 2);
+            const blob = new Blob([jsonData], { type: 'application/json' });
+            
+            // Try to use File System Access API if available (Chrome/Edge)
+            if ('showSaveFilePicker' in window) {
+                try {
+                    const handle = await window.showSaveFilePicker({
+                        suggestedName: 'master_cert_requirements.json',
+                        types: [{
+                            description: 'JSON Files',
+                            accept: { 'application/json': ['.json'] }
+                        }]
+                    });
+                    
+                    const writable = await handle.createWritable();
+                    await writable.write(blob);
+                    await writable.close();
+                    
+                    hasUnsavedChanges = false;
+                    document.getElementById('unsavedIndicator').style.display = 'none';
+                    document.getElementById('saveBtn').style.display = 'none';
+                    
+                    // Update original data
+                    originalCertRequirements = JSON.parse(JSON.stringify(certRequirements));
+                    
+                    alert('✓ Changes saved successfully!\n\nThe file has been saved. Please refresh the page to see the changes reflected.');
+                } catch (err) {
+                    if (err.name !== 'AbortError') {
+                        console.error('Error saving file:', err);
+                        // Fallback to download
+                        downloadJSON(blob, 'master_cert_requirements.json');
+                    }
+                }
+            } else {
+                // Fallback: download the file
+                downloadJSON(blob, 'master_cert_requirements.json');
+            }
+        }
+
+        function downloadJSON(blob, filename = 'master_cert_requirements.json') {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            alert('✓ Changes exported!\n\nThe file has been downloaded. Please replace the existing master_cert_requirements.json file in the root directory and refresh the page.');
+            
+            hasUnsavedChanges = false;
+            document.getElementById('unsavedIndicator').style.display = 'none';
+            document.getElementById('saveBtn').style.display = 'none';
+            
+            // Update original data
+            originalCertRequirements = JSON.parse(JSON.stringify(certRequirements));
+        }
+
+        // ===== CONTROL CENTER FEATURES =====
+
+        // Global search
+        function handleGlobalSearch() {
+            const query = document.getElementById('globalSearch').value.trim();
+            searchQuery = query.toLowerCase();
+            const clearBtn = document.querySelector('.clear-search');
+            clearBtn.style.display = query ? 'block' : 'none';
+            renderWorkflow();
+        }
+
+        function clearGlobalSearch() {
+            document.getElementById('globalSearch').value = '';
+            searchQuery = '';
+            document.querySelector('.clear-search').style.display = 'none';
+            renderWorkflow();
+        }
+
+        // Filter controls
+        function setFilter(filterType) {
+            currentFilter = filterType;
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.filter === filterType);
+            });
+            renderWorkflow();
+        }
+
+        // Show certification details panel
+        function showCertDetails(certName, statusName) {
+            const panel = document.getElementById('detailsPanel');
+            const title = document.getElementById('detailsTitle');
+            const subtitle = document.getElementById('detailsSubtitle');
+            const content = document.getElementById('detailsContent');
+            
+            title.textContent = certName;
+            subtitle.textContent = `Viewing details for this certification`;
+            
+            // Find all statuses using this cert
+            const statusesUsing = [];
+            Object.entries(certRequirements).forEach(([status, statusData]) => {
+                const divisions = statusData.divisions || {};
+                let found = false;
+                Object.values(divisions).forEach(divData => {
+                    ['required', 'common', 'optional'].forEach(level => {
+                        if (divData[level]?.some(c => c.cert === certName)) {
+                            found = true;
+                        }
+                    });
+                });
+                if (found) statusesUsing.push(status);
+            });
+            
+            // Find operators with this cert (using normalized matching)
+            const operatorsWithCert = operators.filter(op => 
+                op.certifications?.some(cert => certNamesMatch(cert.CertType, certName))
+            );
+            
+            const operatorsWithoutCert = operators.filter(op => 
+                !op.certifications?.some(cert => certNamesMatch(cert.CertType, certName))
+            );
+            
+            content.innerHTML = `
+                <div class="details-section">
+                    <h4>📍 Used In ${statusesUsing.length} Status${statusesUsing.length !== 1 ? 'es' : ''}</h4>
+                    <div style="color: #94a3b8; font-size: 0.9rem;">
+                        ${statusesUsing.join(', ') || 'None'}
+                    </div>
+                </div>
+                
+                <div class="details-section">
+                    <h4>✅ Operators With Cert (${operatorsWithCert.length})</h4>
+                    <div class="operator-list">
+                        ${operatorsWithCert.slice(0, 20).map(op => {
+                            const cert = findMatchingCert(certName, op.certifications);
+                            const expireDate = cert?.ExpireDate;
+                            const isExpired = expireDate && new Date(expireDate) < new Date();
+                            return `
+                                <div class="operator-item">
+                                    <span class="operator-name">${op.FullName || 'Unknown'}</span>
+                                    <span class="operator-status-badge ${isExpired ? 'expired' : 'has-cert'}">
+                                        ${isExpired ? '⚠️ Expired' : '✓ Valid'}
+                                    </span>
+                                </div>
+                            `;
+                        }).join('')}
+                        ${operatorsWithCert.length > 20 ? `<div style="color: #64748b; padding: 10px; text-align: center;">... and ${operatorsWithCert.length - 20} more</div>` : ''}
+                        ${operatorsWithCert.length === 0 ? '<div style="color: #64748b; padding: 10px;">No operators have this certification</div>' : ''}
+                    </div>
+                </div>
+                
+                <div class="details-section">
+                    <h4>❌ Operators Missing Cert (${operatorsWithoutCert.length})</h4>
+                    <div class="operator-list">
+                        ${operatorsWithoutCert.slice(0, 20).map(op => `
+                            <div class="operator-item">
+                                <span class="operator-name">${op.FullName || 'Unknown'}</span>
+                                <span class="operator-status-badge missing-cert">✗ Missing</span>
+                            </div>
+                        `).join('')}
+                        ${operatorsWithoutCert.length > 20 ? `<div style="color: #64748b; padding: 10px; text-align: center;">... and ${operatorsWithoutCert.length - 20} more</div>` : ''}
+                    </div>
+                </div>
+            `;
+            
+            panel.classList.add('open');
+        }
+
+        function closeDetailsPanel() {
+            document.getElementById('detailsPanel').classList.remove('open');
+        }
+
+        // Bulk add certification to multiple statuses
+        function showBulkAddModal() {
+            const certName = prompt('Enter certification name to add to multiple statuses:');
+            if (!certName) return;
+            
+            const statusesToAdd = prompt(
+                `Add "${certName}" to which statuses? (comma-separated, or "all")\n\nAvailable: ${currentWorkflow.map(s => s.status).join(', ')}`
+            );
+            
+            if (!statusesToAdd) return;
+            
+            let targetStatuses = [];
+            if (statusesToAdd.toLowerCase() === 'all') {
+                targetStatuses = currentWorkflow.map(s => s.status);
+            } else {
+                targetStatuses = statusesToAdd.split(',').map(s => s.trim());
+            }
+            
+            let addedCount = 0;
+            targetStatuses.forEach(statusName => {
+                if (currentWorkflow.find(s => s.status === statusName)) {
+                    addCertToStatus(statusName, certName);
+                    addedCount++;
+                }
+            });
+            
+            alert(`Added "${certName}" to ${addedCount} status${addedCount !== 1 ? 'es' : ''}`);
+            renderWorkflow();
+            markUnsaved();
+        }
+
+        // Export as CSV
+        function exportAsCSV() {
+            let csv = 'Status,Order,Certification,Level,Operators With Cert,Total Operators,Compliance %\n';
+            
+            currentWorkflow.forEach(step => {
+                const allCerts = getRequiredCertsForStatus(step.status);
+                allCerts.forEach(cert => {
+                    const withCert = operators.filter(op => 
+                        op.certifications?.some(c => certNamesMatch(c.CertType, cert))
+                    ).length;
+                    const compliance = ((withCert / operators.length) * 100).toFixed(1);
+                    
+                    csv += `"${step.status}",${step.step},"${cert}",required,${withCert},${operators.length},${compliance}%\n`;
+                });
+            });
+            
+            downloadFile(`operator_lifecycle_requirements_${new Date().toISOString().split('T')[0]}.csv`, csv, 'text/csv');
+            closeExportModal();
+        }
+
+        // Export compliance report
+        function exportComplianceReport() {
+            let report = '=== OPERATOR LIFECYCLE COMPLIANCE REPORT ===\n';
+            report += `Generated: ${new Date().toLocaleString()}\n\n`;
+            report += `Total Operators: ${operators.length}\n`;
+            report += `Total Statuses: ${currentWorkflow.length}\n\n`;
+            
+            report += '=== STATUS BREAKDOWN ===\n\n';
+            currentWorkflow.forEach(step => {
+                const operatorsInStep = operators.filter(op => 
+                    op.StatusName === step.status || 
+                    (op.StatusName && op.StatusName.toUpperCase() === step.status.toUpperCase())
+                );
+                const allCerts = getRequiredCertsForStatus(step.status);
+                const validCount = operatorsInStep.filter(op => {
+                    return allCerts.every(cert => 
+                        op.certifications?.some(c => certNamesMatch(c.CertType, cert))
+                    );
+                }).length;
+                
+                report += `${step.status} (Step: ${step.step})\n`;
+                report += `  Required Certs: ${allCerts.length}\n`;
+                report += `  Operators in Status: ${operatorsInStep.length}\n`;
+                report += `  Fully Compliant: ${validCount} (${((validCount/Math.max(operatorsInStep.length, 1))*100).toFixed(1)}%)\n`;
+                report += `  Certifications:\n`;
+                allCerts.forEach(cert => {
+                    const withCert = operatorsInStep.filter(op => 
+                        op.certifications?.some(c => certNamesMatch(c.CertType, cert))
+                    ).length;
+                    report += `    - ${cert}: ${withCert}/${operatorsInStep.length} (${((withCert/Math.max(operatorsInStep.length,1))*100).toFixed(1)}%)\n`;
+                });
+                report += '\n';
+            });
+            
+            downloadFile(`compliance_report_${new Date().toISOString().split('T')[0]}.txt`, report, 'text/plain');
+            closeExportModal();
+        }
+
+        // Export bottleneck analysis
+        function exportBottleneckAnalysis() {
+            let report = '=== OPERATOR LIFECYCLE BOTTLENECK ANALYSIS ===\n';
+            report += `Generated: ${new Date().toISOString()}\n\n`;
+            
+            // Find statuses with lowest compliance
+            const statusCompliance = currentWorkflow.map(step => {
+                const operatorsInStep = operators.filter(op => 
+                    op.StatusName === step.status || 
+                    (op.StatusName && op.StatusName.toUpperCase() === step.status.toUpperCase())
+                );
+                const allCerts = getRequiredCertsForStatus(step.status);
+                const validCount = operatorsInStep.filter(op => {
+                    return allCerts.every(cert => 
+                        op.certifications?.some(c => certNamesMatch(c.CertType, cert))
+                    );
+                }).length;
+                return {
+                    status: step.status,
+                    compliance: (validCount / Math.max(operatorsInStep.length, 1)) * 100,
+                    operatorCount: operatorsInStep.length,
+                    certCount: allCerts.length
+                };
+            }).sort((a, b) => a.compliance - b.compliance);
+            
+            report += '=== TOP 5 BOTTLENECK STATUSES ===\n\n';
+            statusCompliance.slice(0, 5).forEach((status, idx) => {
+                report += `${idx + 1}. ${status.status}\n`;
+                report += `   Compliance: ${status.compliance.toFixed(1)}%\n`;
+                report += `   Operators: ${status.operatorCount}\n`;
+                report += `   Required Certs: ${status.certCount}\n\n`;
+            });
+            
+            // Find most problematic certs
+            const certCompliance = {};
+            currentWorkflow.forEach(step => {
+                const allCerts = getRequiredCertsForStatus(step.status);
+                const operatorsInStep = operators.filter(op => 
+                    op.StatusName === step.status || 
+                    (op.StatusName && op.StatusName.toUpperCase() === step.status.toUpperCase())
+                );
+                allCerts.forEach(cert => {
+                    if (!certCompliance[cert]) {
+                        certCompliance[cert] = { total: 0, with: 0, statuses: [] };
+                    }
+                    certCompliance[cert].total += operatorsInStep.length;
+                    certCompliance[cert].with += operatorsInStep.filter(op => 
+                        op.certifications?.some(c => certNamesMatch(c.CertType, cert))
+                    ).length;
+                    certCompliance[cert].statuses.push(step.status);
+                });
+            });
+            
+            const certArray = Object.entries(certCompliance).map(([cert, data]) => ({
+                cert,
+                compliance: (data.with / Math.max(data.total, 1)) * 100,
+                statuses: data.statuses.length
+            })).sort((a, b) => a.compliance - b.compliance);
+            
+            report += '\n=== TOP 10 PROBLEMATIC CERTIFICATIONS ===\n\n';
+            certArray.slice(0, 10).forEach((cert, idx) => {
+                report += `${idx + 1}. ${cert.cert}\n`;
+                report += `   Compliance: ${cert.compliance.toFixed(1)}%\n`;
+                report += `   Used in ${cert.statuses} status${cert.statuses !== 1 ? 'es' : ''}\n\n`;
+            });
+            
+            downloadFile(`bottleneck_analysis_${new Date().toISOString().split('T')[0]}.txt`, report, 'text/plain');
+            closeExportModal();
+        }
+
+        // Export JSON backup
+        function exportJSON() {
+            const backup = {
+                exportDate: new Date().toISOString(),
+                workflow: currentWorkflow,
+                requirements: certRequirements,
+                operators: operators,
+                stats: {
+                    totalOperators: operators.length,
+                    totalStatuses: currentWorkflow.length,
+                    totalCertifications: allExistingCerts.length
+                }
+            };
+            
+            downloadFile(
+                `lifecycle_backup_${new Date().toISOString().split('T')[0]}.json`,
+                JSON.stringify(backup, null, 2),
+                'application/json'
+            );
+            closeExportModal();
+        }
+
+        // Show certification analytics
+        function showCertAnalytics() {
+            const certStats = {};
+            
+            currentWorkflow.forEach(step => {
+                const allCerts = getRequiredCertsForStatus(step.status);
+                const operatorsInStep = operators.filter(op => 
+                    op.StatusName === step.status || 
+                    (op.StatusName && op.StatusName.toUpperCase() === step.status.toUpperCase())
+                );
+                allCerts.forEach(cert => {
+                    if (!certStats[cert]) {
+                        certStats[cert] = {
+                            statuses: [],
+                            totalRequired: 0,
+                            totalWith: 0
+                        };
+                    }
+                    certStats[cert].statuses.push(step.status);
+                    certStats[cert].totalRequired += operatorsInStep.length;
+                    certStats[cert].totalWith += operatorsInStep.filter(op => 
+                        op.certifications?.some(c => certNamesMatch(c.CertType, cert))
+                    ).length;
+                });
+            });
+            
+            const sortedCerts = Object.entries(certStats)
+                .map(([cert, data]) => ({
+                    cert,
+                    compliance: (data.totalWith / Math.max(data.totalRequired, 1) * 100).toFixed(1),
+                    statuses: data.statuses.length,
+                    totalWith: data.totalWith,
+                    totalRequired: data.totalRequired
+                }))
+                .sort((a, b) => b.statuses - a.statuses);
+            
+            let report = '=== CERTIFICATION ANALYTICS ===\n\n';
+            report += `Most Used Certifications:\n\n`;
+            sortedCerts.slice(0, 15).forEach((cert, idx) => {
+                report += `${idx + 1}. ${cert.cert}\n`;
+                report += `   Used in: ${cert.statuses} statuses\n`;
+                report += `   Compliance: ${cert.compliance}% (${cert.totalWith}/${cert.totalRequired})\n\n`;
+            });
+            
+            alert(report);
+        }
+
+        // Clear all certifications
+        function confirmClearAll() {
+            if (confirm('⚠️ WARNING: This will remove ALL certifications from ALL statuses.\n\nAre you sure you want to continue?')) {
+                Object.values(certRequirements).forEach(statusData => {
+                    const divisions = statusData.divisions || {};
+                    Object.values(divisions).forEach(divData => {
+                        divData.required = [];
+                        divData.common = [];
+                        divData.optional = [];
+                    });
+                });
+                renderWorkflow();
+                markUnsaved();
+                alert('All certifications have been cleared.');
+            }
+        }
+
+        // Helper function to download files
+        function downloadFile(filename, content, mimeType) {
+            const blob = new Blob([content], { type: mimeType });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function showExportModal() {
+            document.getElementById('exportModal').classList.add('open');
+        }
+
+        function closeExportModal() {
+            document.getElementById('exportModal').classList.remove('open');
+        }
+
+        function toggleDivisionFilter() {
+            alert('Division filtering coming soon! This will allow filtering by specific divisions (e.g., 12-PA, 7-MI).');
+        }
+
+        // Show operator profile modal
+        function showOperatorProfile(operatorId) {
+            const operator = operators.find(op => op.ID === operatorId);
+            if (!operator) {
+                alert('Operator not found');
+                return;
+            }
+
+            const modal = document.getElementById('operatorModal');
+            const nameEl = document.getElementById('operatorModalName');
+            const subtitleEl = document.getElementById('operatorModalSubtitle');
+            const bodyEl = document.getElementById('operatorModalBody');
+
+            nameEl.textContent = `${operator.FirstName} ${operator.LastName}`;
+            subtitleEl.textContent = `${operator.StatusName || 'Unknown Status'} • Division ${operator.DivisionID || 'N/A'}`;
+
+            // Get certs needed for THIS operator's division - CUMULATIVE from all previous steps
+            const allCertsNeeded = new Set();
+            const opDivision = operator.DivisionID || '';
+            const opStatus = operator.StatusName || '';
+            
+            // Find operator's current step in the workflow
+            const currentStepIndex = idealFlow.findIndex(s => s.status === opStatus);
+            
+            // Accumulate requirements from current status AND all previous statuses
+            if (currentStepIndex >= 0) {
+                // Get all statuses up to and including current
+                const relevantStatuses = idealFlow.slice(0, currentStepIndex + 1).map(s => s.status);
+                
+                // Collect requirements from all these statuses for operator's division
+                relevantStatuses.forEach(statusName => {
+                    const statusData = certRequirements[statusName];
+                    if (statusData) {
+                        const divisions = statusData.divisions || {};
+                        if (opDivision && divisions[opDivision]) {
+                            (divisions[opDivision].required || []).forEach(cert => {
+                                allCertsNeeded.add(cert.cert);
+                            });
+                        }
+                    }
+                });
+            }
+
+            // Get operator's certifications
+            const operatorCerts = operator.certifications || [];
+            
+            // Build cert status map
+            const certStatusMap = {};
+            allCertsNeeded.forEach(certName => {
+                const cert = findMatchingCert(certName, operatorCerts);
+                if (cert) {
+                    // Check if approved (Status != '0' AND has dates)
+                    const isApproved = cert.Status !== '0' && (cert.IssueDate || cert.ExpireDate);
+                    
+                    if (!isApproved) {
+                        // Not approved yet - show as missing
+                        certStatusMap[certName] = {
+                            status: 'missing',
+                            label: 'Not Approved',
+                            issueDate: cert.IssueDate,
+                            expireDate: cert.ExpireDate
+                        };
+                    } else {
+                        // Approved - check expiration
+                        const expireDate = cert.ExpireDate ? new Date(cert.ExpireDate) : null;
+                        const isExpired = expireDate && expireDate < new Date();
+                        certStatusMap[certName] = {
+                            status: isExpired ? 'expired' : 'has-cert',
+                            label: isExpired ? 'Expired' : 'Valid',
+                            issueDate: cert.IssueDate,
+                            expireDate: cert.ExpireDate
+                        };
+                    }
+                } else {
+                    certStatusMap[certName] = {
+                        status: 'missing',
+                        label: 'Missing'
+                    };
+                }
+            });
+
+            // Count stats
+            const validCount = Object.values(certStatusMap).filter(c => c.status === 'has-cert').length;
+            const expiredCount = Object.values(certStatusMap).filter(c => c.status === 'expired').length;
+            const missingCount = Object.values(certStatusMap).filter(c => c.status === 'missing').length;
+
+            // Build HTML
+            let html = `
+                <div class="operator-info-grid">
+                    <div class="operator-info-item">
+                        <div class="operator-info-label">Operator ID</div>
+                        <div class="operator-info-value">${operator.ID}</div>
+                    </div>
+                    <div class="operator-info-item">
+                        <div class="operator-info-label">Status</div>
+                        <div class="operator-info-value">${operator.StatusName || 'Unknown'}</div>
+                    </div>
+                    <div class="operator-info-item">
+                        <div class="operator-info-label">Division</div>
+                        <div class="operator-info-value">${operator.DivisionID || 'N/A'}</div>
+                    </div>
+                    <div class="operator-info-item">
+                        <div class="operator-info-label">Total Certifications</div>
+                        <div class="operator-info-value">${operatorCerts.length} of ${allCertsNeeded.size}</div>
+                    </div>
+                </div>
+
+                <div class="cert-stats">
+                    <div class="cert-stat">
+                        <div class="cert-stat-value valid">${validCount}</div>
+                        <div class="cert-stat-label">Valid</div>
+                    </div>
+                    <div class="cert-stat">
+                        <div class="cert-stat-value expired">${expiredCount}</div>
+                        <div class="cert-stat-label">Expired</div>
+                    </div>
+                    <div class="cert-stat">
+                        <div class="cert-stat-value missing">${missingCount}</div>
+                        <div class="cert-stat-label">Missing</div>
+                    </div>
+                </div>
+
+                <h3 class="certs-section-title">All Certifications (${allCertsNeeded.size})</h3>
+                <div class="cert-grid">
+            `;
+
+            // Sort certs: valid first, then expired, then missing
+            const sortedCerts = Array.from(allCertsNeeded).sort((a, b) => {
+                const statusOrder = { 'has-cert': 0, 'expired': 1, 'missing': 2 };
+                return statusOrder[certStatusMap[a].status] - statusOrder[certStatusMap[b].status];
+            });
+
+            sortedCerts.forEach(certName => {
+                const certInfo = certStatusMap[certName];
+                html += `
+                    <div class="cert-card ${certInfo.status}">
+                        <div class="cert-card-name">${certName}</div>
+                        <div class="cert-card-status">${certInfo.label}</div>
+                    </div>
+                `;
+            });
+
+            html += `</div>`;
+
+            bodyEl.innerHTML = html;
+            modal.classList.add('open');
+        }
+
+        function closeOperatorModal() {
+            document.getElementById('operatorModal').classList.remove('open');
+        }
+
+        // Initialize on page load
+        window.addEventListener('DOMContentLoaded', loadData);
+
+        // ========== REQUIREMENTS EDITOR FUNCTIONS ==========
+
+        function toggleViewMode() {
+            editMode = !editMode;
+            const toggleBtn = document.getElementById('modeToggle');
+            const divisionFilter = document.getElementById('divisionFilter');
+            const resetBtn = document.getElementById('resetBtn');
+            const validateBtn = document.getElementById('validateBtn');
+            const issuesBtn = document.getElementById('issuesBtn');
+            const cancelBtn = document.getElementById('cancelEditBtn');
+            const controlPanel = document.querySelector('.control-panel');
+
+            if (editMode) {
+                toggleBtn.textContent = '👥 View Operators';
+                toggleBtn.classList.add('active');
+                divisionFilter.style.display = 'block';
+                cancelBtn.style.display = 'inline-block';
+                resetBtn.style.display = 'none';
+                validateBtn.style.display = 'none';
+                issuesBtn.style.display = 'none';
+                controlPanel.style.display = 'none';
+                
+                // Populate division filter
+                populateDivisionFilter();
+                
+                // Initialize edited requirements from current
+                editedRequirements = JSON.parse(JSON.stringify(certRequirements));
+                changesMade = false;
+                sqlStatements = [];
+                
+                if (!selectedDivision) {
+                    // Show message to select division
+                    renderSelectDivisionMessage();
+                } else {
+                    renderRequirementsEditor();
+                }
+            } else {
+                toggleBtn.textContent = '📝 Edit Requirements';
+                toggleBtn.classList.remove('active');
+                divisionFilter.style.display = 'none';
+                cancelBtn.style.display = 'none';
+                resetBtn.style.display = 'block';
+                validateBtn.style.display = 'block';
+                issuesBtn.style.display = 'block';
+                controlPanel.style.display = 'block';
+                
+                // Hide save panel
+                document.getElementById('savePanel')?.classList.remove('show');
+                
+                // Return to operator view
+                renderWorkflow();
+            }
+        }
+
+        function populateDivisionFilter() {
+            const divisionFilter = document.getElementById('divisionFilter');
+            const divisions = new Set();
+            
+            // Build operator-division map for SQL generation
+            operatorDivisionMap = {};
+            operators.forEach(op => {
+                if (op.DivisionID) {
+                    divisions.add(op.DivisionID);
+                    if (!operatorDivisionMap[op.DivisionID]) {
+                        operatorDivisionMap[op.DivisionID] = [];
+                    }
+                    operatorDivisionMap[op.DivisionID].push(op.ID);
+                }
+            });
+            
+            divisionFilter.innerHTML = '<option value="">Select Division...</option>';
+            
+            // Add "All Divisions" option
+            const allOption = document.createElement('option');
+            allOption.value = 'ALL';
+            allOption.textContent = '🌐 All Divisions';
+            if (selectedDivision === 'ALL') {
+                allOption.selected = true;
+            }
+            divisionFilter.appendChild(allOption);
+            
+            // Add separator
+            const separator = document.createElement('option');
+            separator.disabled = true;
+            separator.textContent = '────────────';
+            divisionFilter.appendChild(separator);
+            
+            // Add individual divisions
+            Array.from(divisions).sort().forEach(div => {
+                const option = document.createElement('option');
+                option.value = div;
+                option.textContent = div;
+                if (div === selectedDivision) {
+                    option.selected = true;
+                }
+                divisionFilter.appendChild(option);
+            });
+        }
+
+        function handleDivisionChange() {
+            selectedDivision = document.getElementById('divisionFilter').value;
+            if (selectedDivision && editMode) {
+                renderRequirementsEditor();
+            } else if (!selectedDivision && editMode) {
+                renderSelectDivisionMessage();
+            }
+        }
+
+        function renderSelectDivisionMessage() {
+            const canvas = document.querySelector('.workflow-canvas');
+            canvas.innerHTML = `
+                <div style="text-align: center; padding: 100px 20px; color: #94a3b8;">
+                    <h2 style="color: #60a5fa; margin-bottom: 20px;">📋 Requirements Editor</h2>
+                    <p style="font-size: 1.2rem;">Please select a division from the dropdown above to begin editing requirements.</p>
+                </div>
+            `;
+        }
+
+        function renderRequirementsEditor() {
+            console.log('🎨 Rendering requirements editor for division:', selectedDivision);
+            
+            const canvas = document.querySelector('.workflow-canvas');
+            
+            // Get all unique certifications from operators in this division (or all)
+            const allCerts = new Set();
+            operators.forEach(op => {
+                if ((selectedDivision === 'ALL' || op.DivisionID === selectedDivision) && op.certifications) {
+                    op.certifications.forEach(cert => {
+                        if (cert.CertType) {
+                            allCerts.add(cert.CertType);
+                        }
+                    });
+                }
+            });
+            
+            // Convert to sorted array
+            const certPool = Array.from(allCerts).sort();
+            
+            // Build editor HTML
+            let html = `
+                <div class="editor-container">
+                    <div class="cert-pool">
+                        <h3>Available Certifications (${certPool.length})</h3>
+                        <p style="color: #94a3b8; font-size: 0.85rem; margin-bottom: 10px;">
+                            ${selectedDivision === 'ALL' ? '🌐 Editing all divisions' : '📍 Division: ' + selectedDivision}
+                        </p>
+                        <div id="certPoolList">
+            `;
+            
+            certPool.forEach(cert => {
+                html += `
+                    <div class="cert-badge" draggable="true" data-cert="${cert}" 
+                         ondragstart="handleDragStart(event)" ondragend="handleDragEnd(event)">
+                        <div class="cert-badge-actions">
+                            <span>${cert}</span>
+                            <button class="delete-cert-type-btn" onclick="deleteCertTypeFromAll('${cert.replace(/'/g, "\\'")}', event)" 
+                                    title="Delete from all statuses">
+                                🗑️
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            html += `
+                        </div>
+                    </div>
+                    <div class="requirements-grid" id="requirementsGrid">
+            `;
+            
+            // Render each status step
+            idealFlow.forEach(step => {
+                const statusName = step.status;
+                const statusData = editedRequirements[statusName] || { divisions: {} };
+                
+                // Determine which requirements to show based on division selection
+                let requiredCerts = [];
+                if (selectedDivision === 'ALL') {
+                    // Show all unique certs across all divisions for this status
+                    const allStatusCerts = new Set();
+                    Object.keys(statusData.divisions || {}).forEach(div => {
+                        const divData = statusData.divisions[div];
+                        (divData.required || []).forEach(certObj => {
+                            allStatusCerts.add(certObj.cert || certObj);
+                        });
+                    });
+                    requiredCerts = Array.from(allStatusCerts).map(cert => ({ cert }));
+                } else {
+                    const divisionData = statusData.divisions?.[selectedDivision] || { required: [] };
+                    requiredCerts = divisionData.required || [];
+                }
+                
+                html += `
+                    <div class="status-requirement-card">
+                        <h3>
+                            ${statusName}
+                            <span class="cert-count-badge">${requiredCerts.length} certs</span>
+                        </h3>
+                        <div class="drop-zone" data-status="${statusName}"
+                             ondragover="handleDragOver(event)" 
+                             ondragleave="handleDragLeave(event)"
+                             ondrop="handleDrop(event)">
+                `;
+                
+                if (requiredCerts.length === 0) {
+                    html += '<div style="color: #64748b; font-style: italic;">Drop certifications here...</div>';
+                } else {
+                    requiredCerts.forEach(certObj => {
+                        const certName = certObj.cert || certObj;
+                        html += `
+                            <div class="assigned-cert">
+                                <span>${certName}</span>
+                                <button class="remove-cert-btn" onclick="removeCert('${statusName}', '${certName.replace(/'/g, "\\'")}')">
+                                    ✕
+                                </button>
+                            </div>
+                        `;
+                    });
+                }
+                
+                html += `
+                        </div>
+                    </div>
+                `;
+            });
+            
+            html += `
+                    </div>
+                </div>
+            `;
+            
+            canvas.innerHTML = html;
+            
+            // Show/update save panel if changes exist
+            updateSavePanel();
+        }
+
+        function handleDragStart(event) {
+            event.dataTransfer.setData('text/plain', event.target.dataset.cert);
+            event.target.classList.add('dragging');
+        }
+
+        function handleDragEnd(event) {
+            event.target.classList.remove('dragging');
+        }
+
+        function handleDragOver(event) {
+            event.preventDefault();
+            const dropZone = event.currentTarget;
+            if (dropZone.classList.contains('drop-zone')) {
+                dropZone.classList.add('drag-over');
+            }
+        }
+
+        function handleDragLeave(event) {
+            const dropZone = event.currentTarget;
+            if (dropZone.classList.contains('drop-zone')) {
+                dropZone.classList.remove('drag-over');
+            }
+        }
+
+        function handleDrop(event) {
+            event.preventDefault();
+            const dropZone = event.currentTarget;
+            dropZone.classList.remove('drag-over');
+            
+            const certName = event.dataTransfer.getData('text/plain');
+            const statusName = dropZone.dataset.status;
+            
+            addCertToStatus(statusName, certName);
+        }
+
+        function addCertToStatus(statusName, certName) {
+            const divisionsToUpdate = selectedDivision === 'ALL' 
+                ? Object.keys(operatorDivisionMap) 
+                : [selectedDivision];
+            
+            divisionsToUpdate.forEach(division => {
+                // Initialize structure if needed
+                if (!editedRequirements[statusName]) {
+                    editedRequirements[statusName] = { divisions: {} };
+                }
+                if (!editedRequirements[statusName].divisions[division]) {
+                    editedRequirements[statusName].divisions[division] = { required: [] };
+                }
+                
+                const requiredList = editedRequirements[statusName].divisions[division].required;
+                
+                // Check if cert already exists (case-insensitive)
+                const exists = requiredList.some(certObj => {
+                    const existing = certObj.cert || certObj;
+                    return normalizeCertName(existing) === normalizeCertName(certName);
+                });
+                
+                if (!exists) {
+                    // Add cert with operator count (we'll calculate this from actual data)
+                    const operatorsInStatus = operators.filter(op => 
+                        op.DivisionID === division && op.StatusName === statusName
+                    );
+                    const operatorsWithCert = operatorsInStatus.filter(op =>
+                        op.certifications?.some(c => normalizeCertName(c.CertType) === normalizeCertName(certName))
+                    );
+                    const percentage = operatorsInStatus.length > 0 
+                        ? (operatorsWithCert.length / operatorsInStatus.length * 100).toFixed(1)
+                        : 0;
+                    
+                    requiredList.push({
+                        cert: certName,
+                        count: operatorsWithCert.length,
+                        percentage: parseFloat(percentage)
+                    });
+                    
+                    // Generate SQL for this operation
+                    generateAddCertSQL(statusName, certName, division);
+                }
+            });
+            
+            changesMade = true;
+            renderRequirementsEditor();
+        }
+        
+        function generateAddCertSQL(statusName, certName, division) {
+            // Get operators in this status/division who don't have this cert
+            const operatorsInStatus = operators.filter(op => 
+                op.DivisionID === division && 
+                op.StatusName === statusName &&
+                !op.certifications?.some(c => normalizeCertName(c.CertType) === normalizeCertName(certName))
+            );
+            
+            if (operatorsInStatus.length > 0) {
+                const operatorIDs = operatorsInStatus.map(op => `'${op.ID}'`).join(', ');
+                const sql = `
+-- Add requirement: ${certName} for ${statusName} in Division ${division}
+-- Affected operators: ${operatorsInStatus.length}
+-- Note: This adds certification requirement metadata. Actual certification records 
+-- should be added to pay_Certifications when operators obtain the certification.
+
+-- Example: Insert certification records for operators who need this requirement
+/*
+INSERT INTO pay_Certifications (
+    ID, OperatorID, Cert, CompletionDate, Date, isApproved, 
+    UpdateAt, UpdateBy
+)
+SELECT 
+    NEWID() AS ID,
+    o.ID AS OperatorID,
+    '${certName}' AS Cert,
+    NULL AS CompletionDate,  -- Set when cert is obtained
+    NULL AS Date,            -- Set when cert expires
+    0 AS isApproved,         -- 0 = pending, 1 = approved
+    GETDATE() AS UpdateAt,
+    '00000000-0000-0000-0000-000000000000' AS UpdateBy
+FROM pay_Operators o
+WHERE o.ID IN (${operatorIDs})
+    AND o.StatusName = '${statusName}'
+    AND o.DivisionID LIKE '${division}%'
+    AND NOT EXISTS (
+        SELECT 1 FROM pay_Certifications c
+        WHERE c.OperatorID = o.ID 
+        AND LOWER(c.Cert) = LOWER('${certName}')
+    );
+*/
+
+-- Verify count
+SELECT COUNT(*) AS OperatorsNeedingCert
+FROM pay_Operators o
+WHERE o.ID IN (${operatorIDs})
+    AND o.StatusName = '${statusName}'
+    AND NOT EXISTS (
+        SELECT 1 FROM pay_Certifications c
+        WHERE c.OperatorID = o.ID 
+        AND LOWER(c.Cert) = LOWER('${certName}')
+    );
+`;
+                sqlStatements.push(sql);
+            }
+        }
+
+        function removeCert(statusName, certName) {
+            const divisionsToUpdate = selectedDivision === 'ALL' 
+                ? Object.keys(operatorDivisionMap) 
+                : [selectedDivision];
+            
+            divisionsToUpdate.forEach(division => {
+                if (!editedRequirements[statusName]?.divisions?.[division]?.required) {
+                    return;
+                }
+                
+                const requiredList = editedRequirements[statusName].divisions[division].required;
+                const index = requiredList.findIndex(certObj => {
+                    const existing = certObj.cert || certObj;
+                    return normalizeCertName(existing) === normalizeCertName(certName);
+                });
+                
+                if (index !== -1) {
+                    requiredList.splice(index, 1);
+                    
+                    // Generate SQL for this operation
+                    generateRemoveCertSQL(statusName, certName, division);
+                }
+            });
+            
+            changesMade = true;
+            renderRequirementsEditor();
+        }
+        
+        function generateRemoveCertSQL(statusName, certName, division) {
+            // Get operators in this status/division who have this cert
+            const operatorsInStatus = operators.filter(op => 
+                op.DivisionID === division && 
+                op.StatusName === statusName &&
+                op.certifications?.some(c => normalizeCertName(c.CertType) === normalizeCertName(certName))
+            );
+            
+            if (operatorsInStatus.length > 0) {
+                const operatorIDs = operatorsInStatus.map(op => `'${op.ID}'`).join(', ');
+                const sql = `
+-- Remove requirement: ${certName} from ${statusName} in Division ${division}
+-- Operators with this cert: ${operatorsInStatus.length}
+-- Note: This removes the requirement but does NOT delete existing certification records.
+-- To actually remove certification records (use with caution):
+
+/*
+-- Option 1: Soft delete (mark as deleted)
+UPDATE pay_Certifications
+SET 
+    IsDeleted = '1',
+    UpdateAt = GETDATE(),
+    UpdateBy = '00000000-0000-0000-0000-000000000000'
+WHERE OperatorID IN (${operatorIDs})
+    AND LOWER(Cert) = LOWER('${certName}');
+
+PRINT '✓ Marked ' + CAST(@@ROWCOUNT AS VARCHAR) + ' certification records as deleted';
+*/
+
+/*
+-- Option 2: Hard delete (permanently remove - NOT RECOMMENDED)
+DELETE FROM pay_Certifications
+WHERE OperatorID IN (${operatorIDs})
+    AND LOWER(Cert) = LOWER('${certName}');
+    
+PRINT '✓ Deleted ' + CAST(@@ROWCOUNT AS VARCHAR) + ' certification records';
+*/
+
+-- Verify existing records
+SELECT 
+    o.FirstName + ' ' + o.LastName AS OperatorName,
+    c.Cert,
+    c.CompletionDate,
+    c.Date AS ExpireDate,
+    c.isApproved
+FROM pay_Certifications c
+JOIN pay_Operators o ON c.OperatorID = o.ID
+WHERE c.OperatorID IN (${operatorIDs})
+    AND LOWER(c.Cert) = LOWER('${certName}')
+ORDER BY o.LastName, o.FirstName;
+`;
+                sqlStatements.push(sql);
+            }
+        }
+        
+        function deleteCertTypeFromAll(certName, event) {
+            event.stopPropagation(); // Prevent drag from starting
+            
+            const divisionText = selectedDivision === 'ALL' ? 'ALL divisions' : `Division ${selectedDivision}`;
+            if (!confirm(`Delete "${certName}" from ALL status steps in ${divisionText}?\n\nThis will remove it from every lifecycle stage where it's currently required.`)) {
+                return;
+            }
+            
+            const divisionsToUpdate = selectedDivision === 'ALL' 
+                ? Object.keys(operatorDivisionMap) 
+                : [selectedDivision];
+            
+            let totalRemoved = 0;
+            
+            idealFlow.forEach(step => {
+                const statusName = step.status;
+                
+                divisionsToUpdate.forEach(division => {
+                    if (!editedRequirements[statusName]?.divisions?.[division]?.required) {
+                        return;
+                    }
+                    
+                    const requiredList = editedRequirements[statusName].divisions[division].required;
+                    const index = requiredList.findIndex(certObj => {
+                        const existing = certObj.cert || certObj;
+                        return normalizeCertName(existing) === normalizeCertName(certName);
+                    });
+                    
+                    if (index !== -1) {
+                        requiredList.splice(index, 1);
+                        totalRemoved++;
+                        
+                        // Generate SQL for this operation
+                        generateRemoveCertSQL(statusName, certName, division);
+                    }
+                });
+            });
+            
+            if (totalRemoved > 0) {
+                changesMade = true;
+                renderRequirementsEditor();
+                alert(`✓ Removed "${certName}" from ${totalRemoved} status${totalRemoved !== 1 ? 'es' : ''} in ${divisionText}`);
+            } else {
+                alert(`"${certName}" is not currently required in any status for ${divisionText}`);
+            }
+        }
+
+        function updateSavePanel() {
+            let savePanel = document.getElementById('savePanel');
+            if (!savePanel) {
+                // Create save panel
+                savePanel = document.createElement('div');
+                savePanel.id = 'savePanel';
+                savePanel.className = 'save-panel';
+                document.body.appendChild(savePanel);
+            }
+            
+            if (changesMade) {
+                // Calculate changes
+                const changes = calculateChanges();
+                
+                savePanel.innerHTML = `
+                    <div class="change-summary">
+                        <strong>Changes Made:</strong><br>
+                        Added: <strong>${changes.added}</strong> certifications<br>
+                        Removed: <strong>${changes.removed}</strong> certifications<br>
+                        SQL Statements: <strong>${sqlStatements.length}</strong>
+                    </div>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <button class="btn btn-success" onclick="saveRequirementsChanges()">
+                            💾 Save JSON
+                        </button>
+                        <button class="btn btn-primary" onclick="downloadSQL()">
+                            📜 Download SQL
+                        </button>
+                        <button class="btn btn-secondary" onclick="previewChanges()">
+                            👁️ Preview
+                        </button>
+                    </div>
+                `;
+                savePanel.classList.add('show');
+            } else {
+                savePanel.classList.remove('show');
+            }
+        }
+
+        function calculateChanges() {
+            let added = 0;
+            let removed = 0;
+            
+            // Compare editedRequirements with certRequirements for selected division
+            idealFlow.forEach(step => {
+                const statusName = step.status;
+                
+                const originalReqs = certRequirements[statusName]?.divisions?.[selectedDivision]?.required || [];
+                const editedReqs = editedRequirements[statusName]?.divisions?.[selectedDivision]?.required || [];
+                
+                const originalSet = new Set(originalReqs.map(c => normalizeCertName(c.cert || c)));
+                const editedSet = new Set(editedReqs.map(c => normalizeCertName(c.cert || c)));
+                
+                // Added certs
+                editedSet.forEach(cert => {
+                    if (!originalSet.has(cert)) added++;
+                });
+                
+                // Removed certs
+                originalSet.forEach(cert => {
+                    if (!editedSet.has(cert)) removed++;
+                });
+            });
+            
+            return { added, removed };
+        }
+
+        function previewChanges() {
+            const changes = [];
+            
+            idealFlow.forEach(step => {
+                const statusName = step.status;
+                const originalReqs = certRequirements[statusName]?.divisions?.[selectedDivision]?.required || [];
+                const editedReqs = editedRequirements[statusName]?.divisions?.[selectedDivision]?.required || [];
+                
+                const originalSet = new Set(originalReqs.map(c => normalizeCertName(c.cert || c)));
+                const originalMap = {};
+                originalReqs.forEach(c => {
+                    const name = c.cert || c;
+                    originalMap[normalizeCertName(name)] = name;
+                });
+                
+                const editedSet = new Set(editedReqs.map(c => normalizeCertName(c.cert || c)));
+                const editedMap = {};
+                editedReqs.forEach(c => {
+                    const name = c.cert || c;
+                    editedMap[normalizeCertName(name)] = name;
+                });
+                
+                const statusChanges = [];
+                
+                // Added
+                editedSet.forEach(cert => {
+                    if (!originalSet.has(cert)) {
+                        statusChanges.push(`  + ${editedMap[cert]}`);
+                    }
+                });
+                
+                // Removed
+                originalSet.forEach(cert => {
+                    if (!editedSet.has(cert)) {
+                        statusChanges.push(`  - ${originalMap[cert]}`);
+                    }
+                });
+                
+                if (statusChanges.length > 0) {
+                    changes.push(`${statusName}:\n${statusChanges.join('\n')}`);
+                }
+            });
+            
+            if (changes.length > 0) {
+                alert(`Changes for Division ${selectedDivision}:\n\n${changes.join('\n\n')}`);
+            } else {
+                alert('No changes detected.');
+            }
+        }
+
+        function saveRequirementsChanges() {
+            if (!confirm(`Save changes for Division ${selectedDivision}?\n\nThis will download a new JSON file that you can manually replace.\n\n(Backend save endpoint not yet implemented)`)) {
+                return;
+            }
+            
+            // Update the main certRequirements object
+            certRequirements = JSON.parse(JSON.stringify(editedRequirements));
+            
+            // Download as JSON
+            const dataStr = JSON.stringify(certRequirements, null, 2);
+            const blob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `cert_requirements_by_status_division_${Date.now()}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            changesMade = false;
+            updateSavePanel();
+            
+            alert('✅ Changes downloaded!\n\nTo apply:\n1. Replace master_cert_requirements.json with downloaded file\n2. Refresh this page');
+        }
+
+        function cancelEdit() {
+            if (changesMade) {
+                if (!confirm('You have unsaved changes. Discard them?')) {
+                    return;
+                }
+            }
+            editMode = false;
+            toggleViewMode();
+        }
+        
+        function downloadSQL() {
+            if (sqlStatements.length === 0) {
+                alert('No SQL statements to download. Make some changes first!');
+                return;
+            }
+            
+            const timestamp = new Date().toISOString().replace(/[:.]/g, '-').substring(0, 19);
+            const divisionText = selectedDivision === 'ALL' ? 'All_Divisions' : selectedDivision.replace(/\s+/g, '_');
+            
+            let sqlContent = `-- ============================================================================
+-- CERTIFICATION REQUIREMENTS UPDATE - SQL STATEMENTS
+-- ============================================================================
+-- Generated: ${new Date().toLocaleString()}
+-- Division: ${selectedDivision === 'ALL' ? 'All Divisions' : selectedDivision}
+-- Total Changes: ${sqlStatements.length} operations
+-- 
+-- ⚠️  IMPORTANT: READ BEFORE EXECUTING ⚠️
+-- ============================================================================
+-- 
+-- BACKUP FIRST!
+-- 1. Create a backup of your database before running these statements:
+--    BACKUP DATABASE [YourDatabase] TO DISK = 'C:\\Backups\\db_backup_${timestamp}.bak'
+-- 
+-- REVIEW CAREFULLY!
+-- 2. Review each statement below - these are examples based on your changes
+-- 3. Uncomment (remove /*  */) only the operations you want to execute
+-- 4. Verify operator IDs and certification names match your database
+-- 
+-- TEST IN STAGING!
+-- 5. Test these statements in a staging/development environment first
+-- 6. Verify the results before running in production
+-- 
+-- EXECUTION INSTRUCTIONS:
+-- 7. Open SQL Server Management Studio (SSMS)
+-- 8. Connect to your database server
+-- 9. Open a new query window
+-- 10. Copy and paste the statements you want to execute
+-- 11. Uncomment the desired operations
+-- 12. Execute in a transaction (see template below)
+-- 
+-- ============================================================================
+-- TRANSACTION TEMPLATE (RECOMMENDED)
+-- ============================================================================
+/*
+BEGIN TRANSACTION;
+
+-- Paste your uncommented SQL statements here
+
+-- If everything looks good:
+COMMIT TRANSACTION;
+PRINT '✅ All changes committed successfully';
+
+-- If something went wrong:
+-- ROLLBACK TRANSACTION;
+-- PRINT '❌ Changes rolled back';
+*/
+
+-- ============================================================================
+-- UNDERSTANDING THE STATEMENTS BELOW
+-- ============================================================================
+-- 
+-- ADDING REQUIREMENTS:
+-- - Creates placeholder records in pay_Certifications for operators who need the cert
+-- - isApproved = 0 (pending) until operator actually obtains the certification
+-- - CompletionDate and Date (expire) are NULL until cert is obtained
+-- 
+-- REMOVING REQUIREMENTS:
+-- - Option 1 (Soft Delete): Sets IsDeleted = '1' to hide records but keep history
+-- - Option 2 (Hard Delete): Permanently removes records (NOT RECOMMENDED)
+-- - Always use soft delete unless you have a specific reason not to
+-- 
+-- OPERATOR IDs:
+-- - These are GUIDs from pay_Operators table
+-- - Format: '12345678-1234-1234-1234-123456789012'
+-- - Verify these IDs exist in your database before executing
+-- 
+-- CERTIFICATION NAMES:
+-- - Case-insensitive matching used (LOWER() function)
+-- - Ensure certification names match exactly (check pay_CertTypes table)
+-- 
+-- ============================================================================
+-- YOUR SQL STATEMENTS
+-- ============================================================================
+
+`;
+
+            // Add each SQL statement
+            sqlStatements.forEach((sql, index) => {
+                sqlContent += `
+-- ============================================================================
+-- OPERATION ${index + 1} of ${sqlStatements.length}
+-- ============================================================================
+${sql}
+
+`;
+            });
+            
+            // Add summary and verification queries
+            sqlContent += `
+-- ============================================================================
+-- POST-EXECUTION VERIFICATION QUERIES
+-- ============================================================================
+
+-- Check total certification records
+SELECT 
+    COUNT(*) AS TotalCertificationRecords,
+    SUM(CASE WHEN IsDeleted = '1' THEN 1 ELSE 0 END) AS DeletedRecords,
+    SUM(CASE WHEN IsDeleted = '0' OR IsDeleted IS NULL THEN 1 ELSE 0 END) AS ActiveRecords
+FROM pay_Certifications;
+
+-- Check certifications by division
+SELECT 
+    SUBSTRING(o.DivisionID, 1, 2) AS Division,
+    COUNT(DISTINCT c.OperatorID) AS OperatorsWithCerts,
+    COUNT(*) AS TotalCertRecords,
+    COUNT(DISTINCT c.Cert) AS UniqueCertTypes
+FROM pay_Certifications c
+JOIN pay_Operators o ON c.OperatorID = o.ID
+WHERE c.IsDeleted = '0' OR c.IsDeleted IS NULL
+GROUP BY SUBSTRING(o.DivisionID, 1, 2)
+ORDER BY Division;
+
+-- Check certification counts by type
+SELECT 
+    c.Cert AS CertificationType,
+    COUNT(*) AS RecordCount,
+    COUNT(DISTINCT c.OperatorID) AS UniqueOperators,
+    SUM(CASE WHEN c.isApproved = 1 THEN 1 ELSE 0 END) AS ApprovedCount,
+    SUM(CASE WHEN c.isApproved = 0 THEN 1 ELSE 0 END) AS PendingCount
+FROM pay_Certifications c
+WHERE c.IsDeleted = '0' OR c.IsDeleted IS NULL
+GROUP BY c.Cert
+ORDER BY RecordCount DESC;
+
+-- ============================================================================
+-- TROUBLESHOOTING
+-- ============================================================================
+-- 
+-- ERROR: Invalid column name 'IsDeleted'
+-- Solution: Check your table schema - the column might be named differently
+--           Use: sp_help pay_Certifications  to see all columns
+-- 
+-- ERROR: Violation of PRIMARY KEY constraint
+-- Solution: NEWID() generated a duplicate ID (very rare)
+--           Re-run the statement - NEWID() will generate a new unique ID
+-- 
+-- ERROR: Cannot insert NULL into column 'X'
+-- Solution: Column X requires a value. Check table constraints with:
+--           SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'pay_Certifications'
+-- 
+-- PERFORMANCE: Queries running slow
+-- Solution: Ensure indexes exist on OperatorID and Cert columns
+--           CREATE INDEX IX_Cert_OperatorID ON pay_Certifications(OperatorID, Cert)
+-- 
+-- ============================================================================
+-- NEXT STEPS AFTER EXECUTION
+-- ============================================================================
+-- 
+-- 1. Update the JSON file with your changes (download from requirements editor)
+-- 2. Replace master_cert_requirements.json in your project
+-- 3. Refresh the operator lifecycle workflow builder to see changes
+-- 4. Verify operator progress bars show correct certification percentages
+-- 5. Check operator profile modals display updated requirements
+-- 
+-- ============================================================================
+-- SUPPORT
+-- ============================================================================
+-- 
+-- If you encounter issues:
+-- - Check SQL Server error log for detailed error messages
+-- - Verify your database schema matches the expected structure
+-- - Review documentation: DIVISION_SPECIFIC_CERTIFICATION_LOGIC.md
+-- - Test queries individually before running in batch
+-- 
+-- Generated by: Operator Lifecycle Workflow Requirements Editor
+-- Version: 1.0
+-- Date: ${new Date().toISOString()}
+-- 
+-- ============================================================================
+`;
+            
+            // Download the SQL file
+            const blob = new Blob([sqlContent], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `cert_requirements_updates_${divisionText}_${timestamp}.sql`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            alert(`✅ SQL statements downloaded!\n\n📄 File: cert_requirements_updates_${divisionText}_${timestamp}.sql\n📊 Operations: ${sqlStatements.length}\n\n⚠️  IMPORTANT:\n1. Backup database first!\n2. Review all statements\n3. Test in staging environment\n4. Uncomment desired operations\n5. Execute in a transaction`);
+        }
+
+        // ========== END REQUIREMENTS EDITOR FUNCTIONS ==========
+    </script>
+</body>
+</html>
