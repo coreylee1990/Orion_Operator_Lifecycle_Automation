@@ -1,0 +1,1000 @@
+{
+  "569C3481-69A6-4CDC-87E8-D500E66770CD": {
+    "pizza_status_id": "569C3481-69A6-4CDC-87E8-D500E66770CD",
+    "pizza_status_name": "Compliance Review",
+    "description": "Compliance Review",
+    "is_operator": true,
+    "threshold": 0.8,
+    "operators_analyzed": 7,
+    "required_certifications": [],
+    "status_mappings": [
+      {
+        "status": "SBPC APPROVED FOR SERVICE",
+        "division": "10 - OR",
+        "order": "10"
+      },
+      {
+        "status": "SBPC APPROVED FOR SERVICE",
+        "division": "11 - GA",
+        "order": "10"
+      },
+      {
+        "status": "SBPC APPROVED FOR SERVICE",
+        "division": "12 - PA",
+        "order": "10"
+      },
+      {
+        "status": "SBPC APPROVED FOR SERVICE",
+        "division": "2 - IL",
+        "order": "10"
+      },
+      {
+        "status": "SBPC APPROVED FOR SERVICE",
+        "division": "3 - TX",
+        "order": "10"
+      },
+      {
+        "status": "SBPC APPROVED FOR SERVICE",
+        "division": "5 - CA",
+        "order": "10"
+      },
+      {
+        "status": "SBPC APPROVED FOR SERVICE",
+        "division": "6 - FL",
+        "order": "10"
+      },
+      {
+        "status": "SBPC APPROVED FOR SERVICE",
+        "division": "8 - OH",
+        "order": "10"
+      },
+      {
+        "status": "Compliance Review- TEST",
+        "division": "9 - AZ",
+        "order": "6"
+      },
+      {
+        "status": "COMPLIANCE REVIEW",
+        "division": "99 - AUTOSYNC",
+        "order": "7"
+      },
+      {
+        "status": "COMPLIANCE REVIEW",
+        "division": "7 - MI",
+        "order": "8"
+      },
+      {
+        "status": "COMPLIANCE REVIEW",
+        "division": "9 - AZ",
+        "order": "8"
+      },
+      {
+        "status": "COMPLIANCE REVIEW",
+        "division": "10 - OR",
+        "order": "9"
+      },
+      {
+        "status": "COMPLIANCE REVIEW",
+        "division": "11 - GA",
+        "order": "9"
+      },
+      {
+        "status": "COMPLIANCE REVIEW",
+        "division": "12 - PA",
+        "order": "9"
+      },
+      {
+        "status": "COMPLIANCE REVIEW",
+        "division": "2 - IL",
+        "order": "9"
+      },
+      {
+        "status": "COMPLIANCE REVIEW",
+        "division": "3 - TX",
+        "order": "9"
+      },
+      {
+        "status": "COMPLIANCE REVIEW",
+        "division": "5 - CA",
+        "order": "9"
+      },
+      {
+        "status": "COMPLIANCE REVIEW",
+        "division": "6 - FL",
+        "order": "9"
+      },
+      {
+        "status": "SBPC APPROVED FOR SERVICE",
+        "division": "7 - MI",
+        "order": "9"
+      },
+      {
+        "status": "COMPLIANCE REVIEW",
+        "division": "8 - OH",
+        "order": "9"
+      },
+      {
+        "status": "COMPLIANCE REVIEW",
+        "division": "11 - GA",
+        "order": "999"
+      },
+      {
+        "status": "COMPLIANCE REVIEW",
+        "division": "2 - IL",
+        "order": "999"
+      },
+      {
+        "status": "COMPLIANCE REVIEW",
+        "division": "5 - CA",
+        "order": "999"
+      },
+      {
+        "status": "COMPLIANCE REVIEW",
+        "division": "6 - FL",
+        "order": "999"
+      },
+      {
+        "status": "COMPLIANCE REVIEW",
+        "division": "7 - MI",
+        "order": "999"
+      },
+      {
+        "status": "COMPLIANCE REVIEW",
+        "division": "8 - OH",
+        "order": "999"
+      }
+    ]
+  },
+  "D0F9AB8C-9489-47B8-AC78-E363561A2574": {
+    "pizza_status_id": "D0F9AB8C-9489-47B8-AC78-E363561A2574",
+    "pizza_status_name": "Compliance Review",
+    "description": "Compliance Review",
+    "is_operator": null,
+    "threshold": 0.8,
+    "operators_analyzed": 1,
+    "required_certifications": [],
+    "status_mappings": [
+      {
+        "status": "COMPLIANCE REVIEW",
+        "division": "10 - OR",
+        "order": "2"
+      },
+      {
+        "status": "COMPLIANCE REVIEW",
+        "division": "3 - TX",
+        "order": "6"
+      }
+    ]
+  },
+  "0F3DDDE2-1920-4E71-A40A-7610F5C58FAC": {
+    "pizza_status_id": "0F3DDDE2-1920-4E71-A40A-7610F5C58FAC",
+    "pizza_status_name": "Contracting",
+    "description": "Contracting Description",
+    "is_operator": true,
+    "threshold": 0.8,
+    "operators_analyzed": 6,
+    "required_certifications": [],
+    "status_mappings": [
+      {
+        "status": "APPROVED FOR SERVICE",
+        "division": "7 - MI",
+        "order": "10"
+      },
+      {
+        "status": "APPROVED FOR SERVICE",
+        "division": "10 - OR",
+        "order": "11"
+      },
+      {
+        "status": "APPROVED FOR SERVICE",
+        "division": "11 - GA",
+        "order": "11"
+      },
+      {
+        "status": "APPROVED FOR SERVICE",
+        "division": "12 - PA",
+        "order": "11"
+      },
+      {
+        "status": "APPROVED FOR SERVICE",
+        "division": "2 - IL",
+        "order": "11"
+      },
+      {
+        "status": "APPROVED FOR SERVICE",
+        "division": "3 - TX",
+        "order": "11"
+      },
+      {
+        "status": "APPROVED FOR SERVICE",
+        "division": "5 - CA",
+        "order": "11"
+      },
+      {
+        "status": "APPROVED FOR SERVICE",
+        "division": "6 - FL",
+        "order": "11"
+      },
+      {
+        "status": "APPROVED FOR CONTRACTING",
+        "division": "7 - MI",
+        "order": "11"
+      },
+      {
+        "status": "APPROVED FOR SERVICE",
+        "division": "8 - OH",
+        "order": "11"
+      },
+      {
+        "status": "APPROVED FOR CONTRACTING",
+        "division": "10 - OR",
+        "order": "12"
+      },
+      {
+        "status": "APPROVED FOR CONTRACTING",
+        "division": "11 - GA",
+        "order": "12"
+      },
+      {
+        "status": "APPROVED FOR CONTRACTING",
+        "division": "12 - PA",
+        "order": "12"
+      },
+      {
+        "status": "APPROVED FOR CONTRACTING",
+        "division": "2 - IL",
+        "order": "12"
+      },
+      {
+        "status": "APPROVED FOR CONTRACTING",
+        "division": "3 - TX",
+        "order": "12"
+      },
+      {
+        "status": "APPROVED FOR CONTRACTING",
+        "division": "5 - CA",
+        "order": "12"
+      },
+      {
+        "status": "APPROVED FOR CONTRACTING",
+        "division": "6 - FL",
+        "order": "12"
+      },
+      {
+        "status": "APPROVED FOR CONTRACTING",
+        "division": "8 - OH",
+        "order": "12"
+      },
+      {
+        "status": "Approved for Contracting-TEST",
+        "division": "9 - AZ",
+        "order": "7"
+      },
+      {
+        "status": "APPROVED FOR CONTRACTING",
+        "division": "99 - AUTOSYNC",
+        "order": "8"
+      },
+      {
+        "status": "APPROVED FOR CONTRACTING",
+        "division": "9 - AZ",
+        "order": "9"
+      },
+      {
+        "status": "APPROVED FOR CONTRACTING",
+        "division": "11 - GA",
+        "order": "999"
+      },
+      {
+        "status": "APPROVED FOR CONTRACTING",
+        "division": "2 - IL",
+        "order": "999"
+      },
+      {
+        "status": "APPROVED FOR CONTRACTING",
+        "division": "5 - CA",
+        "order": "999"
+      },
+      {
+        "status": "APPROVED FOR SERVICE",
+        "division": "6 - FL",
+        "order": "999"
+      },
+      {
+        "status": "FILE APPROVED",
+        "division": "6 - FL",
+        "order": "999"
+      },
+      {
+        "status": "APPROVED FOR CONTRACTING",
+        "division": "6 - FL",
+        "order": "999"
+      },
+      {
+        "status": "APPROVED FOR CONTRACTING",
+        "division": "7 - MI",
+        "order": "999"
+      },
+      {
+        "status": "APPROVED FOR CONTRACTING",
+        "division": "8 - OH",
+        "order": "999"
+      }
+    ]
+  },
+  "0AFED8D9-D0FC-4CB6-A062-4240A13D5CBB": {
+    "pizza_status_id": "0AFED8D9-D0FC-4CB6-A062-4240A13D5CBB",
+    "pizza_status_name": "Credentialing",
+    "description": "Credentialing Description",
+    "is_operator": true,
+    "threshold": 0.8,
+    "operators_analyzed": 7,
+    "required_certifications": [],
+    "status_mappings": [
+      {
+        "status": "CREDENTIALING",
+        "division": "10 - OR",
+        "order": "3"
+      },
+      {
+        "status": "CREDENTIALING",
+        "division": "10 - OR",
+        "order": "3"
+      },
+      {
+        "status": "CREDENTIALING",
+        "division": "11 - GA",
+        "order": "3"
+      },
+      {
+        "status": "CREDENTIALING",
+        "division": "12 - PA",
+        "order": "3"
+      },
+      {
+        "status": "CREDENTIALING",
+        "division": "2 - IL",
+        "order": "3"
+      },
+      {
+        "status": "CREDENTIALING",
+        "division": "2 - IL",
+        "order": "3"
+      },
+      {
+        "status": "CREDENTIALING",
+        "division": "3 - TX",
+        "order": "3"
+      },
+      {
+        "status": "CREDENTIALING",
+        "division": "3 - TX",
+        "order": "3"
+      },
+      {
+        "status": "CREDENTIALING",
+        "division": "5 - CA",
+        "order": "3"
+      },
+      {
+        "status": "CREDENTIALING",
+        "division": "5 - CA",
+        "order": "3"
+      },
+      {
+        "status": "CREDENTIALING",
+        "division": "6 - FL",
+        "order": "3"
+      },
+      {
+        "status": "CREDENTIALING",
+        "division": "7 - MI",
+        "order": "3"
+      },
+      {
+        "status": "CREDENTIALING",
+        "division": "7 - MI",
+        "order": "3"
+      },
+      {
+        "status": "CREDENTIALING",
+        "division": "8 - OH",
+        "order": "3"
+      },
+      {
+        "status": "CREDENTIALING",
+        "division": "8 - OH",
+        "order": "3"
+      },
+      {
+        "status": "Credentialing",
+        "division": "9 - AZ",
+        "order": "3"
+      },
+      {
+        "status": "CREDENTIALING",
+        "division": "99 - AUTOSYNC",
+        "order": "3"
+      }
+    ]
+  },
+  "80E13E31-FC68-4AA2-BCE7-48A4A1FFBB2B": {
+    "pizza_status_id": "80E13E31-FC68-4AA2-BCE7-48A4A1FFBB2B",
+    "pizza_status_name": "DOT Screening",
+    "description": "DOT Screening Description",
+    "is_operator": true,
+    "threshold": 0.8,
+    "operators_analyzed": 10,
+    "required_certifications": [],
+    "status_mappings": [
+      {
+        "status": "DOT SCREENING",
+        "division": "10 - OR",
+        "order": "4"
+      },
+      {
+        "status": "DOT SCREENING",
+        "division": "10 - OR",
+        "order": "4"
+      },
+      {
+        "status": "DOT SCREENING",
+        "division": "11 - GA",
+        "order": "4"
+      },
+      {
+        "status": "DOT SCREENING",
+        "division": "12 - PA",
+        "order": "4"
+      },
+      {
+        "status": "DOT SCREENING (NON)",
+        "division": "2 - IL",
+        "order": "4"
+      },
+      {
+        "status": "DOT SCREENING",
+        "division": "3 - TX",
+        "order": "4"
+      },
+      {
+        "status": "DOT SCREENING",
+        "division": "3 - TX",
+        "order": "4"
+      },
+      {
+        "status": "DOT SCREENING",
+        "division": "5 - CA",
+        "order": "4"
+      },
+      {
+        "status": "DOT SCREENING",
+        "division": "6 - FL",
+        "order": "4"
+      },
+      {
+        "status": "DOT SCREENING",
+        "division": "7 - MI",
+        "order": "4"
+      },
+      {
+        "status": "DOT SCREENING",
+        "division": "8 - OH",
+        "order": "4"
+      },
+      {
+        "status": "DOT SCREENING",
+        "division": "9 - AZ",
+        "order": "4"
+      },
+      {
+        "status": "DOT Drug/Alc Screening",
+        "division": "9 - AZ",
+        "order": "4"
+      },
+      {
+        "status": "DOT SCREENING (NON)",
+        "division": "99 - AUTOSYNC",
+        "order": "4"
+      },
+      {
+        "status": "DOT SCREENING",
+        "division": "6 - FL",
+        "order": "999"
+      }
+    ]
+  },
+  "D884F3D1-8AA3-48A3-B172-DF754283F4C2": {
+    "pizza_status_id": "D884F3D1-8AA3-48A3-B172-DF754283F4C2",
+    "pizza_status_name": "Onboarding",
+    "description": "Onboarding Descriptions",
+    "is_operator": true,
+    "threshold": 0.8,
+    "operators_analyzed": 18,
+    "required_certifications": [],
+    "status_mappings": [
+      {
+        "status": "REGISTRATION",
+        "division": "10 - OR",
+        "order": "1"
+      },
+      {
+        "status": "REGISTRATION",
+        "division": "11 - GA",
+        "order": "1"
+      },
+      {
+        "status": "REGISTRATION",
+        "division": "12 - PA",
+        "order": "1"
+      },
+      {
+        "status": "REGISTRATION",
+        "division": "2 - IL",
+        "order": "1"
+      },
+      {
+        "status": "REGISTRATION",
+        "division": "3 - TX",
+        "order": "1"
+      },
+      {
+        "status": "REGISTRATION",
+        "division": "5 - CA",
+        "order": "1"
+      },
+      {
+        "status": "REGISTRATION",
+        "division": "6 - FL",
+        "order": "1"
+      },
+      {
+        "status": "NEW",
+        "division": "7 - CATA",
+        "order": "1"
+      },
+      {
+        "status": "REGISTRATION",
+        "division": "7 - MI",
+        "order": "1"
+      },
+      {
+        "status": "REGISTRATION",
+        "division": "8 - OH",
+        "order": "1"
+      },
+      {
+        "status": "REGISTRATION",
+        "division": "9 - AZ",
+        "order": "1"
+      },
+      {
+        "status": "NEW",
+        "division": "9 - AZ",
+        "order": "1"
+      },
+      {
+        "status": "REGISTRATION",
+        "division": "99 - AUTOSYNC",
+        "order": "1"
+      },
+      {
+        "status": "ONBOARDING",
+        "division": "10 - OR",
+        "order": "2"
+      },
+      {
+        "status": "ONBOARDING",
+        "division": "10 - OR",
+        "order": "2"
+      },
+      {
+        "status": "ONBOARDING",
+        "division": "11 - GA",
+        "order": "2"
+      },
+      {
+        "status": "ONBOARDING",
+        "division": "12 - PA",
+        "order": "2"
+      },
+      {
+        "status": "ONBOARDING",
+        "division": "2 - IL",
+        "order": "2"
+      },
+      {
+        "status": "ONBOARDING",
+        "division": "2 - IL",
+        "order": "2"
+      },
+      {
+        "status": "ONBOARDING",
+        "division": "3 - TX",
+        "order": "2"
+      },
+      {
+        "status": "ONBOARDING",
+        "division": "3 - TX",
+        "order": "2"
+      },
+      {
+        "status": "ONBOARDING",
+        "division": "5 - CA",
+        "order": "2"
+      },
+      {
+        "status": "ONBOARDING",
+        "division": "5 - CA",
+        "order": "2"
+      },
+      {
+        "status": "ONBOARDING",
+        "division": "6 - FL",
+        "order": "2"
+      },
+      {
+        "status": "ONBOARDING",
+        "division": "7 - MI",
+        "order": "2"
+      },
+      {
+        "status": "ONBOARDING",
+        "division": "7 - MI",
+        "order": "2"
+      },
+      {
+        "status": "ONBOARDING",
+        "division": "8 - OH",
+        "order": "2"
+      },
+      {
+        "status": "ONBOARDING",
+        "division": "8 - OH",
+        "order": "2"
+      },
+      {
+        "status": "Onboarding",
+        "division": "9 - AZ",
+        "order": "2"
+      },
+      {
+        "status": "ONBOARDING",
+        "division": "99 - AUTOSYNC",
+        "order": "2"
+      }
+    ]
+  },
+  "9814CCF3-6F40-4480-BB3B-76DA6E727947": {
+    "pizza_status_id": "9814CCF3-6F40-4480-BB3B-76DA6E727947",
+    "pizza_status_name": "Orientation",
+    "description": "Orientation Description",
+    "is_operator": true,
+    "threshold": 0.8,
+    "operators_analyzed": 12,
+    "required_certifications": [],
+    "status_mappings": [
+      {
+        "status": "ORIENTATION-BIG STAR SAFETY & SERVICE",
+        "division": "10 - OR",
+        "order": "5"
+      },
+      {
+        "status": "ORIENTATION-BIG STAR SAFETY & SERVICE",
+        "division": "11 - GA",
+        "order": "5"
+      },
+      {
+        "status": "ORIENTATION-BIG STAR SAFETY & SERVICE",
+        "division": "12 - PA",
+        "order": "5"
+      },
+      {
+        "status": "ORIENTATION-BIG STAR SAFETY & SERVICE",
+        "division": "2 - IL",
+        "order": "5"
+      },
+      {
+        "status": "ORIENTATION-BIG STAR SAFETY & SERVICE",
+        "division": "3 - TX",
+        "order": "5"
+      },
+      {
+        "status": "ORIENTATION-BIG STAR SAFETY & SERVICE",
+        "division": "5 - CA",
+        "order": "5"
+      },
+      {
+        "status": "ORIENTATION-BIG STAR SAFETY & SERVICE",
+        "division": "6 - FL",
+        "order": "5"
+      },
+      {
+        "status": "ORIENTATION",
+        "division": "7 - MI",
+        "order": "5"
+      },
+      {
+        "status": "ORIENTATION-BIG STAR SAFETY & SERVICE",
+        "division": "7 - MI",
+        "order": "5"
+      },
+      {
+        "status": "ORIENTATION-BIG STAR SAFETY & SERVICE",
+        "division": "8 - OH",
+        "order": "5"
+      },
+      {
+        "status": "Orientation-TEST",
+        "division": "9 - AZ",
+        "order": "5"
+      },
+      {
+        "status": "ORIENTATION - CLIENT HOSTED",
+        "division": "9 - AZ",
+        "order": "5"
+      },
+      {
+        "status": "ORIENTATION- EV VIDEO ORIENTATION",
+        "division": "99 - AUTOSYNC",
+        "order": "5"
+      },
+      {
+        "status": "ORIENTATION - CLIENT HOSTED",
+        "division": "10 - OR",
+        "order": "6"
+      },
+      {
+        "status": "ORIENTATION-MAJESTIC",
+        "division": "1000 - Majestic",
+        "order": "6"
+      },
+      {
+        "status": "ORIENTATION - CLIENT HOSTED",
+        "division": "11 - GA",
+        "order": "6"
+      },
+      {
+        "status": "ORIENTATION - CLIENT HOSTED",
+        "division": "12 - PA",
+        "order": "6"
+      },
+      {
+        "status": "ORIENTATION - CLIENT HOSTED (MEDICAR)",
+        "division": "2 - IL",
+        "order": "6"
+      },
+      {
+        "status": "ORIENTATION - CLIENT HOSTED",
+        "division": "3 - TX",
+        "order": "6"
+      },
+      {
+        "status": "APPROVED FOR CHO (CLIENT HOSTED)",
+        "division": "3 - TX",
+        "order": "6"
+      },
+      {
+        "status": "ORIENTATION-Behind the Wheel",
+        "division": "5 - CA",
+        "order": "6"
+      },
+      {
+        "status": "ORIENTATION - CLIENT HOSTED",
+        "division": "5 - CA",
+        "order": "6"
+      },
+      {
+        "status": "ORIENTATION - CLIENT HOSTED",
+        "division": "6 - FL",
+        "order": "6"
+      },
+      {
+        "status": "ORIENTATION - CLIENT HOSTED (MEDICAR)",
+        "division": "7 - MI",
+        "order": "6"
+      },
+      {
+        "status": "ORIENTATION - CLIENT HOSTED",
+        "division": "8 - OH",
+        "order": "6"
+      },
+      {
+        "status": "ORIENTATION",
+        "division": "9 - AZ",
+        "order": "6"
+      },
+      {
+        "status": "ORIENTATION- AutoSync Safety and Service",
+        "division": "99 - AUTOSYNC",
+        "order": "6"
+      },
+      {
+        "status": "APPROVED FOR CHO (CLIENT HOSTED)",
+        "division": "10 - OR",
+        "order": "7"
+      },
+      {
+        "status": "APPROVED FOR CHO (CLIENT HOSTED)",
+        "division": "11 - GA",
+        "order": "7"
+      },
+      {
+        "status": "APPROVED FOR CHO (CLIENT HOSTED)",
+        "division": "12 - PA",
+        "order": "7"
+      },
+      {
+        "status": "APPROVED-ORIENTATION BTW",
+        "division": "2 - IL",
+        "order": "7"
+      },
+      {
+        "status": "APPROVED FOR CHO (CLIENT HOSTED)",
+        "division": "2 - IL",
+        "order": "7"
+      },
+      {
+        "status": "APPROVED FOR CHO (CLIENT HOSTED)",
+        "division": "3 - TX",
+        "order": "7"
+      },
+      {
+        "status": "APPROVED FOR CHO (CLIENT HOSTED)",
+        "division": "5 - CA",
+        "order": "7"
+      },
+      {
+        "status": "APPROVED FOR CHO (CLIENT HOSTED)",
+        "division": "6 - FL",
+        "order": "7"
+      },
+      {
+        "status": "APPROVED-ORIENTATION BTW",
+        "division": "7 - MI",
+        "order": "7"
+      },
+      {
+        "status": "APPROVED FOR CHO (CLIENT HOSTED)",
+        "division": "8 - OH",
+        "order": "7"
+      },
+      {
+        "status": "APPROVED FOR CHO (CLIENT HOSTED)",
+        "division": "8 - OH",
+        "order": "7"
+      },
+      {
+        "status": "APPROVED-ORIENTATION BTW",
+        "division": "10 - OR",
+        "order": "8"
+      },
+      {
+        "status": "APPROVED-ORIENTATION BTW",
+        "division": "11 - GA",
+        "order": "8"
+      },
+      {
+        "status": "APPROVED-ORIENTATION BTW",
+        "division": "12 - PA",
+        "order": "8"
+      },
+      {
+        "status": "APPROVED-ORIENTATION BTW",
+        "division": "2 - IL",
+        "order": "8"
+      },
+      {
+        "status": "APPROVED-ORIENTATION BTW",
+        "division": "3 - TX",
+        "order": "8"
+      },
+      {
+        "status": "APPROVED-ORIENTATION BTW",
+        "division": "5 - CA",
+        "order": "8"
+      },
+      {
+        "status": "APPROVED-ORIENTATION BTW",
+        "division": "6 - FL",
+        "order": "8"
+      },
+      {
+        "status": "APPROVED-ORIENTATION BTW",
+        "division": "8 - OH",
+        "order": "8"
+      }
+    ]
+  },
+  "F8A05A66-09D9-4C19-A808-643BF3E3A798": {
+    "pizza_status_id": "F8A05A66-09D9-4C19-A808-643BF3E3A798",
+    "pizza_status_name": "Vehicle Leasing",
+    "description": "Vehicle Leasing Description",
+    "is_operator": true,
+    "threshold": 0.8,
+    "operators_analyzed": 1,
+    "required_certifications": [],
+    "status_mappings": [
+      {
+        "status": "APPROVED FOR LEASING",
+        "division": "9 - AZ",
+        "order": "10"
+      },
+      {
+        "status": "APPROVED FOR LEASING",
+        "division": "7 - MI",
+        "order": "12"
+      },
+      {
+        "status": "APPROVED FOR LEASING",
+        "division": "10 - OR",
+        "order": "13"
+      },
+      {
+        "status": "APPROVED FOR LEASING",
+        "division": "11 - GA",
+        "order": "13"
+      },
+      {
+        "status": "APPROVED FOR LEASING",
+        "division": "12 - PA",
+        "order": "13"
+      },
+      {
+        "status": "APPROVED FOR LEASING",
+        "division": "2 - IL",
+        "order": "13"
+      },
+      {
+        "status": "APPROVED FOR LEASING",
+        "division": "3 - TX",
+        "order": "13"
+      },
+      {
+        "status": "APPROVED FOR LEASING",
+        "division": "5 - CA",
+        "order": "13"
+      },
+      {
+        "status": "APPROVED FOR LEASING",
+        "division": "6 - FL",
+        "order": "13"
+      },
+      {
+        "status": "APPROVED FOR LEASING",
+        "division": "8 - OH",
+        "order": "13"
+      },
+      {
+        "status": "Vehicle Leasing- TEST",
+        "division": "9 - AZ",
+        "order": "8"
+      },
+      {
+        "status": "APPROVED FOR LEASING",
+        "division": "99 - AUTOSYNC",
+        "order": "9"
+      },
+      {
+        "status": "APPROVED FOR LEASING",
+        "division": "11 - GA",
+        "order": "999"
+      },
+      {
+        "status": "APPROVED FOR LEASING",
+        "division": "2 - IL",
+        "order": "999"
+      },
+      {
+        "status": "APPROVED FOR LEASING",
+        "division": "5 - CA",
+        "order": "999"
+      },
+      {
+        "status": "APPROVED FOR LEASING",
+        "division": "8 - OH",
+        "order": "999"
+      }
+    ]
+  }
+}

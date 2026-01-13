@@ -1,0 +1,40 @@
+{
+  "_description": "Different names for the same certification. Use this to normalize cert names.",
+  "Driver License": [
+    "Driver License",
+    "Driver License ",
+    "Drivers License",
+    "Driver's License",
+    "DL",
+    "DRIVERS LICENSE w/CHAUF ENDORSE"
+  ],
+  "Background Check": [
+    "Background Check",
+    "BackgroundCheck",
+    "BGC",
+    "Background Screening"
+  ],
+  "Drug Test": [
+    "Drug Test",
+    "Drug Screen",
+    "Drug Screening",
+    "Pre-Employment Drug Screen",
+    "NON-DOT Pre-Contract Drug/Alc Screen"
+  ],
+  "Physical": [
+    "Physical",
+    "DOT Physical",
+    "Medical Exam",
+    "Medical Examination"
+  ],
+  "CTAA Passenger Assistance": [
+    "CTAA Passenger Assistance",
+    "CTAA PASSENGER ASSISTANCE",
+    "CTAA Passenger Assist"
+  ],
+  "Defensive Driving": [
+    "Defensive Driving",
+    "Defensive Driving ",
+    "Defensive Driver Training"
+  ]
+}
