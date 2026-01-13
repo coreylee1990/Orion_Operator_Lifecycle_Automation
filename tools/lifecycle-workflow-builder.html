@@ -1801,144 +1801,127 @@
         }
 
         // Build requirements structure from master definition
-        function buildRequirementsFromMaster(masterReqs) {
+        function buildRequirementsFromPizzaStatus(pizzaRequirements, statusTypes) {
             const requirements = {};
-            const globalReqs = masterReqs.global_requirements || {};
-            const divisionOverrides = masterReqs.division_overrides || {};
             const excludedDivisions = ['PA - BROOKES', '2 - LAHORE'];
             
-            // Get all unique divisions from operators (excluding test/excluded divisions)
-            const divisions = [...new Set(operators.map(op => op.DivisionID))]
-                .filter(div => !excludedDivisions.some(excluded => div.includes(excluded)));
-            
-            // For each status in global requirements
-            for (const [statusName, statusDef] of Object.entries(globalReqs)) {
-                requirements[statusName] = {
-                    order: statusDef.order || '',
-                    divisions: {}
-                };
+            // For each status type, find its pizza status and get requirements
+            for (const st of statusTypes) {
+                const status = st.Status;
+                const division = st.DivisionID;
+                const pizzaId = st.PizzaStatusID;
                 
-                // For each division, build requirements
-                for (const division of divisions) {
-                    const requiredCerts = [...(statusDef.required_certs || [])];
-                    
-                    // Apply division-specific overrides
-                    if (divisionOverrides[division] && divisionOverrides[division][statusName]) {
-                        const override = divisionOverrides[division][statusName];
-                        
-                        // Add division-specific certs
-                        if (override.add_required_certs) {
-                            requiredCerts.push(...override.add_required_certs);
-                        }
-                        
-                        // Remove certs if specified
-                        if (override.remove_required_certs) {
-                            override.remove_required_certs.forEach(cert => {
-                                const idx = requiredCerts.indexOf(cert);
-                                if (idx > -1) requiredCerts.splice(idx, 1);
-                            });
-                        }
-                    }
-                    
-                    // Count operators in this division/status
-                    const operatorsInStatus = operators.filter(op => 
-                        op.DivisionID === division && op.StatusName === statusName
-                    );
-                    
-                    requirements[statusName].divisions[division] = {
-                        order: statusDef.order || '',
-                        total_operators: operatorsInStatus.length,
-                        required: requiredCerts.map(cert => ({
-                            cert: cert,
-                            count: operatorsInStatus.length,
-                            total: operatorsInStatus.length,
-                            percentage: 100.0
-                        })),
-                        common: [],
-                        optional: []
+                // Skip excluded divisions
+                if (excludedDivisions.some(excluded => division.includes(excluded))) {
+                    continue;
+                }
+                
+                if (!pizzaId || !pizzaRequirements[pizzaId]) {
+                    continue;
+                }
+                
+                const pizzaReq = pizzaRequirements[pizzaId];
+                const requiredCerts = pizzaReq.required_certifications.map(c => c.name);
+                
+                // Initialize status if not exists
+                if (!requirements[status]) {
+                    requirements[status] = {
+                        order: st.OrderID || '',
+                        divisions: {}
                     };
                 }
+                
+                // Count operators in this division/status
+                const operatorsInStatus = operators.filter(op => 
+                    op.DivisionID === division && op.StatusName === status
+                );
+                
+                // Store requirements for this status+division combo
+                requirements[status].divisions[division] = {
+                    order: st.OrderID || '',
+                    pizzaStatusId: pizzaId,
+                    pizzaStatusName: pizzaReq.pizza_status_name,
+                    total_operators: operatorsInStatus.length,
+                    required: requiredCerts.map(cert => ({
+                        cert: cert,
+                        count: operatorsInStatus.length,
+                        total: operatorsInStatus.length,
+                        percentage: 100.0
+                    })),
+                    common: [],
+                    optional: []
+                };
             }
             
             return requirements;
         }
 
-        // Convert current requirements back to master format for saving
-        function convertToMasterFormat(requirements) {
-            const master = {
-                "_metadata": {
-                    "description": "Master Certification Requirements - Single Source of Truth",
-                    "version": "1.0",
-                    "last_updated": new Date().toISOString().split('T')[0],
-                    "notes": [
-                        "This file defines what certifications SHOULD be required at each lifecycle status.",
-                        "All divisions follow these requirements unless overridden in division_overrides.",
-                        "Use this as the source of truth to generate gap reports and compliance checks."
-                    ]
-                },
-                "global_requirements": {},
-                "division_overrides": {},
-                "certification_aliases": {},
-                "usage_instructions": {
-                    "how_to_use": [
-                        "1. Load this file as the master requirements definition",
-                        "2. For each operator, check their status and division",
-                        "3. Get required_certs from global_requirements[status]",
-                        "4. If division exists in division_overrides, merge add_required_certs",
-                        "5. Compare operator's actual certifications against requirements",
-                        "6. Generate gap report showing missing certifications"
-                    ]
-                }
-            };
+        // Convert current requirements back to pizza status format for saving
+        function convertToPizzaStatusFormat(requirements) {
+            const pizzaGroups = {};
             
-            // Build global requirements (common across all divisions)
+            // Group requirements by pizza status
             for (const [statusName, statusData] of Object.entries(requirements)) {
                 const divisions = statusData.divisions || {};
-                const divisionKeys = Object.keys(divisions);
                 
-                if (divisionKeys.length === 0) continue;
-                
-                // Find certs that appear in ALL divisions (global requirements)
-                const firstDivision = divisions[divisionKeys[0]];
-                const globalCerts = (firstDivision.required || [])
-                    .map(c => c.cert)
-                    .filter(cert => {
-                        // Check if this cert exists in all divisions
-                        return divisionKeys.every(divKey => {
-                            const divReqs = divisions[divKey].required || [];
-                            return divReqs.some(c => c.cert === cert);
-                        });
-                    });
-                
-                // Get order from idealFlow (which may have been reordered)
-                const flowItem = idealFlow.find(f => f.status === statusName);
-                const orderNumber = flowItem ? flowItem.step : statusData.order || '';
-                
-                master.global_requirements[statusName] = {
-                    order: orderNumber,
-                    description: `Requirements for ${statusName}`,
-                    required_certs: globalCerts,
-                    notes: ""
-                };
-                
-                // Find division-specific overrides (certs not in global)
-                for (const [divKey, divData] of Object.entries(divisions)) {
-                    const divCerts = (divData.required || []).map(c => c.cert);
-                    const additionalCerts = divCerts.filter(cert => !globalCerts.includes(cert));
+                for (const [division, divData] of Object.entries(divisions)) {
+                    const pizzaId = divData.pizzaStatusId;
                     
-                    if (additionalCerts.length > 0) {
-                        if (!master.division_overrides[divKey]) {
-                            master.division_overrides[divKey] = {};
-                        }
-                        master.division_overrides[divKey][statusName] = {
-                            add_required_certs: additionalCerts,
-                            notes: `Division-specific requirements for ${divKey}`
+                    if (!pizzaId) continue;
+                    
+                    // Initialize pizza status group if not exists
+                    if (!pizzaGroups[pizzaId]) {
+                        pizzaGroups[pizzaId] = {
+                            pizza_status_id: pizzaId,
+                            pizza_status_name: divData.pizzaStatusName || 'Unknown',
+                            description: divData.pizzaStatusName || '',
+                            is_operator: true,
+                            threshold: 0.80,
+                            operators_analyzed: divData.total_operators || 0,
+                            required_certifications: [],
+                            status_mappings: []
                         };
+                    }
+                    
+                    // Update required certifications (use first occurrence's cert list)
+                    if (pizzaGroups[pizzaId].required_certifications.length === 0) {
+                        const requiredCerts = (divData.required || []).map(c => c.cert);
+                        pizzaGroups[pizzaId].required_certifications = requiredCerts.map(cert => ({
+                            name: cert,
+                            coverage: {
+                                count: divData.total_operators,
+                                total: divData.total_operators,
+                                percentage: 100.0
+                            }
+                        }));
+                    }
+                    
+                    // Add this status+division to the mappings
+                    const existingMapping = pizzaGroups[pizzaId].status_mappings.find(
+                        m => m.status === statusName && m.division === division
+                    );
+                    
+                    if (!existingMapping) {
+                        pizzaGroups[pizzaId].status_mappings.push({
+                            status: statusName,
+                            division: division,
+                            order: divData.order || statusData.order || ''
+                        });
                     }
                 }
             }
             
-            return master;
+            // Sort status mappings within each pizza status
+            for (const pizzaReq of Object.values(pizzaGroups)) {
+                pizzaReq.status_mappings.sort((a, b) => {
+                    const orderA = String(a.order);
+                    const orderB = String(b.order);
+                    if (orderA !== orderB) return orderA.localeCompare(orderB);
+                    return a.division.localeCompare(b.division);
+                });
+            }
+            
+            return pizzaGroups;
         }
 
         // Ideal lifecycle flow
@@ -1983,18 +1966,36 @@
                     console.log('❌ Willie Quainton NOT found');
                 }
 
-                console.log('📥 Fetching master requirements...');
-                // Load master requirements (single source of truth)
-                const masterReqResponse = await fetch('master_cert_requirements.json' + cacheBuster);
-                if (!masterReqResponse.ok) {
-                    throw new Error('Failed to load master requirements: ' + masterReqResponse.status);
+                console.log('📥 Fetching pizza status requirements...');
+                // Load pizza status requirements (inference-based)
+                const pizzaReqResponse = await fetch('../data/pay_PizzaStatusRequirements.json' + cacheBuster);
+                if (!pizzaReqResponse.ok) {
+                    throw new Error('Failed to load pizza status requirements: ' + pizzaReqResponse.status);
                 }
-                const masterRequirements = await masterReqResponse.json();
-                console.log('✅ Master requirements loaded successfully');
+                const pizzaRequirements = await pizzaReqResponse.json();
+                console.log('✅ Pizza status requirements loaded:', Object.keys(pizzaRequirements).length, 'pizza statuses');
                 
-                // Build cert requirements structure from master definition
-                certRequirements = buildRequirementsFromMaster(masterRequirements);
-                console.log('✅ Requirements built from master definition');
+                // Load status types for mapping
+                console.log('📥 Fetching status types...');
+                const statusTypesResponse = await fetch('../data/pay_StatusTypes.json' + cacheBuster);
+                if (!statusTypesResponse.ok) {
+                    throw new Error('Failed to load status types: ' + statusTypesResponse.status);
+                }
+                const statusTypes = await statusTypesResponse.json();
+                console.log('✅ Status types loaded:', statusTypes.length, 'status type mappings');
+                
+                // Load certification aliases
+                console.log('📥 Fetching certification aliases...');
+                const aliasesResponse = await fetch('../config/certification_aliases.json' + cacheBuster);
+                if (!aliasesResponse.ok) {
+                    throw new Error('Failed to load certification aliases: ' + aliasesResponse.status);
+                }
+                const certificationAliases = await aliasesResponse.json();
+                console.log('✅ Certification aliases loaded');
+                
+                // Build cert requirements structure from pizza status definitions
+                certRequirements = buildRequirementsFromPizzaStatus(pizzaRequirements, statusTypes);
+                console.log('✅ Requirements built from pizza status definitions');
                 
                 // Keep a copy of original data for comparison
                 originalCertRequirements = JSON.parse(JSON.stringify(certRequirements));
@@ -2831,25 +2832,25 @@
             document.getElementById('saveBtn').style.display = 'inline-block';
         }
 
-        // Save changes - exports to master_cert_requirements.json format
+        // Save changes - exports to pay_PizzaStatusRequirements.json format
         async function saveChanges() {
             if (!hasUnsavedChanges) {
                 alert('No changes to save');
                 return;
             }
 
-            // Convert current requirements back to master format
-            const masterFormat = convertToMasterFormat(certRequirements);
+            // Convert current requirements back to pizza status format
+            const pizzaStatusFormat = convertToPizzaStatusFormat(certRequirements);
             
             // Create the JSON blob
-            const jsonData = JSON.stringify(masterFormat, null, 2);
+            const jsonData = JSON.stringify(pizzaStatusFormat, null, 2);
             const blob = new Blob([jsonData], { type: 'application/json' });
             
             // Try to use File System Access API if available (Chrome/Edge)
             if ('showSaveFilePicker' in window) {
                 try {
                     const handle = await window.showSaveFilePicker({
-                        suggestedName: 'master_cert_requirements.json',
+                        suggestedName: 'pay_PizzaStatusRequirements.json',
                         types: [{
                             description: 'JSON Files',
                             accept: { 'application/json': ['.json'] }
@@ -2867,21 +2868,21 @@
                     // Update original data
                     originalCertRequirements = JSON.parse(JSON.stringify(certRequirements));
                     
-                    alert('✓ Changes saved successfully!\n\nThe file has been saved. Please refresh the page to see the changes reflected.');
+                    alert('✓ Changes saved successfully!\n\nThe file has been saved to data/pay_PizzaStatusRequirements.json.\nPlease refresh the page to see the changes reflected.');
                 } catch (err) {
                     if (err.name !== 'AbortError') {
                         console.error('Error saving file:', err);
                         // Fallback to download
-                        downloadJSON(blob, 'master_cert_requirements.json');
+                        downloadJSON(blob, 'pay_PizzaStatusRequirements.json');
                     }
                 }
             } else {
                 // Fallback: download the file
-                downloadJSON(blob, 'master_cert_requirements.json');
+                downloadJSON(blob, 'pay_PizzaStatusRequirements.json');
             }
         }
 
-        function downloadJSON(blob, filename = 'master_cert_requirements.json') {
+        function downloadJSON(blob, filename = 'pay_PizzaStatusRequirements.json') {
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
@@ -2891,7 +2892,7 @@
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
             
-            alert('✓ Changes exported!\n\nThe file has been downloaded. Please replace the existing master_cert_requirements.json file in the root directory and refresh the page.');
+            alert('✓ Changes exported!\n\nThe file has been downloaded as pay_PizzaStatusRequirements.json.\nPlease replace the existing file in the data/ directory and refresh the page.');
             
             hasUnsavedChanges = false;
             document.getElementById('unsavedIndicator').style.display = 'none';
@@ -3908,10 +3909,13 @@
                 const sql = `
 -- Add requirement: ${certName} for ${statusName} in Division ${division}
 -- Affected operators: ${operatorsInStatus.length}
--- Note: This adds certification requirement metadata. Actual certification records 
--- should be added to pay_Certifications when operators obtain the certification.
+-- 
+-- NOTE: Requirements are now stored in pay_PizzaStatusRequirements.json
+-- This SQL is for reference only - showing which operators would be affected.
+-- Changes made in the UI update the JSON file, not the database directly.
+-- 
+-- If you need to add certification records for operators, use:
 
--- Example: Insert certification records for operators who need this requirement
 /*
 INSERT INTO pay_Certifications (
     ID, OperatorID, Cert, CompletionDate, Date, isApproved, 
@@ -4394,7 +4398,7 @@ ORDER BY RecordCount DESC;
 -- ============================================================================
 -- 
 -- 1. Update the JSON file with your changes (download from requirements editor)
--- 2. Replace master_cert_requirements.json in your project
+-- 2. Replace data/pay_PizzaStatusRequirements.json in your project
 -- 3. Refresh the operator lifecycle workflow builder to see changes
 -- 4. Verify operator progress bars show correct certification percentages
 -- 5. Check operator profile modals display updated requirements
