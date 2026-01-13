@@ -218,6 +218,21 @@
             border-radius: 12px;
             padding: 20px;
             border: 1px solid rgba(148, 163, 184, 0.1);
+            cursor: grab;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .status-requirement-card.dragging-status {
+            opacity: 0.5;
+            transform: scale(0.98);
+            cursor: grabbing;
+        }
+
+        .status-requirement-card.drag-over-status {
+            border-color: #a78bfa;
+            background: rgba(167, 139, 250, 0.1);
+            transform: translateY(-4px);
         }
 
         .status-requirement-card h3 {
@@ -227,6 +242,28 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+        }
+
+        .status-order-badge {
+            background: rgba(167, 139, 250, 0.2);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            color: #a78bfa;
+            margin-right: 8px;
+            font-weight: bold;
+        }
+
+        .drag-handle {
+            cursor: grab;
+            font-size: 1.2rem;
+            margin-right: 8px;
+            opacity: 0.6;
+            transition: opacity 0.2s;
+        }
+
+        .status-requirement-card:hover .drag-handle {
+            opacity: 1;
         }
 
         .cert-count-badge {
@@ -1494,6 +1531,91 @@
         .drag-handle:active {
             cursor: grabbing;
         }
+
+        /* Warning Banner for ALL mode */
+        .all-divisions-warning {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+            animation: pulseWarning 2s ease-in-out infinite;
+        }
+
+        .all-divisions-warning .icon {
+            font-size: 1.5rem;
+        }
+
+        .all-divisions-warning .text {
+            flex: 1;
+        }
+
+        .all-divisions-warning strong {
+            display: block;
+            margin-bottom: 4px;
+            font-size: 1.1rem;
+        }
+
+        @keyframes pulseWarning {
+            0%, 100% {
+                box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+            }
+            50% {
+                box-shadow: 0 4px 20px rgba(245, 158, 11, 0.5);
+            }
+        }
+
+        /* Confirmation Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #1e293b, #334155);
+            border-radius: 16px;
+            padding: 30px;
+            max-width: 500px;
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-header {
+            font-size: 1.5rem;
+            color: #f59e0b;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .modal-body {
+            color: #cbd5e1;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
     </style>
 </head>
 <body>
@@ -1651,6 +1773,9 @@
         let changesMade = false;
         let sqlStatements = [];
         let operatorDivisionMap = {};
+        let draggedStatusElement = null;
+        let draggedStatusName = null;
+        let currentStatusOrder = [];
         
         console.log('✅ Variables declared successfully');
         console.log('   - currentFilter:', currentFilter);
@@ -1785,8 +1910,12 @@
                         });
                     });
                 
+                // Get order from idealFlow (which may have been reordered)
+                const flowItem = idealFlow.find(f => f.status === statusName);
+                const orderNumber = flowItem ? flowItem.step : statusData.order || '';
+                
                 master.global_requirements[statusName] = {
-                    order: statusData.order || '',
+                    order: orderNumber,
                     description: `Requirements for ${statusName}`,
                     required_certs: globalCerts,
                     notes: ""
@@ -3416,6 +3545,121 @@
             }
         }
 
+        // Status Drag-and-Drop Handlers
+        function handleStatusDragStart(event, statusName, statusIndex) {
+            draggedStatusElement = event.currentTarget;
+            draggedStatusName = statusName;
+            draggedStatusElement.classList.add('dragging-status');
+            event.dataTransfer.effectAllowed = 'move';
+            event.dataTransfer.setData('text/html', statusName);
+        }
+
+        function handleStatusDragEnd(event) {
+            if (draggedStatusElement) {
+                draggedStatusElement.classList.remove('dragging-status');
+            }
+            
+            // Remove drag-over class from all status cards
+            document.querySelectorAll('.status-requirement-card').forEach(card => {
+                card.classList.remove('drag-over-status');
+            });
+            
+            draggedStatusElement = null;
+            draggedStatusName = null;
+        }
+
+        function handleStatusDragOver(event) {
+            event.preventDefault();
+            event.dataTransfer.dropEffect = 'move';
+            
+            const target = event.currentTarget;
+            if (target !== draggedStatusElement) {
+                target.classList.add('drag-over-status');
+            }
+        }
+
+        function handleStatusDragLeave(event) {
+            event.currentTarget.classList.remove('drag-over-status');
+        }
+
+        function handleStatusDrop(event, targetStatusName, targetIndex) {
+            event.preventDefault();
+            event.currentTarget.classList.remove('drag-over-status');
+            
+            if (!draggedStatusName || draggedStatusName === targetStatusName) {
+                return;
+            }
+
+            // Show warning if ALL divisions mode
+            if (selectedDivision === 'ALL') {
+                showStatusReorderWarning(draggedStatusName, targetStatusName, targetIndex);
+            } else {
+                reorderStatuses(draggedStatusName, targetStatusName, targetIndex);
+            }
+        }
+
+        function showStatusReorderWarning(draggedStatus, targetStatus, targetIndex) {
+            const modal = document.getElementById('confirmModal');
+            const modalText = document.getElementById('confirmModalText');
+            
+            modalText.innerHTML = `
+                <strong>⚠️ You are about to reorder statuses for ALL divisions!</strong>
+                <br><br>
+                This will move <strong>${draggedStatus}</strong> and update the order numbers for all divisions.
+                <br><br>
+                Any division-specific status orders will be overridden.
+                <br><br>
+                Do you want to proceed?
+            `;
+            
+            modal.style.display = 'flex';
+            
+            // Set up button handlers
+            document.getElementById('confirmYes').onclick = () => {
+                modal.style.display = 'none';
+                reorderStatuses(draggedStatus, targetStatus, targetIndex);
+            };
+            
+            document.getElementById('confirmNo').onclick = () => {
+                modal.style.display = 'none';
+            };
+        }
+
+        function reorderStatuses(draggedStatus, targetStatus, targetIndex) {
+            // Find current order from idealFlow
+            const currentOrder = idealFlow.map(item => item.status);
+            const draggedIndex = currentOrder.indexOf(draggedStatus);
+            const targetIdx = currentOrder.indexOf(targetStatus);
+            
+            if (draggedIndex === -1 || targetIdx === -1) {
+                console.error('Status not found in flow');
+                return;
+            }
+
+            // Remove dragged item and insert at new position
+            const [removed] = currentOrder.splice(draggedIndex, 1);
+            currentOrder.splice(targetIdx, 0, removed);
+            
+            // Update idealFlow with new order
+            idealFlow.length = 0;
+            currentOrder.forEach((status, idx) => {
+                idealFlow.push({ step: idx + 1, status: status });
+            });
+            
+            // Update editedRequirements order numbers
+            Object.keys(editedRequirements).forEach(statusName => {
+                const flowItem = idealFlow.find(f => f.status === statusName);
+                if (flowItem && editedRequirements[statusName]) {
+                    editedRequirements[statusName].order = flowItem.step;
+                }
+            });
+            
+            changesMade = true;
+            renderRequirementsEditor();
+            
+            console.log('✅ Status order updated:', currentOrder);
+        }
+
         function renderSelectDivisionMessage() {
             const canvas = document.querySelector('.workflow-canvas');
             canvas.innerHTML = `
@@ -3478,8 +3722,21 @@
                     <div class="requirements-grid" id="requirementsGrid">
             `;
             
+            // Add warning banner if ALL divisions mode
+            if (selectedDivision === 'ALL') {
+                html += `
+                    <div class="all-divisions-warning">
+                        <div class="icon">⚠️</div>
+                        <div class="text">
+                            <strong>GLOBAL EDIT MODE - ALL DIVISIONS</strong>
+                            Changes to status orders and requirements will apply to ALL divisions and override any individual division settings.
+                        </div>
+                    </div>
+                `;
+            }
+            
             // Render each status step
-            idealFlow.forEach(step => {
+            idealFlow.forEach((step, stepIndex) => {
                 const statusName = step.status;
                 const statusData = editedRequirements[statusName] || { divisions: {} };
                 
@@ -3501,9 +3758,18 @@
                 }
                 
                 html += `
-                    <div class="status-requirement-card">
+                    <div class="status-requirement-card" draggable="true"
+                         ondragstart="handleStatusDragStart(event, '${statusName}', ${stepIndex})"
+                         ondragend="handleStatusDragEnd(event)"
+                         ondragover="handleStatusDragOver(event)"
+                         ondragleave="handleStatusDragLeave(event)"
+                         ondrop="handleStatusDrop(event, '${statusName}', ${stepIndex})">
                         <h3>
-                            ${statusName}
+                            <span>
+                                <span class="drag-handle" title="Drag to reorder status">⠿</span>
+                                <span class="status-order-badge">#${step.step}</span>
+                                ${statusName}
+                            </span>
                             <span class="cert-count-badge">${requiredCerts.length} certs</span>
                         </h3>
                         <div class="drop-zone" data-status="${statusName}"
@@ -4166,5 +4432,23 @@ ORDER BY RecordCount DESC;
 
         // ========== END REQUIREMENTS EDITOR FUNCTIONS ==========
     </script>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span>⚠️</span>
+                <span>Confirm Action</span>
+            </div>
+            <div class="modal-body" id="confirmModalText">
+                <!-- Dynamic content will be inserted here -->
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" id="confirmNo">Cancel</button>
+                <button class="btn btn-danger" id="confirmYes">Yes, Proceed</button>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>
