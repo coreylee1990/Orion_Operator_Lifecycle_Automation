@@ -1,6 +1,62 @@
 # Workflow Builder - Complete Changelog
 
-## Version 2.0 - January 12, 2026 (Latest)
+## Version 3.0 - January 13, 2026 (Latest)
+
+### 🎯 MAJOR UPDATE: Division Filtering System
+
+**Main Page Division Filter**
+- Added division filter dropdown to Control Center panel
+- Filter both operators AND certifications by division
+- "🌐 All Divisions" shows everything across all divisions
+- Specific division selection filters to that division only
+
+**Architecture Change: CertTypes Table Integration**
+- Complete rewrite of `getRequiredCertsForStatus()` function
+- Now queries `pay_CertTypes.json` directly (source of truth)
+- Uses CertTypes → PizzaStatusID → Pizza Status Requirements flow
+- Matches actual database structure and query logic
+
+**Data Flow**:
+```
+User selects division (e.g., "12 - PA")
+    ↓
+Find pizza statuses with status_mappings for that division
+    ↓
+Query pay_CertTypes where PizzaStatusID matches AND DivisionID matches
+    ↓
+Return certification names
+```
+
+**Dynamic Division Display**
+- Status containers show contextual division information
+- "All Divisions" mode: Shows all divisions (e.g., "Divisions: 10-OR, 11-GA, 12-PA...")
+- Filtered mode: Shows only selected division (e.g., "Division: 12 - PA")
+- Removed redundant division labels from certification badges
+
+**Always-Visible Divisions**
+- Divisions 2-IL and 5-CA always appear in dropdown even without operators
+- Ensures all valid divisions are accessible for filtering
+
+**Verification**
+- Division 12 - PA confirmed: 30 certifications across 8 operator pizza statuses
+- Matches database query results exactly
+- Accurate filtering for all divisions
+
+### 📊 Statistics
+- New File Added: `pay_CertTypes.json` (1,322 cert types) 
+- Function Rewritten: `getRequiredCertsForStatus()` - now ~50 lines
+- Lines Added: ~100 (load logic + filtering + display)
+- File Size: 4,585 lines (was 4,026)
+- New Documentation: DIVISION_FILTERING_ARCHITECTURE.md (~400 lines)
+
+### ✅ Status: Production Ready - Verified
+
+### 🔗 Related Documentation
+- [DIVISION_FILTERING_ARCHITECTURE.md](DIVISION_FILTERING_ARCHITECTURE.md) - Complete technical documentation
+
+---
+
+## Version 2.0 - January 12, 2026
 
 ### 🚀 NEW FEATURES
 
@@ -45,5 +101,5 @@
 
 ---
 
-**Current Version**: 2.0  
-**Last Updated**: January 12, 2026
+**Current Version**: 3.0  
+**Last Updated**: January 13, 2026

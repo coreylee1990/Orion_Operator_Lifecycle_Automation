@@ -42,3 +42,4 @@ output/archive/
 
 # Sensitive data (keep local only)
 # Note: If you have API keys or passwords, add those files here
+data/backups/

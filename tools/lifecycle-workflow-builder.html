@@ -1660,15 +1660,13 @@
         </div>
 
         <div class="controls">
-            <button class="btn btn-toggle" id="modeToggle" onclick="toggleViewMode()">📝 Edit Requirements</button>
-            <select class="division-select" id="divisionFilter" onchange="handleDivisionChange()" style="display: none;">
-                <option value="">Select Division...</option>
-            </select>
+            <!-- Edit/View mode toggle removed -->
+            <!-- Division filter for Edit/View mode removed (mainDivisionFilter is used instead) -->
+
             <button class="btn btn-primary" onclick="resetToIdealFlow()" id="resetBtn">🔄 Reset to Ideal Flow</button>
             <button class="btn btn-success" onclick="validateAll()" id="validateBtn">✓ Validate All</button>
             <button class="btn btn-danger" onclick="showIssues()" id="issuesBtn">⚠ Show Issues</button>
             <button class="btn btn-success" id="saveBtn" onclick="saveChanges()" style="display: none;">💾 Save Changes</button>
-            <button class="btn btn-secondary" id="cancelEditBtn" onclick="cancelEdit()" style="display: none;">✕ Cancel Edit</button>
         </div>
 
         <!-- Control Center Panel -->
@@ -1685,7 +1683,13 @@
                 <button class="filter-btn active" data-filter="all" onclick="setFilter('all')">All Statuses</button>
                 <button class="filter-btn" data-filter="valid" onclick="setFilter('valid')">✓ Valid Only</button>
                 <button class="filter-btn" data-filter="invalid" onclick="setFilter('invalid')">⚠ Invalid Only</button>
-                <button class="filter-btn" data-filter="division" onclick="toggleDivisionFilter()">Division Filter</button>
+            </div>
+            
+            <div class="division-filter-section" style="margin: 15px 0;">
+                <label style="display: block; margin-bottom: 8px; color: #94a3b8; font-size: 0.9rem;">📍 Filter by Division:</label>
+                <select id="mainDivisionFilter" onchange="handleMainDivisionFilter()" style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid rgba(148, 163, 184, 0.2); background: rgba(30, 41, 59, 0.6); color: #e2e8f0; font-size: 0.95rem;">
+                    <option value="ALL">🌐 All Divisions</option>
+                </select>
             </div>
             
             <div class="bulk-actions">
@@ -1759,7 +1763,9 @@
         
         let operators = [];
         let statusTypes = [];
+        let certTypes = [];  // Raw cert types from database
         let certRequirements = {};
+        let pizzaStatusRequirements = {};  // Store original pizza status requirements
         let currentWorkflow = [];
         let hasUnsavedChanges = false;
         let originalCertRequirements = {};
@@ -1768,8 +1774,22 @@
         let currentFilter = 'all';
         let searchQuery = '';
         let editMode = false;
-        let selectedDivision = '';
+        let selectedDivision = 'ALL';  // Default to All Divisions (for edit mode)
+        let mainDivisionFilter = 'ALL';  // Division filter for main operator view
         let editedRequirements = {};
+
+        // Divisions to completely exclude from the system
+        const EXCLUDED_DIVISIONS = ['PA - BROOKES', '2 - LAHORE', 'Majestic'];
+
+        // Helper to check if a division matches a filter (handling "12 - PA" vs "12-PA")
+        function isDivisionMatch(division, filter) {
+            if (!division || !filter) return false;
+            if (filter === 'ALL') return true;
+            // Extract the numeric/code part (e.g., "12" from "12 - PA")
+            const filterCode = filter.split(' - ')[0].trim();
+            return division.includes(filterCode);
+        }
+        
         let changesMade = false;
         let sqlStatements = [];
         let operatorDivisionMap = {};
@@ -1860,13 +1880,31 @@
         function convertToPizzaStatusFormat(requirements) {
             const pizzaGroups = {};
             
+            // Step 1: Build a map of Status Name -> Pizza ID to fill in gaps
+            const statusToPizzaIdMap = {};
+            for (const [statusName, statusData] of Object.entries(requirements)) {
+                const divisions = statusData.divisions || {};
+                for (const divData of Object.values(divisions)) {
+                    if (divData.pizzaStatusId) {
+                        statusToPizzaIdMap[statusName] = divData.pizzaStatusId;
+                        statusToPizzaIdMap[statusName.toUpperCase()] = divData.pizzaStatusId;
+                    }
+                }
+            }
+
             // Group requirements by pizza status
             for (const [statusName, statusData] of Object.entries(requirements)) {
                 const divisions = statusData.divisions || {};
                 
                 for (const [division, divData] of Object.entries(divisions)) {
-                    const pizzaId = divData.pizzaStatusId;
+                    let pizzaId = divData.pizzaStatusId;
                     
+                    // Fallback: Try to infer ID from status name if missing
+                    if (!pizzaId && statusToPizzaIdMap[statusName]) {
+                        pizzaId = statusToPizzaIdMap[statusName];
+                        console.log(`⚠️ Inferred Pizza ID for ${statusName} (${division}): ${pizzaId}`);
+                    }
+
                     if (!pizzaId) continue;
                     
                     // Initialize pizza status group if not exists
@@ -1883,18 +1921,27 @@
                         };
                     }
                     
-                    // Update required certifications (use first occurrence's cert list)
-                    if (pizzaGroups[pizzaId].required_certifications.length === 0) {
-                        const requiredCerts = (divData.required || []).map(c => c.cert);
-                        pizzaGroups[pizzaId].required_certifications = requiredCerts.map(cert => ({
-                            name: cert,
-                            coverage: {
-                                count: divData.total_operators,
-                                total: divData.total_operators,
-                                percentage: 100.0
-                            }
-                        }));
-                    }
+                    // Update required certifications (MERGE with DIVISION SPECIFICITY)
+                    const currentCerts = (divData.required || []).map(c => c.cert);
+                    currentCerts.forEach(certName => {
+                        // Check if exact match (Same Cert AND Same Division OR Global) exists
+                        const existingCert = pizzaGroups[pizzaId].required_certifications.find(
+                            pc => normalizeCertName(pc.name) === normalizeCertName(certName) &&
+                                  (pc.division === division)
+                        );
+                        
+                        if (!existingCert) {
+                            pizzaGroups[pizzaId].required_certifications.push({
+                                name: certName,
+                                division: division, // Persist the division!
+                                coverage: {
+                                    count: divData.total_operators,
+                                    total: divData.total_operators,
+                                    percentage: 100.0
+                                }
+                            });
+                        }
+                    });
                     
                     // Add this status+division to the mappings
                     const existingMapping = pizzaGroups[pizzaId].status_mappings.find(
@@ -1966,14 +2013,23 @@
                     console.log('❌ Willie Quainton NOT found');
                 }
 
+                console.log('📥 Fetching cert types...');
+                // Load cert types from database
+                const certTypesResponse = await fetch('../data/pay_CertTypes.json' + cacheBuster);
+                if (!certTypesResponse.ok) {
+                    throw new Error('Failed to load cert types: ' + certTypesResponse.status);
+                }
+                certTypes = await certTypesResponse.json();
+                console.log('✅ Cert types loaded:', certTypes.length, 'certification types');
+                
                 console.log('📥 Fetching pizza status requirements...');
                 // Load pizza status requirements (inference-based)
                 const pizzaReqResponse = await fetch('../data/pay_PizzaStatusRequirements.json' + cacheBuster);
                 if (!pizzaReqResponse.ok) {
                     throw new Error('Failed to load pizza status requirements: ' + pizzaReqResponse.status);
                 }
-                const pizzaRequirements = await pizzaReqResponse.json();
-                console.log('✅ Pizza status requirements loaded:', Object.keys(pizzaRequirements).length, 'pizza statuses');
+                pizzaStatusRequirements = await pizzaReqResponse.json();
+                console.log('✅ Pizza status requirements loaded:', Object.keys(pizzaStatusRequirements).length, 'pizza statuses');
                 
                 // Load status types for mapping
                 console.log('📥 Fetching status types...');
@@ -1994,7 +2050,7 @@
                 console.log('✅ Certification aliases loaded');
                 
                 // Build cert requirements structure from pizza status definitions
-                certRequirements = buildRequirementsFromPizzaStatus(pizzaRequirements, statusTypes);
+                certRequirements = buildRequirementsFromPizzaStatus(pizzaStatusRequirements, statusTypes);
                 console.log('✅ Requirements built from pizza status definitions');
                 
                 // Keep a copy of original data for comparison
@@ -2024,6 +2080,10 @@
                 updateStats();
                 console.log('✅ Stats updated');
                 
+                console.log('📋 Populating main division filter...');
+                populateMainDivisionFilter();
+                console.log('✅ Main division filter populated');
+                
                 console.log('✅ Initialization complete');
             } catch (error) {
                 console.error('❌ Error loading data:', error);
@@ -2035,6 +2095,12 @@
 
         // Render the workflow
         function renderWorkflow() {
+            // Check if we accidentally got into legacy "Edit Mode" state and reset it
+            if (typeof editMode !== 'undefined' && editMode) {
+                 editMode = false;
+                 document.querySelector('.control-panel').style.display = 'block';
+            }
+
             console.log('🎨 renderWorkflow() called');
             console.log('   - currentWorkflow length:', currentWorkflow.length);
             console.log('   - currentFilter:', currentFilter);
@@ -2042,17 +2108,39 @@
             
             const container = document.getElementById('workflowSteps');
             console.log('   - container element:', container ? 'Found' : 'NOT FOUND');
+            if (!container) return; // Guard clause
+            
             container.innerHTML = '';
+
+            // Add warning banner if ALL divisions mode (INTEGRATED FROM EDIT MODE)
+            if (mainDivisionFilter === 'ALL') {
+                const warningDiv = document.createElement('div');
+                warningDiv.className = 'all-divisions-warning';
+                warningDiv.style.marginBottom = '20px';
+                warningDiv.innerHTML = `
+                    <div class="icon">⚠️</div>
+                    <div class="text">
+                        <strong>GLOBAL EDIT MODE - ALL DIVISIONS</strong><br>
+                        Changes made here may overwrite individual division customizations if not careful.
+                    </div>
+                `;
+                container.appendChild(warningDiv);
+            }
             
             let renderedCount = 0;
 
             currentWorkflow.forEach((flowStep, index) => {
                 // Apply filters
                 const statusName = flowStep.status;
-                const operatorsInStep = operators.filter(op => 
+                let operatorsInStep = operators.filter(op => 
                     op.StatusName === statusName || 
                     (op.StatusName && op.StatusName.toUpperCase() === statusName.toUpperCase())
                 );
+                
+                // Apply division filter
+                if (mainDivisionFilter !== 'ALL') {
+                    operatorsInStep = operatorsInStep.filter(op => op.DivisionID === mainDivisionFilter);
+                }
                 
                 const allRequiredCerts = getRequiredCertsForStatus(statusName);
                 const validation = validateOperatorsInStep(operatorsInStep, allRequiredCerts, index);
@@ -2099,10 +2187,15 @@
         // Create a step card
         function createStepCard(flowStep, index) {
             const statusName = flowStep.status;
-            const operatorsInStep = operators.filter(op => 
+            let operatorsInStep = operators.filter(op => 
                 op.StatusName === statusName || 
                 (op.StatusName && op.StatusName.toUpperCase() === statusName.toUpperCase())
             );
+            
+            // Apply division filter
+            if (mainDivisionFilter !== 'ALL') {
+                operatorsInStep = operatorsInStep.filter(op => op.DivisionID === mainDivisionFilter);
+            }
 
             // Get required certifications for this status
             const allRequiredCerts = getRequiredCertsForStatus(statusName);
@@ -2159,9 +2252,24 @@
             card.dataset.index = index;
             card.dataset.status = statusName;
             
-            // Get divisions for this status (reusing statusData from earlier)
-            const divisionsList = statusData ? Object.keys(statusData.divisions || {}) : [];
-            const divisionsText = divisionsList.length > 0 ? divisionsList.join(', ') : 'No divisions';
+            // Get divisions dynamically based on filter
+            let divisionsText;
+            if (mainDivisionFilter === 'ALL') {
+                // Show all divisions that have this status in pizza status requirements
+                const divisionsForStatus = new Set();
+                Object.values(pizzaStatusRequirements).forEach(pizzaStatus => {
+                    (pizzaStatus.status_mappings || []).forEach(mapping => {
+                        if (mapping.status === statusName) {
+                            divisionsForStatus.add(mapping.division);
+                        }
+                    });
+                });
+                const divList = Array.from(divisionsForStatus).sort();
+                divisionsText = divList.length > 0 ? divList.join(', ') : 'No divisions';
+            } else {
+                // Show only the filtered division
+                divisionsText = mainDivisionFilter;
+            }
 
             card.innerHTML = `
                 <div class="step-header">
@@ -2171,7 +2279,7 @@
                         <div class="step-meta">
                             <span>Original Step: ${flowStep.step}</span>
                             <span>|</span>
-                            <span>Divisions: ${divisionsText}</span>
+                            <span>Division${mainDivisionFilter === 'ALL' ? 's' : ''}: ${divisionsText}</span>
                             <span>|</span>
                             <span>${certsToDisplay.length} New Required Cert${certsToDisplay.length !== 1 ? 's' : ''}</span>
                             ${previousCerts.size > 0 ? `<span>|</span><span style="color: #94a3b8;">${previousCerts.size} from previous steps</span>` : ''}
@@ -2195,51 +2303,14 @@
                         ${operatorsInStep.length > 0 ? 
                             operatorsInStep.map(op => {
                                 // Get certs needed for THIS operator's division - CUMULATIVE from all previous steps
-                                const allCertsNeeded = new Set();
                                 const opDivision = op.DivisionID || '';
                                 const opStatus = op.StatusName || '';
                                 
-                                // Find operator's current step in the workflow
-                                const currentStepIndex = idealFlow.findIndex(s => s.status === opStatus);
-                                
-                                // DEBUG LOGGING
-                                if (op.LastName === 'Carr') {
-                                    console.log('🔍 DEBUG Dominique Carr:');
-                                    console.log('  opDivision:', opDivision);
-                                    console.log('  opStatus:', opStatus);
-                                    console.log('  currentStepIndex:', currentStepIndex);
-                                }
-                                
-                                // Accumulate requirements from current status AND all previous statuses
-                                if (currentStepIndex >= 0) {
-                                    // Get all statuses up to and including current
-                                    const relevantStatuses = idealFlow.slice(0, currentStepIndex + 1).map(s => s.status);
-                                    
-                                    if (op.LastName === 'Carr') {
-                                        console.log('  relevantStatuses:', relevantStatuses);
-                                    }
-                                    
-                                    // Collect requirements from all these statuses for operator's division
-                                    relevantStatuses.forEach(statusName => {
-                                        const statusData = certRequirements[statusName];
-                                        if (statusData) {
-                                            const divisions = statusData.divisions || {};
-                                            if (opDivision && divisions[opDivision]) {
-                                                (divisions[opDivision].required || []).forEach(cert => {
-                                                    allCertsNeeded.add(cert.cert);
-                                                });
-                                            }
-                                        }
-                                    });
-                                }
+                                // Use the new helper function to get required certs for this operator
+                                const allCertsNeeded = getRequiredCertsForOperator(opDivision, opStatus);
 
                                 // Get operator's certifications
                                 const operatorCerts = op.certifications || [];
-                                
-                                if (op.LastName === 'Carr') {
-                                    console.log('  allCertsNeeded:', Array.from(allCertsNeeded));
-                                    console.log('  operatorCerts count:', operatorCerts.length);
-                                }
                                 
                                 // Calculate cert status
                                 let validCount = 0;
@@ -2302,11 +2373,9 @@
                     <div class="cert-list cert-list-editable drop-zone" data-status="${statusName}" ondrop="handleCertDrop(event, this)" ondragover="handleCertDragOver(event)">
                         ${certsToDisplay.length > 0 ? 
                             certsToDisplay.slice(0, 50).map(cert => {
-                                const divisions = certDivisionMap[cert] || [];
-                                const divText = divisions.length > 0 ? ` (${divisions.join(', ')})` : '';
                                 return `
                                     <span class="cert-badge" draggable="true" ondragstart="handleCertDragStart(event, this)" data-cert="${cert}" onclick="showCertDetails('${cert.replace(/'/g, "\\'")}', '${statusName}')" style="cursor: pointer;">
-                                        ${cert}${divText}
+                                        ${cert}
                                         <span class="remove-cert" onclick="event.stopPropagation(); removeCert(event, '${statusName}', '${cert.replace(/'/g, "\\'")}')">×</span>
                                     </span>
                                 `;
@@ -2336,67 +2405,148 @@
             return card;
         }
 
-        // Get required certifications for a status
+        // Get required certifications for a status (using CertTypes table directly)
         function getRequiredCertsForStatus(statusName) {
-            const statusData = certRequirements[statusName] || certRequirements[statusName.toUpperCase()];
-            if (!statusData) {
-                console.log(`   ⚠️ No status data found for: ${statusName}`);
-                return [];
-            }
-
             const certs = new Set();
-            const divisions = statusData.divisions || {};
-
-            // Collect all required certs from all divisions
-            Object.entries(divisions).forEach(([divId, divData]) => {
-                const divCerts = (divData.required || []).map(cert => cert.cert);
-                console.log(`      Division ${divId}: ${divCerts.length} certs`);
-                divCerts.forEach(cert => {
-                    if (certs.has(cert)) {
-                        console.log(`         🔄 Duplicate cert in another division: "${cert}"`);
+            
+            console.log(`\n🔍 getRequiredCertsForStatus('${statusName}') with division filter: '${mainDivisionFilter}'`);
+            
+            // Step 1: Find pizza statuses that map to this lifecycle status
+            const relevantPizzaStatusIds = new Set();
+            Object.values(pizzaStatusRequirements).forEach(pizzaStatus => {
+                const matchingMappings = (pizzaStatus.status_mappings || []).filter(mapping => {
+                    if (mapping.status === statusName) {
+                        if (mainDivisionFilter === 'ALL') {
+                            return true;
+                        } else {
+                            return mapping.division === mainDivisionFilter;
+                        }
                     }
-                    certs.add(cert);
+                    return false;
                 });
+                
+                if (matchingMappings.length > 0) {
+                    relevantPizzaStatusIds.add(pizzaStatus.pizza_status_id);
+                    console.log(`   📦 Pizza Status: ${pizzaStatus.pizza_status_name} (${pizzaStatus.pizza_status_id})`);
+                    console.log(`      Mappings: ${matchingMappings.map(m => m.division).join(', ')}`);
+                }
+            });
+            
+            console.log(`   🎯 Found ${relevantPizzaStatusIds.size} relevant pizza status IDs`);
+            
+            // Step 2: Get cert types that have these pizza status IDs and match division filter
+            certTypes.forEach(certType => {
+                const pizzaStatusId = certType.PizzaStatusID;
+                const divisionId = certType.DivisionID;
+                const certName = certType.Certification;
+                
+                // Check if this cert type has a relevant pizza status ID
+                if (pizzaStatusId && relevantPizzaStatusIds.has(pizzaStatusId)) {
+                    // Check division filter
+                    if (mainDivisionFilter === 'ALL') {
+                        certs.add(certName);
+                    } else {
+                        // Check if division matches (handle both "12 - PA" and "12-PA" formats)
+                        if (divisionId && divisionId.includes(mainDivisionFilter.replace(' - ', '-').split('-')[0])) {
+                            certs.add(certName);
+                        }
+                    }
+                }
             });
 
-            const result = Array.from(certs);
-            console.log(`   ✅ Total unique certs for ${statusName}: ${result.length}`);
+            const result = Array.from(certs).sort();
+            console.log(`   ✅ TOTAL Certs for ${statusName} (division: ${mainDivisionFilter}): ${result.length}`);
+            if (result.length > 0) {
+                console.log(`      Certs: ${result.join(', ')}`);
+            }
             return result;
         }
 
-        // Build list of all existing certifications
-        function buildExistingCertsList() {
-            const certsMap = new Map();
+        // Get required certs for an operator based on their division and cumulative statuses
+        function getRequiredCertsForOperator(operatorDivision, statusName) {
+            const certs = new Set();
             
-            // Collect all certs from all statuses
-            Object.entries(certRequirements).forEach(([statusName, statusData]) => {
-                const divisions = statusData.divisions || {};
+            // Find operator's current step in the workflow
+            const currentStepIndex = idealFlow.findIndex(s => s.status === statusName);
+            
+            if (currentStepIndex >= 0) {
+                // Get all statuses up to and including current (cumulative)
+                const relevantStatuses = idealFlow.slice(0, currentStepIndex + 1).map(s => s.status);
                 
-                Object.values(divisions).forEach(divData => {
-                    ['required', 'common', 'optional'].forEach(level => {
-                        const certs = divData[level] || [];
-                        certs.forEach(cert => {
-                            const certName = cert.cert;
-                            if (!certsMap.has(certName)) {
-                                certsMap.set(certName, new Set());
+                // Collect requirements from all these statuses for operator's division
+                relevantStatuses.forEach(status => {
+                    Object.values(pizzaStatusRequirements).forEach(pizzaStatus => {
+                        (pizzaStatus.status_mappings || []).forEach(mapping => {
+                            if (mapping.status === status && mapping.division === operatorDivision) {
+                                (pizzaStatus.required_certifications || []).forEach(cert => {
+                                    if (cert.division === operatorDivision) {
+                                        certs.add(cert.name);
+                                    }
+                                });
                             }
-                            certsMap.get(certName).add(statusName);
                         });
                     });
                 });
+            }
+            
+            return Array.from(certs);
+        }
+
+        // Build list of all existing certifications from CertTypes (treating each cert+division as unique)
+        function buildExistingCertsList() {
+            const certsArray = [];
+            
+            // Add each cert type as a unique entry (no grouping by name)
+            certTypes.forEach(certType => {
+                const certName = certType.Certification;
+                const division = certType.DivisionID;
+                
+                if (!certName) return;
+                
+                // Exclude unwanted divisions globally
+                if (division && EXCLUDED_DIVISIONS.some(ex => division.toUpperCase().includes(ex.toUpperCase()))) return;
+                
+                // Each cert type is unique - don't group by name
+                certsArray.push({
+                    name: certName,
+                    division: division || 'No division',
+                    pizzaStatusId: certType.PizzaStatusID || null,
+                    certTypeId: certType.CertID
+                });
+            });
+            
+            // Group only for display purposes (to show "Used in X divisions")
+            const certsMap = new Map();
+            certsArray.forEach(cert => {
+                if (!certsMap.has(cert.name)) {
+                    certsMap.set(cert.name, {
+                        name: cert.name,
+                        divisions: new Set(),
+                        pizzaStatuses: new Set(),
+                        entries: []
+                    });
+                }
+                const entry = certsMap.get(cert.name);
+                entry.divisions.add(cert.division);
+                if (cert.pizzaStatusId) {
+                    entry.pizzaStatuses.add(cert.pizzaStatusId);
+                }
+                entry.entries.push(cert);
             });
             
             // Convert to array with metadata
-            allExistingCerts = Array.from(certsMap.entries()).map(([certName, statuses]) => ({
+            allExistingCerts = Array.from(certsMap.entries()).map(([certName, data]) => ({
                 name: certName,
-                statuses: Array.from(statuses),
-                count: statuses.size
+                divisions: Array.from(data.divisions).sort(),
+                divisionCount: data.divisions.size,
+                pizzaStatusCount: data.pizzaStatuses.size,
+                entries: data.entries // Keep individual entries for filtering
             }));
             
-            // Sort by frequency (most common first)
-            allExistingCerts.sort((a, b) => b.count - a.count);
+            // Sort by division count (most common first)
+            allExistingCerts.sort((a, b) => b.divisionCount - a.divisionCount);
             
-            console.log(`Found ${allExistingCerts.length} unique certifications across all statuses`);
+            console.log(`Found ${allExistingCerts.length} unique certifications from CertTypes (${certsArray.length} total cert types)`);
         }
 
         // Handle input in cert field (autocomplete)
@@ -2410,23 +2560,69 @@
                 return;
             }
             
-            // Filter certifications
-            const matches = allExistingCerts.filter(cert => 
+            // Get current division filter (use selectedDivision for edit mode)
+            const currentFilter = editMode ? selectedDivision : mainDivisionFilter;
+            console.log(`🔍 Autocomplete filter: editMode=${editMode}, currentFilter='${currentFilter}'`);
+            
+            // Filter certifications by search term
+            let matches = allExistingCerts.filter(cert => 
                 cert.name.toLowerCase().includes(value)
-            ).slice(0, 20); // Limit to top 20 matches
+            );
+            
+            console.log(`   Found ${matches.length} matches for search term '${value}'`);
+            
+            // Filter by division if specific division selected
+            if (currentFilter !== 'ALL') {
+                const beforeCount = matches.length;
+                matches = matches.filter(cert => {
+                    // Check if ANY of the cert's individual entries (cert types) match the filter division
+                    const hasMatch = cert.entries.some(entry => {
+                        // Handle both "12 - PA" and "12-PA" formats
+                        const divNum = currentFilter.replace(' - ', '-').split('-')[0];
+                        const matches = entry.division && entry.division.includes(divNum);
+                        return matches;
+                    });
+                    return hasMatch;
+                });
+                console.log(`   After division filter '${currentFilter}': ${matches.length} matches (was ${beforeCount})`);
+                if (matches.length > 0 && matches.length <= 3) {
+                    console.log(`   Sample matches:`, matches.map(m => `${m.name} [${m.divisions.join(', ')}]`));
+                }
+            }
+            
+            // Limit to top 20 matches
+            matches = matches.slice(0, 20);
             
             if (matches.length === 0) {
-                dropdown.innerHTML = '<div class="autocomplete-no-results">No matches found. Press Enter to add as new certification.</div>';
+                const filterMsg = currentFilter !== 'ALL' ? ` for division ${currentFilter}` : '';
+                dropdown.innerHTML = `<div class="autocomplete-no-results">No matches found${filterMsg}. Press Enter to add as new certification.</div>`;
                 dropdown.classList.add('active');
             } else {
-                dropdown.innerHTML = matches.map((cert, idx) => `
-                    <div class="autocomplete-item ${idx === 0 ? 'highlighted' : ''}" 
-                         data-cert="${cert.name}"
-                         onmousedown="selectCert(event, '${cert.name.replace(/'/g, "\\'")}', ${stepIndex})">
-                        <div class="cert-name">${cert.name}</div>
-                        <div class="cert-status-list">Used in ${cert.count} status${cert.count > 1 ? 'es' : ''}: ${cert.statuses.slice(0, 3).join(', ')}${cert.statuses.length > 3 ? '...' : ''}</div>
-                    </div>
-                `).join('');
+                dropdown.innerHTML = matches.map((cert, idx) => {
+                    let displayDivisions = cert.divisions;
+                    
+                    // If filtering, only show matching divisions in the subtitle to reduce noise
+                    if (currentFilter !== 'ALL') {
+                        // Use helper to find matches
+                        displayDivisions = displayDivisions.filter(d => isDivisionMatch(d, currentFilter));
+                    }
+                    
+                    // Filter excluded divisions from display
+                    displayDivisions = displayDivisions.filter(d => !EXCLUDED_DIVISIONS.some(ex => d.toUpperCase().includes(ex.toUpperCase())));
+                    
+                    const divisionsText = displayDivisions.length > 0 
+                        ? displayDivisions.slice(0, 3).join(', ') + (displayDivisions.length > 3 ? '...' : '')
+                        : (currentFilter !== 'ALL' ? currentFilter : 'No division');
+                    
+                    return `
+                        <div class="autocomplete-item ${idx === 0 ? 'highlighted' : ''}" 
+                             data-cert="${cert.name}"
+                             onmousedown="selectCert(event, '${cert.name.replace(/'/g, "\\'")}', ${stepIndex})">
+                            <div class="cert-name">${cert.name}</div>
+                            <div class="cert-status-list">📍 ${divisionsText} | Used in ${cert.pizzaStatusCount} pizza status${cert.pizzaStatusCount > 1 ? 'es' : ''}</div>
+                        </div>
+                    `;
+                }).join('');
                 dropdown.classList.add('active');
                 currentAutocompleteIndex = 0;
             }
@@ -2774,30 +2970,56 @@
         }
 
         function addCertToStatus(statusName, certName) {
+            console.log(`➕ adding cert '${certName}' to status '${statusName}'`);
+
+            // 1. Update legacy certRequirements
             const statusData = certRequirements[statusName] || certRequirements[statusName.toUpperCase()];
-            if (!statusData) {
-                console.error('Status not found:', statusName);
-                return;
+            if (statusData) {
+                const divisions = statusData.divisions || {};
+                Object.values(divisions).forEach(divData => {
+                    const required = divData.required || [];
+                    const exists = required.some(c => c.cert === certName);
+                    if (!exists) {
+                        required.push({
+                            cert: certName,
+                            count: divData.total_operators || 0,
+                            total: divData.total_operators || 0,
+                            percentage: 100.0
+                        });
+                        divData.required = required;
+                    }
+                });
+            } else {
+                console.warn('Status not found in certRequirements:', statusName);
             }
 
-            const divisions = statusData.divisions || {};
-            
-            // Add to all divisions for this status
-            Object.values(divisions).forEach(divData => {
-                const required = divData.required || [];
+            // 2. Update certTypes (for dynamic rendering)
+            let addedCount = 0;
+            Object.values(pizzaStatusRequirements).forEach(pizzaStatus => {
+                const mappings = pizzaStatus.status_mappings || [];
                 
-                // Check if cert already exists
-                const exists = required.some(c => c.cert === certName);
-                if (!exists) {
-                    required.push({
-                        cert: certName,
-                        count: divData.total_operators || 0,
-                        total: divData.total_operators || 0,
-                        percentage: 100.0
-                    });
-                    divData.required = required;
-                }
+                // Find all mappings for this status
+                mappings.filter(m => m.status === statusName).forEach(mapping => {
+                    // Check if already exists in certTypes
+                    const exists = certTypes.some(ct => 
+                        ct.PizzaStatusID === pizzaStatus.pizza_status_id && 
+                        normalizeCertName(ct.Certification) === normalizeCertName(certName) &&
+                        (ct.DivisionID === mapping.division || ct.DivisionID === null) // Handle simplistic matching
+                    );
+                    
+                    if (!exists) {
+                        certTypes.push({
+                            Certification: certName,
+                            PizzaStatusID: pizzaStatus.pizza_status_id,
+                            DivisionID: mapping.division,
+                            CertificationType: 'Added in Session',
+                            CertificationID: 'TEMP-' + Math.random().toString(36).substr(2, 9)
+                        });
+                        addedCount++;
+                    }
+                });
             });
+            console.log(`   ✅ Added to ${addedCount} mapped configurations in certTypes`);
         }
 
         // Remove certification
@@ -2845,6 +3067,38 @@
             // Create the JSON blob
             const jsonData = JSON.stringify(pizzaStatusFormat, null, 2);
             const blob = new Blob([jsonData], { type: 'application/json' });
+
+            // ---------------------------------------------------------
+            // 1. Try Automatic Server Save (using tools/custom_server.py)
+            // ---------------------------------------------------------
+            try {
+                const response = await fetch('/save-requirements', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: jsonData
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    
+                    // Success!
+                    hasUnsavedChanges = false;
+                    document.getElementById('unsavedIndicator').style.display = 'none';
+                    document.getElementById('saveBtn').style.display = 'none';
+                    
+                    // Update original data reference
+                    originalCertRequirements = JSON.parse(JSON.stringify(certRequirements));
+                    
+                    alert('✓ ' + result.message);
+                    return; // Stop here, we don't need to download
+                }
+            } catch (err) {
+                console.log('Server-side save not available, falling back to local file methods...');
+            }
+
+            // ---------------------------------------------------------
+            // 2. Fallback: File System Access API or Download
+            // ---------------------------------------------------------
             
             // Try to use File System Access API if available (Chrome/Edge)
             if ('showSaveFilePicker' in window) {
@@ -2927,6 +3181,44 @@
                 btn.classList.toggle('active', btn.dataset.filter === filterType);
             });
             renderWorkflow();
+        }
+
+        // Populate main division filter dropdown
+        function populateMainDivisionFilter() {
+            const filterSelect = document.getElementById('mainDivisionFilter');
+            if (!filterSelect) return;
+            
+            const divisions = new Set();
+            operators.forEach(op => {
+                if (op.DivisionID) {
+                    divisions.add(op.DivisionID);
+                }
+            });
+            
+            // Add missing divisions that should always appear
+            const requiredDivisions = ['2 - IL', '5 - CA'];
+            requiredDivisions.forEach(div => divisions.add(div));
+            
+            // Clear existing options except "All Divisions"
+            filterSelect.innerHTML = '<option value="ALL">🌐 All Divisions</option>';
+            
+            // Add individual divisions (sorted)
+            Array.from(divisions).sort().forEach(div => {
+                const option = document.createElement('option');
+                option.value = div;
+                option.textContent = div;
+                filterSelect.appendChild(option);
+            });
+            
+            console.log('✅ Populated main division filter with', divisions.size, 'divisions');
+        }
+
+        // Handle main division filter change
+        function handleMainDivisionFilter() {
+            mainDivisionFilter = document.getElementById('mainDivisionFilter').value;
+            console.log('🔄 Division filter changed to:', mainDivisionFilter);
+            renderWorkflow();
+            updateStats();
         }
 
         // Show certification details panel
@@ -3279,10 +3571,6 @@
             document.getElementById('exportModal').classList.remove('open');
         }
 
-        function toggleDivisionFilter() {
-            alert('Division filtering coming soon! This will allow filtering by specific divisions (e.g., 12-PA, 7-MI).');
-        }
-
         // Show operator profile modal
         function showOperatorProfile(operatorId) {
             const operator = operators.find(op => op.ID === operatorId);
@@ -3440,59 +3728,15 @@
 
         // ========== REQUIREMENTS EDITOR FUNCTIONS ==========
 
+        // Legacy View Mode Toggler - Disable
         function toggleViewMode() {
-            editMode = !editMode;
-            const toggleBtn = document.getElementById('modeToggle');
-            const divisionFilter = document.getElementById('divisionFilter');
-            const resetBtn = document.getElementById('resetBtn');
-            const validateBtn = document.getElementById('validateBtn');
-            const issuesBtn = document.getElementById('issuesBtn');
-            const cancelBtn = document.getElementById('cancelEditBtn');
-            const controlPanel = document.querySelector('.control-panel');
-
-            if (editMode) {
-                toggleBtn.textContent = '👥 View Operators';
-                toggleBtn.classList.add('active');
-                divisionFilter.style.display = 'block';
-                cancelBtn.style.display = 'inline-block';
-                resetBtn.style.display = 'none';
-                validateBtn.style.display = 'none';
-                issuesBtn.style.display = 'none';
-                controlPanel.style.display = 'none';
-                
-                // Populate division filter
-                populateDivisionFilter();
-                
-                // Initialize edited requirements from current
-                editedRequirements = JSON.parse(JSON.stringify(certRequirements));
-                changesMade = false;
-                sqlStatements = [];
-                
-                if (!selectedDivision) {
-                    // Show message to select division
-                    renderSelectDivisionMessage();
-                } else {
-                    renderRequirementsEditor();
-                }
-            } else {
-                toggleBtn.textContent = '📝 Edit Requirements';
-                toggleBtn.classList.remove('active');
-                divisionFilter.style.display = 'none';
-                cancelBtn.style.display = 'none';
-                resetBtn.style.display = 'block';
-                validateBtn.style.display = 'block';
-                issuesBtn.style.display = 'block';
-                controlPanel.style.display = 'block';
-                
-                // Hide save panel
-                document.getElementById('savePanel')?.classList.remove('show');
-                
-                // Return to operator view
-                renderWorkflow();
-            }
+            console.warn('View Mode toggling is disabled.');
         }
 
         function populateDivisionFilter() {
+            console.log('🔧 populateDivisionFilter() called');
+            console.log('   - operators count:', operators ? operators.length : 'NULL');
+            
             const divisionFilter = document.getElementById('divisionFilter');
             const divisions = new Set();
             
@@ -3507,6 +3751,9 @@
                     operatorDivisionMap[op.DivisionID].push(op.ID);
                 }
             });
+            
+            console.log('   - divisions found:', divisions.size);
+            console.log('   - division list:', Array.from(divisions).sort());
             
             divisionFilter.innerHTML = '<option value="">Select Division...</option>';
             
@@ -3535,6 +3782,8 @@
                 }
                 divisionFilter.appendChild(option);
             });
+            
+            console.log('✅ Division filter populated with', divisions.size, 'divisions');
         }
 
         function handleDivisionChange() {
@@ -3676,20 +3925,23 @@
             
             const canvas = document.querySelector('.workflow-canvas');
             
-            // Get all unique certifications from operators in this division (or all)
+            // Build list of all certifications filtered by division from pizza status requirements
             const allCerts = new Set();
-            operators.forEach(op => {
-                if ((selectedDivision === 'ALL' || op.DivisionID === selectedDivision) && op.certifications) {
-                    op.certifications.forEach(cert => {
-                        if (cert.CertType) {
-                            allCerts.add(cert.CertType);
-                        }
-                    });
-                }
+            
+            // Collect all certifications from pizza status requirements, filtering by division
+            Object.values(pizzaStatusRequirements).forEach(pizzaStatus => {
+                (pizzaStatus.required_certifications || []).forEach(cert => {
+                    // Filter by division
+                    if (selectedDivision === 'ALL' || cert.division === selectedDivision) {
+                        allCerts.add(cert.name);
+                    }
+                });
             });
             
             // Convert to sorted array
             const certPool = Array.from(allCerts).sort();
+            
+            console.log('   - Cert pool size:', certPool.length, 'for division:', selectedDivision);
             
             // Build editor HTML
             let html = `
@@ -3730,69 +3982,85 @@
                         <div class="icon">⚠️</div>
                         <div class="text">
                             <strong>GLOBAL EDIT MODE - ALL DIVISIONS</strong>
-                            Changes to status orders and requirements will apply to ALL divisions and override any individual division settings.
+                            You are viewing certifications from ALL divisions.
                         </div>
                     </div>
                 `;
             }
             
-            // Render each status step
+            // Group pizza statuses by status mappings to display by lifecycle status
+            // Build a mapping of Status -> Pizza Statuses -> Certs
+            const statusToPizzaMap = {};
+            
+            Object.values(pizzaStatusRequirements).forEach(pizzaStatus => {
+                // Get status mappings for this pizza status
+                (pizzaStatus.status_mappings || []).forEach(mapping => {
+                    const statusName = mapping.status;
+                    
+                    // Skip if this mapping is not for the selected division
+                    if (selectedDivision !== 'ALL' && mapping.division !== selectedDivision) {
+                        return;
+                    }
+                    
+                    if (!statusToPizzaMap[statusName]) {
+                        statusToPizzaMap[statusName] = {
+                            order: mapping.order || '999',
+                            pizzaStatuses: []
+                        };
+                    }
+                    
+                    // Add this pizza status to this lifecycle status
+                    statusToPizzaMap[statusName].pizzaStatuses.push({
+                        id: pizzaStatus.pizza_status_id,
+                        name: pizzaStatus.pizza_status_name,
+                        certs: (pizzaStatus.required_certifications || [])
+                            .filter(cert => selectedDivision === 'ALL' || cert.division === selectedDivision)
+                            .map(cert => cert.name)
+                    });
+                });
+            });
+            
+            // Render each status from idealFlow
             idealFlow.forEach((step, stepIndex) => {
                 const statusName = step.status;
-                const statusData = editedRequirements[statusName] || { divisions: {} };
+                const statusInfo = statusToPizzaMap[statusName] || { pizzaStatuses: [] };
                 
-                // Determine which requirements to show based on division selection
-                let requiredCerts = [];
-                if (selectedDivision === 'ALL') {
-                    // Show all unique certs across all divisions for this status
-                    const allStatusCerts = new Set();
-                    Object.keys(statusData.divisions || {}).forEach(div => {
-                        const divData = statusData.divisions[div];
-                        (divData.required || []).forEach(certObj => {
-                            allStatusCerts.add(certObj.cert || certObj);
-                        });
-                    });
-                    requiredCerts = Array.from(allStatusCerts).map(cert => ({ cert }));
-                } else {
-                    const divisionData = statusData.divisions?.[selectedDivision] || { required: [] };
-                    requiredCerts = divisionData.required || [];
-                }
+                // Collect all unique certs for this status across all pizza statuses
+                const allStatusCerts = new Set();
+                statusInfo.pizzaStatuses.forEach(ps => {
+                    ps.certs.forEach(cert => allStatusCerts.add(cert));
+                });
+                
+                const requiredCerts = Array.from(allStatusCerts).sort();
+                
+                console.log(`   - Status: ${statusName}, Pizza Statuses: ${statusInfo.pizzaStatuses.length}, Certs: ${requiredCerts.length}`);
                 
                 html += `
-                    <div class="status-requirement-card" draggable="true"
-                         ondragstart="handleStatusDragStart(event, '${statusName}', ${stepIndex})"
-                         ondragend="handleStatusDragEnd(event)"
-                         ondragover="handleStatusDragOver(event)"
-                         ondragleave="handleStatusDragLeave(event)"
-                         ondrop="handleStatusDrop(event, '${statusName}', ${stepIndex})">
+                    <div class="status-requirement-card">
                         <h3>
                             <span>
-                                <span class="drag-handle" title="Drag to reorder status">⠿</span>
                                 <span class="status-order-badge">#${step.step}</span>
                                 ${statusName}
                             </span>
                             <span class="cert-count-badge">${requiredCerts.length} certs</span>
                         </h3>
-                        <div class="drop-zone" data-status="${statusName}"
-                             ondragover="handleDragOver(event)" 
-                             ondragleave="handleDragLeave(event)"
-                             ondrop="handleDrop(event)">
+                        <div class="cert-list">
                 `;
                 
+                requiredCerts.forEach(cert => {
+                    html += `
+                        <div class="cert-item">
+                            <span class="cert-name">${cert}</span>
+                        </div>
+                    `;
+                });
+                
                 if (requiredCerts.length === 0) {
-                    html += '<div style="color: #64748b; font-style: italic;">Drop certifications here...</div>';
-                } else {
-                    requiredCerts.forEach(certObj => {
-                        const certName = certObj.cert || certObj;
-                        html += `
-                            <div class="assigned-cert">
-                                <span>${certName}</span>
-                                <button class="remove-cert-btn" onclick="removeCert('${statusName}', '${certName.replace(/'/g, "\\'")}')">
-                                    ✕
-                                </button>
-                            </div>
-                        `;
-                    });
+                    html += `
+                        <div class="cert-item" style="color: #94a3b8; font-style: italic;">
+                            No certifications required for this status
+                        </div>
+                    `;
                 }
                 
                 html += `
@@ -3807,9 +4075,7 @@
             `;
             
             canvas.innerHTML = html;
-            
-            // Show/update save panel if changes exist
-            updateSavePanel();
+            console.log('✅ Requirements editor rendered');
         }
 
         function handleDragStart(event) {
@@ -3844,10 +4110,10 @@
             const certName = event.dataTransfer.getData('text/plain');
             const statusName = dropZone.dataset.status;
             
-            addCertToStatus(statusName, certName);
+            addCertToStatusInEditor(statusName, certName);
         }
 
-        function addCertToStatus(statusName, certName) {
+        function addCertToStatusInEditor(statusName, certName) {
             const divisionsToUpdate = selectedDivision === 'ALL' 
                 ? Object.keys(operatorDivisionMap) 
                 : [selectedDivision];

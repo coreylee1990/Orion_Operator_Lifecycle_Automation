@@ -1,7 +1,8 @@
 # Orion Operator Lifecycle Automation
 
 **Data-driven operator certification requirements using Pizza Status inference system.**
-
+cd /home/eurorescue/Desktop/Orion_Operator_Lifecycle_Automation
+python3 -m http.server 8000
 ---
 
 ## 🍕 Pizza Status Requirements System
@@ -29,6 +30,7 @@ This system uses **inference** to determine certification requirements by groupi
 ```
 Orion_Operator_Lifecycle_Automation/
 ├── data/                          # Data files
+│   ├── pay_CertTypes.json                # All cert types with PizzaStatusID + DivisionID
 │   ├── pay_PizzaStatusRequirements.json  # Inferred requirements (source of truth)
 │   ├── pay_StatusTypes.json              # Status → PizzaStatusID mapping
 │   ├── pay_Operators.json                # Operator data
@@ -36,13 +38,15 @@ Orion_Operator_Lifecycle_Automation/
 ├── config/                        # Configuration
 │   └── certification_aliases.json        # Cert name normalization
 ├── tools/                         # User-facing tools
-│   └── lifecycle-workflow-builder.html   # Visual requirements editor
+│   └── lifecycle-workflow-builder.html   # Visual requirements editor with division filtering
 ├── scripts/                       # Automation scripts
 │   ├── generate_pizza_status_requirements.py  # Generate from inference
 │   └── reports/
 │       └── generate_compliance_gap_report.py  # Gap analysis
 ├── sql/                           # SQL queries for database
 ├── docs/                          # Documentation
+│   ├── DIVISION_FILTERING_ARCHITECTURE.md     # Division filtering system (NEW)
+│   └── WORKFLOW_BUILDER_CHANGELOG.md          # Version history
 ├── generated/                     # Generated reports
 └── external/                      # External data sources
 ```
@@ -73,12 +77,19 @@ python3 scripts/reports/generate_compliance_gap_report.py
 
 ### 3. Edit Requirements (Visual Editor)
 
-1. Open `tools/lifecycle-workflow-builder.html` in browser
-2. Drag and drop certifications to statuses
-3. Click "Save Changes"
-4. Download `pay_PizzaStatusRequirements.json`
-5. Replace file in `data/` directory
-6. Refresh browser
+1. Start web server: `python3 -m http.server 8000`
+2. Open browser: `http://localhost:8000/tools/lifecycle-workflow-builder.html`
+3. **Filter by Division**: Use division dropdown to view division-specific requirements
+4. Drag and drop certifications to statuses (Edit Requirements mode)
+5. Click "Save Changes"
+6. Download `pay_PizzaStatusRequirements.json`
+7. Replace file in `data/` directory
+8. Refresh browser
+
+**New Feature**: Main page now includes division filtering that shows:
+- Operators filtered by selected division
+- Certifications filtered by division using CertTypes → PizzaStatusID architecture
+- See [docs/DIVISION_FILTERING_ARCHITECTURE.md](docs/DIVISION_FILTERING_ARCHITECTURE.md) for details
 
 ### 2. Edit Requirements (Web UI)
 
@@ -137,6 +148,11 @@ Add to `EXCLUDED_DIVS` in scripts (currently: PA - BROOKES, 2 - LAHORE).
 
 ## 📚 Documentation
 
+### Key Documents
+- **[DIVISION_FILTERING_ARCHITECTURE.md](docs/DIVISION_FILTERING_ARCHITECTURE.md)** - Division filtering system using CertTypes table
+- **[WORKFLOW_BUILDER_CHANGELOG.md](docs/WORKFLOW_BUILDER_CHANGELOG.md)** - Version history and updates
+
+### Additional Documentation
 - **User Guides**: `docs/guides/`
 - **Technical Docs**: `docs/technical/`
 - **Archived**: `docs/archive/`
