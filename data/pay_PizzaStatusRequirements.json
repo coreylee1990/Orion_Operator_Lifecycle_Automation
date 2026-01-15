@@ -6748,7 +6748,7 @@
                 }
             },
             {
-                "name": "Motor Vehicle Report (MVR)",
+                "name": "BackgroundCheck",
                 "division": "11 - GA",
                 "coverage": {
                     "count": 0,
@@ -6757,7 +6757,7 @@
                 }
             },
             {
-                "name": "BackgroundCheck",
+                "name": "Motor Vehicle Report (MVR)",
                 "division": "11 - GA",
                 "coverage": {
                     "count": 0,
@@ -7018,7 +7018,7 @@
                 }
             },
             {
-                "name": "Motor Vehicle Report (MVR)",
+                "name": "BackgroundCheck",
                 "division": "7 - CATA",
                 "coverage": {
                     "count": 0,
@@ -7027,7 +7027,7 @@
                 }
             },
             {
-                "name": "BackgroundCheck",
+                "name": "Motor Vehicle Report (MVR)",
                 "division": "7 - CATA",
                 "coverage": {
                     "count": 0,

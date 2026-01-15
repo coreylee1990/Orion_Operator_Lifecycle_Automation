@@ -92555,7 +92555,7 @@
     },
     {
         "Certification": "Motor Vehicle Report (MVR)",
-        "PizzaStatusID": "D884F3D1-8AA3-48A3-B172-DF754283F4C2",
+        "PizzaStatusID": null,
         "DivisionID": "12 - PA",
         "CertificationType": "Added in Session",
         "CertificationID": "TEMP-aq3c7o998"
@@ -92632,7 +92632,7 @@
     },
     {
         "Certification": "BackgroundCheck",
-        "PizzaStatusID": "D884F3D1-8AA3-48A3-B172-DF754283F4C2",
+        "PizzaStatusID": null,
         "DivisionID": "12 - PA",
         "CertificationType": "Added in Session",
         "CertificationID": "TEMP-isjn9v09l"
@@ -92748,5 +92748,19 @@
         "DivisionID": "99 - AUTOSYNC",
         "CertificationType": "Added in Session",
         "CertificationID": "TEMP-67en017xi"
+    },
+    {
+        "Certification": "BackgroundCheck",
+        "PizzaStatusID": null,
+        "DivisionID": "12 - PA",
+        "CertificationType": "Added in Session",
+        "CertificationID": "TEMP-mnvq5q9ew"
+    },
+    {
+        "Certification": "BackgroundCheck",
+        "PizzaStatusID": "D884F3D1-8AA3-48A3-B172-DF754283F4C2",
+        "DivisionID": "12 - PA",
+        "CertificationType": "Added in Session",
+        "CertificationID": "TEMP-i0e1uaflz"
     }
 ]

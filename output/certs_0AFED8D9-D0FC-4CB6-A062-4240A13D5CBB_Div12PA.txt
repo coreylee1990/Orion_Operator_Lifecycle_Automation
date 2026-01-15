@@ -1,0 +1,7 @@
+Certifications with PizzaStatusID 0AFED8D9-D0FC-4CB6-A062-4240A13D5CBB and DivisionID 12 - PA:
+- Certification: MVR
+  Description: This form is a requirement 
+  DivisionID: 12 - PA
+- Certification: BackgroundCheck
+  Description: BackgroundCheck
+  DivisionID: 12 - PA

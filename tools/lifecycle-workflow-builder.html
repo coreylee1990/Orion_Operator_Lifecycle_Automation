@@ -1,3 +1,11 @@
+                .cert-card.has-cert, .cert-card.expired {
+                    font-size: 6pt;
+                }
+        .cert-card-id-small {
+            font-size: 0.65em;
+            color: #bfc9d9;
+            word-break: break-all;
+        }
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1210,7 +1218,7 @@
 
         .cert-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            grid-template-columns: 1fr;
             gap: 12px;
             margin-bottom: 20px;
         }
@@ -1728,6 +1736,7 @@
                     <div class="stat-label">Compliance Rate</div>
                 </div>
             </div>
+            <div id="unsavedIndicator" class="unsaved-indicator" style="display:none;">⚠ Unsaved changes</div>
             <div class="legend">
                 <div class="legend-item">
                     <div class="legend-color valid"></div>
@@ -1755,7 +1764,7 @@
                 </select>
             </div>
             <button class="btn btn-danger" onclick="showIssues()" id="issuesBtn">⚠ Show Issues</button>
-            <button class="btn btn-success" id="saveBtn" onclick="saveChanges()" style="display: none;">💾 Save Changes</button>
+            <button id="saveBtn" class="btn btn-success" onclick="saveChanges()" style="display:none; position:fixed; bottom:40px; right:40px; z-index:3000; font-size:1.2rem; padding:18px 32px; border-radius:12px;">💾 Save Changes</button>
             <button class="bulk-btn success" onclick="showExportModal()">📊 Export Report</button>
             <button class="bulk-btn" onclick="showCertAnalytics()">📈 Analytics</button>
             <button class="bulk-btn danger" onclick="confirmClearAll()">🗑️ Clear All Certs</button>
@@ -2457,12 +2466,19 @@
                     <div class="dropdown-content">
                         ${operatorsInStep.length > 0 ? 
                             operatorsInStep.map(op => {
-                                // Get certs needed for THIS operator's division - CUMULATIVE from all previous steps
+                                // Get certs needed for THIS operator's division and current status (PizzaStatusId logic)
                                 const opDivision = op.DivisionID || '';
                                 const opStatus = op.StatusName || '';
-                                
-                                // Use the new helper function to get required certs for this operator
-                                const allCertsNeeded = getRequiredCertsForOperator(opDivision, opStatus);
+                                let allCertsNeeded = [];
+                                // Find the operator's PizzaStatusId
+                                let pizzaStatusId = null;
+                                if (statusTypes && Array.isArray(statusTypes)) {
+                                    const st = statusTypes.find(s => s.Status === opStatus && s.DivisionID === opDivision);
+                                    if (st && st.PizzaStatusID) pizzaStatusId = st.PizzaStatusID;
+                                }
+                                if (pizzaStatusId && pizzaStatusRequirements[pizzaStatusId]) {
+                                    allCertsNeeded = (pizzaStatusRequirements[pizzaStatusId].required_certifications || []).map(c => c.name);
+                                }
 
                                 // Get operator's certifications
                                 const operatorCerts = op.certifications || [];
@@ -2478,13 +2494,10 @@
                                     if (cert) {
                                         // Check if approved (Status != '0' AND has dates)
                                         const isApproved = cert.Status !== '0' && (cert.IssueDate || cert.ExpireDate);
-                                        
                                         if (!isApproved) {
-                                            // Not approved yet
                                             notApprovedCount++;
-                                            missingCount++; // Count as missing until approved
+                                            missingCount++;
                                         } else {
-                                            // Approved - check if expired
                                             const expireDate = cert.ExpireDate ? new Date(cert.ExpireDate) : null;
                                             const isExpired = expireDate && expireDate < new Date();
                                             if (isExpired) {
@@ -2562,59 +2575,21 @@
 
         // Get required certifications for a status (using CertTypes table directly)
         function getRequiredCertsForStatus(statusName) {
-            const certs = new Set();
-            
-            console.log(`\n🔍 getRequiredCertsForStatus('${statusName}') with division filter: '${mainDivisionFilter}'`);
-            
-            // Step 1: Find pizza statuses that map to this lifecycle status
-            const relevantPizzaStatusIds = new Set();
-            Object.values(pizzaStatusRequirements).forEach(pizzaStatus => {
-                const matchingMappings = (pizzaStatus.status_mappings || []).filter(mapping => {
-                    if (mapping.status === statusName) {
-                        if (mainDivisionFilter === 'ALL') {
-                            return true;
-                        } else {
-                            return mapping.division === mainDivisionFilter;
-                        }
-                    }
-                    return false;
-                });
-                
-                if (matchingMappings.length > 0) {
-                    relevantPizzaStatusIds.add(pizzaStatus.pizza_status_id);
-                    console.log(`   📦 Pizza Status: ${pizzaStatus.pizza_status_name} (${pizzaStatus.pizza_status_id})`);
-                    console.log(`      Mappings: ${matchingMappings.map(m => m.division).join(', ')}`);
-                }
-            });
-            
-            console.log(`   🎯 Found ${relevantPizzaStatusIds.size} relevant pizza status IDs`);
-            
-            // Step 2: Get cert types that have these pizza status IDs and match division filter
-            certTypes.forEach(certType => {
-                const pizzaStatusId = certType.PizzaStatusID;
-                const divisionId = certType.DivisionID;
-                const certName = certType.Certification;
-                
-                // Check if this cert type has a relevant pizza status ID
-                if (pizzaStatusId && relevantPizzaStatusIds.has(pizzaStatusId)) {
-                    // Check division filter
-                    if (mainDivisionFilter === 'ALL') {
-                        certs.add(certName);
-                    } else {
-                        // Require exact DivisionID match (Python logic)
-                        if (divisionId && divisionId === mainDivisionFilter) {
-                            certs.add(certName);
-                        }
-                    }
-                }
-            });
-
-            const result = Array.from(certs).sort();
-            console.log(`   ✅ TOTAL Certs for ${statusName} (division: ${mainDivisionFilter}): ${result.length}`);
-            if (result.length > 0) {
-                console.log(`      Certs: ${result.join(', ')}`);
+            // Find the PizzaStatusID for this status and division
+            let pizzaStatusId = null;
+            if (statusTypes && Array.isArray(statusTypes)) {
+                const st = statusTypes.find(s => s.Status === statusName && s.DivisionID === mainDivisionFilter);
+                if (st && st.PizzaStatusID) pizzaStatusId = st.PizzaStatusID;
             }
-            return result;
+            const certs = [];
+            if (pizzaStatusId) {
+                certTypes.forEach(cert => {
+                    if (cert.PizzaStatusID === pizzaStatusId && cert.DivisionID === mainDivisionFilter) {
+                        certs.push(cert.Certification);
+                    }
+                });
+            }
+            return certs;
         }
 
         // Get required certs for an operator based on their division and cumulative statuses
@@ -3112,16 +3087,86 @@
         function addCert(statusName, stepIndex) {
             const input = document.getElementById(`newCert_${stepIndex}`);
             const certName = input.value.trim();
-            
             if (!certName) {
                 alert('Please enter a certification name');
                 return;
             }
-            
+
+            // Check for duplicate cert in other statuses for the same division
+            let duplicateStatus = null;
+            let duplicateDivision = mainDivisionFilter;
+            for (const st of Object.keys(certRequirements)) {
+                if (st === statusName) continue;
+                const statusData = certRequirements[st] || certRequirements[st.toUpperCase()];
+                if (statusData && statusData.divisions && statusData.divisions[duplicateDivision]) {
+                    const required = statusData.divisions[duplicateDivision].required || [];
+                    if (required.some(c => normalizeCertName(c.cert) === normalizeCertName(certName))) {
+                        duplicateStatus = st;
+                        break;
+                    }
+                }
+            }
+
+            if (duplicateStatus) {
+                showCertDuplicateModal(certName, duplicateStatus, statusName, stepIndex);
+                return;
+            }
+
             addCertToStatus(statusName, certName);
             input.value = '';
             renderWorkflow();
             markUnsaved();
+
+// Modal for duplicate cert assignment
+function showCertDuplicateModal(certName, oldStatus, newStatus, stepIndex) {
+    // Remove any existing modal
+    let modal = document.getElementById('certDuplicateModal');
+    if (modal) modal.remove();
+
+    modal = document.createElement('div');
+    modal.id = 'certDuplicateModal';
+    modal.style.position = 'fixed';
+    modal.style.top = '0';
+    modal.style.left = '0';
+    modal.style.width = '100vw';
+    modal.style.height = '100vh';
+    modal.style.background = 'rgba(0,0,0,0.7)';
+    modal.style.zIndex = '9999';
+    modal.style.display = 'flex';
+    modal.style.alignItems = 'center';
+    modal.style.justifyContent = 'center';
+
+    modal.innerHTML = `
+        <div style="background: #fff; color: #222; padding: 36px 32px; border-radius: 16px; max-width: 420px; box-shadow: 0 8px 32px rgba(0,0,0,0.3); text-align: center;">
+            <h2 style="color: #ef4444; margin-bottom: 18px;">Duplicate Certification Detected</h2>
+            <div style="margin-bottom: 18px; font-size: 1.1rem;">
+                <strong>${certName}</strong> is already assigned to <strong>${oldStatus}</strong> in division <strong>${mainDivisionFilter}</strong>.<br><br>
+                You must remove it from <strong>${oldStatus}</strong> before adding to <strong>${newStatus}</strong>.
+            </div>
+            <div style="display: flex; gap: 16px; justify-content: center; margin-top: 24px;">
+                <button style="background: #ef4444; color: #fff; padding: 10px 22px; border-radius: 8px; border: none; font-size: 1rem; font-weight: bold;" onclick="removeCertAndAdd('${certName}', '${oldStatus}', '${newStatus}', ${stepIndex})">Remove & Add</button>
+                <button style="background: #64748b; color: #fff; padding: 10px 22px; border-radius: 8px; border: none; font-size: 1rem; font-weight: bold;" onclick="closeCertDuplicateModal()">Cancel</button>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+}
+
+function closeCertDuplicateModal() {
+    const modal = document.getElementById('certDuplicateModal');
+    if (modal) modal.remove();
+}
+
+// Remove from old status and add to new
+function removeCertAndAdd(certName, oldStatus, newStatus, stepIndex) {
+    closeCertDuplicateModal();
+    removeCertFromStatus(oldStatus, certName);
+    addCertToStatus(newStatus, certName);
+    const input = document.getElementById(`newCert_${stepIndex}`);
+    if (input) input.value = '';
+    renderWorkflow();
+    markUnsaved();
+}
         }
 
         function addCertToStatus(statusName, certName) {
@@ -3301,8 +3346,41 @@
         // Mark as having unsaved changes
         function markUnsaved() {
             hasUnsavedChanges = true;
-            document.getElementById('unsavedIndicator').style.display = 'block';
-            document.getElementById('saveBtn').style.display = 'inline-block';
+            const unsavedIndicator = document.getElementById('unsavedIndicator');
+            const saveBtn = document.getElementById('saveBtn');
+            console.log('[markUnsaved] called. Save button and unsaved indicator should be visible.');
+            if (unsavedIndicator) {
+                unsavedIndicator.style.display = 'block';
+                unsavedIndicator.style.position = 'fixed';
+                unsavedIndicator.style.top = '20px';
+                unsavedIndicator.style.right = '20px';
+                unsavedIndicator.style.zIndex = '2000';
+                unsavedIndicator.style.background = 'linear-gradient(135deg, #f59e0b, #d97706)';
+                unsavedIndicator.style.color = 'white';
+                unsavedIndicator.style.padding = '16px 24px';
+                unsavedIndicator.style.borderRadius = '10px';
+                unsavedIndicator.style.fontSize = '1.1rem';
+                unsavedIndicator.style.fontWeight = 'bold';
+                unsavedIndicator.style.boxShadow = '0 4px 16px rgba(245, 158, 11, 0.4)';
+            } else {
+                console.warn('unsavedIndicator element not found');
+            }
+            if (saveBtn) {
+                saveBtn.style.display = 'inline-block';
+                saveBtn.style.position = 'fixed';
+                saveBtn.style.bottom = '40px';
+                saveBtn.style.right = '40px';
+                saveBtn.style.zIndex = '2000';
+                saveBtn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+                saveBtn.style.color = 'white';
+                saveBtn.style.padding = '18px 32px';
+                saveBtn.style.borderRadius = '12px';
+                saveBtn.style.fontSize = '1.2rem';
+                saveBtn.style.fontWeight = 'bold';
+                saveBtn.style.boxShadow = '0 8px 32px rgba(16, 185, 129, 0.4)';
+            } else {
+                console.warn('saveBtn element not found');
+            }
         }
 
         // Save changes - exports to pay_PizzaStatusRequirements.json format
@@ -3423,100 +3501,68 @@
             const jsonData = JSON.stringify(pizzaStatusFormat, null, 2);
             const blob = new Blob([jsonData], { type: 'application/json' });
 
-            // ---------------------------------------------------------
-            // 1. Try Automatic Server Save (using tools/custom_server.py)
-            // ---------------------------------------------------------
+            // --- Direct Backend Save Only ---
+            let saveLog = '';
+            let saveSuccess = true;
             try {
-                // SAVE PIZZA NEEDS
+                // Attempt to save requirements
                 const responsePizza = await fetch('/save-requirements', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: jsonData
                 });
+                if (responsePizza.ok) {
+                    saveLog += '✓ Requirements saved successfully.\n';
+                } else {
+                    saveLog += `✗ Failed to save requirements: ${responsePizza.status} ${responsePizza.statusText}\n`;
+                    saveSuccess = false;
+                }
 
-                // SAVE CERT TYPES (New requirement)
-                // Clean up CertTypes before saving (remove temp fields)
-                const cleanCertTypes = certTypes.map(ct => {
-                    const clean = {...ct};
-                    // Keep CertificationType if it was added, but remove temp ID prefix if we want 
-                    // Actually, let's keep it as is, but maybe remove "added in session" marker if we want to persist it cleanly
-                    return clean;
-                });
-
+                // Attempt to save cert types
+                const cleanCertTypes = certTypes.map(ct => ({ ...ct }));
                 const responseCertTypes = await fetch('/save-cert-types', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(cleanCertTypes, null, 4)
                 });
+                if (responseCertTypes.ok) {
+                    saveLog += '✓ Cert types saved successfully.\n';
+                } else {
+                    saveLog += `✗ Failed to save cert types: ${responseCertTypes.status} ${responseCertTypes.statusText}\n`;
+                    saveSuccess = false;
+                }
 
-                // SAVE STATUS TYPES (New)
+                // Attempt to save status types
                 const responseStatusTypes = await fetch('/save-status-types', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(statusTypes, null, 4)
                 });
-
-                if (responsePizza.ok && responseCertTypes.ok && responseStatusTypes.ok) {
-                    const resultPizza = await responsePizza.json();
-                    const resultCert = await responseCertTypes.json();
-                    const resultStatus = await responseStatusTypes.json();
-                    
-                    // Success!
-                    hasUnsavedChanges = false;
-                    document.getElementById('unsavedIndicator').style.display = 'none';
-                    document.getElementById('saveBtn').style.display = 'none';
-                    
-                    // Update original data reference
-                    originalCertRequirements = JSON.parse(JSON.stringify(certRequirements));
-                    
-                    alert('✓ Saved Requirements: ' + resultPizza.message + '\n✓ Saved CertTypes: ' + resultCert.message + '\n✓ Saved StatusTypes: ' + resultStatus.message);
-                    return; // Stop here
+                if (responseStatusTypes.ok) {
+                    saveLog += '✓ Status types saved successfully.\n';
                 } else {
-                    console.error('Server save error', responsePizza.status, responseCertTypes.status, responseStatusTypes.status);
-                    alert('Partial save failure. Check console.');
+                    saveLog += `✗ Failed to save status types: ${responseStatusTypes.status} ${responseStatusTypes.statusText}\n`;
+                    saveSuccess = false;
                 }
             } catch (err) {
-                console.log('Server-side save not available or failed:', err);
-                console.log('Falling back to local file methods...');
+                saveLog += `✗ Error during save: ${err.message || err}\n`;
+                saveSuccess = false;
             }
 
-            // ---------------------------------------------------------
-            // 2. Fallback: File System Access API or Download
-            // ---------------------------------------------------------
-            
-            // Try to use File System Access API if available (Chrome/Edge)
-            if ('showSaveFilePicker' in window) {
-                try {
-                    const handle = await window.showSaveFilePicker({
-                        suggestedName: 'pay_PizzaStatusRequirements.json',
-                        types: [{
-                            description: 'JSON Files',
-                            accept: { 'application/json': ['.json'] }
-                        }]
-                    });
-                    
-                    const writable = await handle.createWritable();
-                    await writable.write(blob);
-                    await writable.close();
-                    
-                    hasUnsavedChanges = false;
-                    document.getElementById('unsavedIndicator').style.display = 'none';
-                    document.getElementById('saveBtn').style.display = 'none';
-                    
-                    // Update original data
-                    originalCertRequirements = JSON.parse(JSON.stringify(certRequirements));
-                    
-                    alert('✓ Changes saved successfully!\n\nThe file has been saved to data/pay_PizzaStatusRequirements.json.\nPlease refresh the page to see the changes reflected.');
-                } catch (err) {
-                    if (err.name !== 'AbortError') {
-                        console.error('Error saving file:', err);
-                        // Fallback to download
-                        downloadJSON(blob, 'pay_PizzaStatusRequirements.json');
-                    }
-                }
+            // Show log/notice to user
+            alert(`Save Attempt:\n${saveLog}`);
+            console.log('Save Attempt Log:', saveLog);
+
+            // Update UI based on result
+            if (saveSuccess) {
+                hasUnsavedChanges = false;
+                document.getElementById('unsavedIndicator').style.display = 'none';
+                document.getElementById('saveBtn').style.display = 'none';
+                originalCertRequirements = JSON.parse(JSON.stringify(certRequirements));
             } else {
-                // Fallback: download the file
-                downloadJSON(blob, 'pay_PizzaStatusRequirements.json');
+                hasUnsavedChanges = true;
+                document.getElementById('unsavedIndicator').style.display = 'block';
+                document.getElementById('saveBtn').style.display = 'inline-block';
             }
         }
 
@@ -3971,20 +4017,28 @@
             nameEl.textContent = `${operator.FirstName} ${operator.LastName}`;
             subtitleEl.textContent = `${operator.StatusName || 'Unknown Status'} • Division ${operator.DivisionID || 'N/A'}`;
 
-            // Get certs needed for THIS operator's division - CUMULATIVE from all previous steps
-            const allCertsNeeded = new Set();
+            // Get certs for the operator's current status's PizzaStatusId
             const opDivision = operator.DivisionID || '';
             const opStatus = operator.StatusName || '';
-            
-            // Find operator's current step in the workflow
+            let pizzaStatusId = null;
+            // Find the current status object (from pay_StatusTypes)
+            let statusObj = null;
+            if (opStatus && Array.isArray(statusTypes)) {
+                statusObj = statusTypes.find(s => s.Status === opStatus && s.DivisionID === opDivision);
+                if (statusObj && statusObj.PizzaStatusID) {
+                    pizzaStatusId = statusObj.PizzaStatusID;
+                }
+            }
+            // Get all cert types for this PizzaStatusId
+            let pizzaStatusCertTypes = [];
+            if (pizzaStatusId && Array.isArray(certTypes)) {
+                pizzaStatusCertTypes = certTypes.filter(ct => ct.PizzaStatusID === pizzaStatusId && ct.DivisionID === opDivision && !ct.isDeleted);
+            }
+            // For the full/cumulative set (for the lower section)
+            const allCertsNeeded = new Set();
             const currentStepIndex = idealFlow.findIndex(s => s.status === opStatus);
-            
-            // Accumulate requirements from current status AND all previous statuses
             if (currentStepIndex >= 0) {
-                // Get all statuses up to and including current
                 const relevantStatuses = idealFlow.slice(0, currentStepIndex + 1).map(s => s.status);
-                
-                // Collect requirements from all these statuses for operator's division
                 relevantStatuses.forEach(statusName => {
                     const statusData = certRequirements[statusName];
                     if (statusData) {
@@ -3998,49 +4052,55 @@
                 });
             }
 
-            // Get operator's certifications
-            const operatorCerts = operator.certifications || [];
-            
-            // Build cert status map
-            const certStatusMap = {};
-            allCertsNeeded.forEach(certName => {
-                const cert = findMatchingCert(certName, operatorCerts);
+            // Get operator's certifications, filtered by:
+            // - not isArchived
+            // - IsApproved (Status == '1' or true)
+            // - CertType's DivisionID matches operator's DivisionID
+            const operatorCerts = (operator.certifications || []).filter(cert => {
+                if (cert.isArchived === true || String(cert.isArchived).toLowerCase() === 'true' || String(cert.isArchived) === '1') return false;
+                if (!(cert.Status === '1' || cert.Status === 1 || cert.Status === true)) return false;
+                // Find the certType for this cert
+                const certType = certTypes.find(ct => {
+                    // Match by name and division
+                    return ct.Certification === cert.CertType && ct.DivisionID === operator.DivisionID;
+                });
+                if (!certType) return false;
+                return true;
+            });
+
+            // Build cert status map for current PizzaStatus certs
+            const pizzaStatusCertStatusMap = {};
+            pizzaStatusCertTypes.forEach(certType => {
+                const certName = certType.Certification;
+                const certTypeId = certType.CertTypeID || certType.ID || '';
+                // Find approved cert for this operator and cert type
+                const cert = (operator.certifications || []).find(c => {
+                    if (c.CertType !== certName) return false;
+                    if (c.isArchived === true || String(c.isArchived).toLowerCase() === 'true' || String(c.isArchived) === '1') return false;
+                    if (!(c.Status === '1' || c.Status === 1 || c.Status === true)) return false;
+                    return true;
+                });
                 if (cert) {
-                    // Check if approved (Status != '0' AND has dates)
-                    const isApproved = cert.Status !== '0' && (cert.IssueDate || cert.ExpireDate);
-                    
-                    if (!isApproved) {
-                        // Not approved yet - show as missing
-                        certStatusMap[certName] = {
-                            status: 'missing',
-                            label: 'Not Approved',
-                            issueDate: cert.IssueDate,
-                            expireDate: cert.ExpireDate
-                        };
-                    } else {
-                        // Approved - check expiration
-                        const expireDate = cert.ExpireDate ? new Date(cert.ExpireDate) : null;
-                        const isExpired = expireDate && expireDate < new Date();
-                        certStatusMap[certName] = {
-                            status: isExpired ? 'expired' : 'has-cert',
-                            label: isExpired ? 'Expired' : 'Valid',
-                            issueDate: cert.IssueDate,
-                            expireDate: cert.ExpireDate
-                        };
-                    }
+                    pizzaStatusCertStatusMap[certName] = {
+                        status: 'has-cert',
+                        label: 'Valid',
+                        issueDate: cert.IssueDate,
+                        expireDate: cert.ExpireDate,
+                        certificateId: cert.CertificateID || cert.ID || '',
+                        certTypeId: certTypeId
+                    };
                 } else {
-                    certStatusMap[certName] = {
+                    pizzaStatusCertStatusMap[certName] = {
                         status: 'missing',
-                        label: 'Missing'
+                        label: 'Missing',
+                        certificateId: '',
+                        certTypeId: certTypeId
                     };
                 }
             });
-
-            // Count stats
-            const validCount = Object.values(certStatusMap).filter(c => c.status === 'has-cert').length;
-            const expiredCount = Object.values(certStatusMap).filter(c => c.status === 'expired').length;
-            const missingCount = Object.values(certStatusMap).filter(c => c.status === 'missing').length;
-
+            // Stats for current PizzaStatus only
+            const currentValid = Object.values(pizzaStatusCertStatusMap).filter(c => c.status === 'has-cert').length;
+            const currentMissing = Object.values(pizzaStatusCertStatusMap).filter(c => c.status === 'missing' && c.certTypeId).length;
             // Build HTML
             let html = `
                 <div class="operator-info-grid">
@@ -4056,47 +4116,24 @@
                         <div class="operator-info-label">Division</div>
                         <div class="operator-info-value">${operator.DivisionID || 'N/A'}</div>
                     </div>
-                    <div class="operator-info-item">
-                        <div class="operator-info-label">Total Certifications</div>
-                        <div class="operator-info-value">${operatorCerts.length} of ${allCertsNeeded.size}</div>
-                    </div>
                 </div>
 
-                <div class="cert-stats">
-                    <div class="cert-stat">
-                        <div class="cert-stat-value valid">${validCount}</div>
-                        <div class="cert-stat-label">Valid</div>
-                    </div>
-                    <div class="cert-stat">
-                        <div class="cert-stat-value expired">${expiredCount}</div>
-                        <div class="cert-stat-label">Expired</div>
-                    </div>
-                    <div class="cert-stat">
-                        <div class="cert-stat-value missing">${missingCount}</div>
-                        <div class="cert-stat-label">Missing</div>
-                    </div>
-                </div>
-
-                <h3 class="certs-section-title">All Certifications (${allCertsNeeded.size})</h3>
+                <h3 class="certs-section-title">Required for This Status (${pizzaStatusCertTypes.length})</h3>
                 <div class="cert-grid">
             `;
-
-            // Sort certs: valid first, then expired, then missing
-            const sortedCerts = Array.from(allCertsNeeded).sort((a, b) => {
-                const statusOrder = { 'has-cert': 0, 'expired': 1, 'missing': 2 };
-                return statusOrder[certStatusMap[a].status] - statusOrder[certStatusMap[b].status];
-            });
-
-            sortedCerts.forEach(certName => {
-                const certInfo = certStatusMap[certName];
+            // Show all certs for this PizzaStatus, green if operator has, missing otherwise
+            Object.entries(pizzaStatusCertStatusMap).forEach(([certName, certInfo]) => {
                 html += `
                     <div class="cert-card ${certInfo.status}">
                         <div class="cert-card-name">${certName}</div>
                         <div class="cert-card-status">${certInfo.label}</div>
+                        ${certInfo.certificateId ? `<div class='cert-card-id cert-card-id-small'>Certificate ID: <span>${certInfo.certificateId}</span></div>` : ''}
+                        ${certInfo.certTypeId ? `<div class='cert-card-type-id cert-card-id-small'>CertType ID: <span>${certInfo.certTypeId}</span></div>` : ''}
+                        ${certInfo.issueDate ? `<div class='cert-card-date'>Issued: ${certInfo.issueDate}</div>` : ''}
+                        ${certInfo.expireDate ? `<div class='cert-card-date'>Expires: ${certInfo.expireDate}</div>` : ''}
                     </div>
                 `;
             });
-
             html += `</div>`;
 
             bodyEl.innerHTML = html;
