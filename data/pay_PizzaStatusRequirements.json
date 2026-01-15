@@ -1298,11 +1298,6 @@
         "status_mappings": [
             {
                 "status": "CREDENTIALING",
-                "division": "10 - OR",
-                "order": "2"
-            },
-            {
-                "status": "CREDENTIALING",
                 "division": "11 - GA",
                 "order": "2"
             },
@@ -1350,6 +1345,11 @@
                 "status": "CREDENTIALING",
                 "division": "99 - AUTOSYNC",
                 "order": "3"
+            },
+            {
+                "status": "CREDENTIALING",
+                "division": "10 - OR",
+                "order": "4"
             }
         ]
     },
@@ -1859,6 +1859,11 @@
         ],
         "status_mappings": [
             {
+                "status": "COMPLIANCE REVIEW",
+                "division": "10 - OR",
+                "order": "10"
+            },
+            {
                 "status": "SBPC APPROVED FOR SERVICE",
                 "division": "12 - PA",
                 "order": "10"
@@ -1889,6 +1894,11 @@
                 "order": "10"
             },
             {
+                "status": "SBPC APPROVED FOR SERVICE",
+                "division": "10 - OR",
+                "order": "11"
+            },
+            {
                 "status": "Compliance Review- TEST",
                 "division": "9 - AZ",
                 "order": "6"
@@ -1900,11 +1910,6 @@
             },
             {
                 "status": "COMPLIANCE REVIEW",
-                "division": "10 - OR",
-                "order": "8"
-            },
-            {
-                "status": "COMPLIANCE REVIEW",
                 "division": "11 - GA",
                 "order": "8"
             },
@@ -1912,11 +1917,6 @@
                 "status": "COMPLIANCE REVIEW",
                 "division": "7 - MI",
                 "order": "8"
-            },
-            {
-                "status": "SBPC APPROVED FOR SERVICE",
-                "division": "10 - OR",
-                "order": "9"
             },
             {
                 "status": "SBPC APPROVED FOR SERVICE",
@@ -3592,18 +3592,8 @@
         "status_mappings": [
             {
                 "status": "ORIENTATION-BIG STAR SAFETY & SERVICE",
-                "division": "10 - OR",
-                "order": "4"
-            },
-            {
-                "status": "ORIENTATION-BIG STAR SAFETY & SERVICE",
                 "division": "11 - GA",
                 "order": "4"
-            },
-            {
-                "status": "ORIENTATION - CLIENT HOSTED",
-                "division": "10 - OR",
-                "order": "5"
             },
             {
                 "status": "ORIENTATION - CLIENT HOSTED",
@@ -3656,7 +3646,7 @@
                 "order": "5"
             },
             {
-                "status": "APPROVED FOR CHO (CLIENT HOSTED)",
+                "status": "ORIENTATION-BIG STAR SAFETY & SERVICE",
                 "division": "10 - OR",
                 "order": "6"
             },
@@ -3711,7 +3701,7 @@
                 "order": "6"
             },
             {
-                "status": "APPROVED-ORIENTATION BTW",
+                "status": "ORIENTATION - CLIENT HOSTED",
                 "division": "10 - OR",
                 "order": "7"
             },
@@ -3756,6 +3746,11 @@
                 "order": "7"
             },
             {
+                "status": "APPROVED FOR CHO (CLIENT HOSTED)",
+                "division": "10 - OR",
+                "order": "8"
+            },
+            {
                 "status": "APPROVED-ORIENTATION BTW",
                 "division": "12 - PA",
                 "order": "8"
@@ -3784,6 +3779,11 @@
                 "status": "APPROVED-ORIENTATION BTW",
                 "division": "8 - OH",
                 "order": "8"
+            },
+            {
+                "status": "APPROVED-ORIENTATION BTW",
+                "division": "10 - OR",
+                "order": "9"
             }
         ]
     },
@@ -5687,6 +5687,276 @@
             },
             {
                 "name": "Badge Photo",
+                "division": "10 - OR",
+                "coverage": {
+                    "count": 8,
+                    "total": 8,
+                    "percentage": 100
+                }
+            },
+            {
+                "name": "CPR/AED/FIRST AID",
+                "division": "10 - OR",
+                "coverage": {
+                    "count": 8,
+                    "total": 8,
+                    "percentage": 100
+                }
+            },
+            {
+                "name": "CPR/FA/AED",
+                "division": "10 - OR",
+                "coverage": {
+                    "count": 8,
+                    "total": 8,
+                    "percentage": 100
+                }
+            },
+            {
+                "name": "CTAA PASSENGER ASSISTANCE",
+                "division": "10 - OR",
+                "coverage": {
+                    "count": 8,
+                    "total": 8,
+                    "percentage": 100
+                }
+            },
+            {
+                "name": "CTAA Passenger Assist",
+                "division": "10 - OR",
+                "coverage": {
+                    "count": 8,
+                    "total": 8,
+                    "percentage": 100
+                }
+            },
+            {
+                "name": "Chauffer's License",
+                "division": "10 - OR",
+                "coverage": {
+                    "count": 8,
+                    "total": 8,
+                    "percentage": 100
+                }
+            },
+            {
+                "name": "DART 5 STAR SRVC POLICY",
+                "division": "10 - OR",
+                "coverage": {
+                    "count": 8,
+                    "total": 8,
+                    "percentage": 100
+                }
+            },
+            {
+                "name": "DRIVERS LICENSE w/CHAUF ENDORSE",
+                "division": "10 - OR",
+                "coverage": {
+                    "count": 8,
+                    "total": 8,
+                    "percentage": 100
+                }
+            },
+            {
+                "name": "Defensive Driving",
+                "division": "10 - OR",
+                "coverage": {
+                    "count": 8,
+                    "total": 8,
+                    "percentage": 100
+                }
+            },
+            {
+                "name": "Driver License",
+                "division": "10 - OR",
+                "coverage": {
+                    "count": 8,
+                    "total": 8,
+                    "percentage": 100
+                }
+            },
+            {
+                "name": "Driver's License_BACKSIDE",
+                "division": "10 - OR",
+                "coverage": {
+                    "count": 8,
+                    "total": 8,
+                    "percentage": 100
+                }
+            },
+            {
+                "name": "DriverMate Acknowledgement",
+                "division": "10 - OR",
+                "coverage": {
+                    "count": 8,
+                    "total": 8,
+                    "percentage": 100
+                }
+            },
+            {
+                "name": "Drivers License",
+                "division": "10 - OR",
+                "coverage": {
+                    "count": 8,
+                    "total": 8,
+                    "percentage": 100
+                }
+            },
+            {
+                "name": "Drivers License_BACKSIDE",
+                "division": "10 - OR",
+                "coverage": {
+                    "count": 8,
+                    "total": 8,
+                    "percentage": 100
+                }
+            },
+            {
+                "name": "E-VERIFY",
+                "division": "10 - OR",
+                "coverage": {
+                    "count": 8,
+                    "total": 8,
+                    "percentage": 100
+                }
+            },
+            {
+                "name": "EVerify",
+                "division": "10 - OR",
+                "coverage": {
+                    "count": 8,
+                    "total": 8,
+                    "percentage": 100
+                }
+            },
+            {
+                "name": "Emergency Contact",
+                "division": "10 - OR",
+                "coverage": {
+                    "count": 8,
+                    "total": 8,
+                    "percentage": 100
+                }
+            },
+            {
+                "name": "Fraud/Waste/Abuse/ HIPPA TP Compliance",
+                "division": "10 - OR",
+                "coverage": {
+                    "count": 8,
+                    "total": 8,
+                    "percentage": 100
+                }
+            },
+            {
+                "name": "Health Attestation",
+                "division": "10 - OR",
+                "coverage": {
+                    "count": 8,
+                    "total": 8,
+                    "percentage": 100
+                }
+            },
+            {
+                "name": "I-9",
+                "division": "10 - OR",
+                "coverage": {
+                    "count": 8,
+                    "total": 8,
+                    "percentage": 100
+                }
+            },
+            {
+                "name": "I-9 Form",
+                "division": "10 - OR",
+                "coverage": {
+                    "count": 8,
+                    "total": 8,
+                    "percentage": 100
+                }
+            },
+            {
+                "name": "Majestic Cultural Compentence",
+                "division": "10 - OR",
+                "coverage": {
+                    "count": 8,
+                    "total": 8,
+                    "percentage": 100
+                }
+            },
+            {
+                "name": "Motor Vehicle Report Court Purposes (MVR)",
+                "division": "10 - OR",
+                "coverage": {
+                    "count": 8,
+                    "total": 8,
+                    "percentage": 100
+                }
+            },
+            {
+                "name": "Ohio Driver's License Verification",
+                "division": "10 - OR",
+                "coverage": {
+                    "count": 8,
+                    "total": 8,
+                    "percentage": 100
+                }
+            },
+            {
+                "name": "Purchase Your Courses",
+                "division": "10 - OR",
+                "coverage": {
+                    "count": 8,
+                    "total": 8,
+                    "percentage": 100
+                }
+            },
+            {
+                "name": "SOCIAL SECURITY CARD",
+                "division": "10 - OR",
+                "coverage": {
+                    "count": 8,
+                    "total": 8,
+                    "percentage": 100
+                }
+            },
+            {
+                "name": "TriMet Background Release Form A&B",
+                "division": "10 - OR",
+                "coverage": {
+                    "count": 8,
+                    "total": 8,
+                    "percentage": 100
+                }
+            },
+            {
+                "name": "W9",
+                "division": "10 - OR",
+                "coverage": {
+                    "count": 8,
+                    "total": 8,
+                    "percentage": 100
+                }
+            },
+            {
+                "name": "Motor Vehicle Report (MVR)",
+                "division": "10 - OR",
+                "coverage": {
+                    "count": 8,
+                    "total": 8,
+                    "percentage": 100
+                }
+            },
+            {
+                "name": "BackgroundCheck",
+                "division": "10 - OR",
+                "coverage": {
+                    "count": 8,
+                    "total": 8,
+                    "percentage": 100
+                }
+            },
+            {
+                "name": "Badge Photo",
                 "division": "3 - TX",
                 "coverage": {
                     "count": 0,
@@ -6492,276 +6762,6 @@
                 "coverage": {
                     "count": 0,
                     "total": 0,
-                    "percentage": 100
-                }
-            },
-            {
-                "name": "Badge Photo",
-                "division": "10 - OR",
-                "coverage": {
-                    "count": 10,
-                    "total": 10,
-                    "percentage": 100
-                }
-            },
-            {
-                "name": "CPR/AED/FIRST AID",
-                "division": "10 - OR",
-                "coverage": {
-                    "count": 10,
-                    "total": 10,
-                    "percentage": 100
-                }
-            },
-            {
-                "name": "CPR/FA/AED",
-                "division": "10 - OR",
-                "coverage": {
-                    "count": 10,
-                    "total": 10,
-                    "percentage": 100
-                }
-            },
-            {
-                "name": "CTAA PASSENGER ASSISTANCE",
-                "division": "10 - OR",
-                "coverage": {
-                    "count": 10,
-                    "total": 10,
-                    "percentage": 100
-                }
-            },
-            {
-                "name": "CTAA Passenger Assist",
-                "division": "10 - OR",
-                "coverage": {
-                    "count": 10,
-                    "total": 10,
-                    "percentage": 100
-                }
-            },
-            {
-                "name": "Chauffer's License",
-                "division": "10 - OR",
-                "coverage": {
-                    "count": 10,
-                    "total": 10,
-                    "percentage": 100
-                }
-            },
-            {
-                "name": "DART 5 STAR SRVC POLICY",
-                "division": "10 - OR",
-                "coverage": {
-                    "count": 10,
-                    "total": 10,
-                    "percentage": 100
-                }
-            },
-            {
-                "name": "DRIVERS LICENSE w/CHAUF ENDORSE",
-                "division": "10 - OR",
-                "coverage": {
-                    "count": 10,
-                    "total": 10,
-                    "percentage": 100
-                }
-            },
-            {
-                "name": "Defensive Driving",
-                "division": "10 - OR",
-                "coverage": {
-                    "count": 10,
-                    "total": 10,
-                    "percentage": 100
-                }
-            },
-            {
-                "name": "Driver License",
-                "division": "10 - OR",
-                "coverage": {
-                    "count": 10,
-                    "total": 10,
-                    "percentage": 100
-                }
-            },
-            {
-                "name": "Driver's License_BACKSIDE",
-                "division": "10 - OR",
-                "coverage": {
-                    "count": 10,
-                    "total": 10,
-                    "percentage": 100
-                }
-            },
-            {
-                "name": "DriverMate Acknowledgement",
-                "division": "10 - OR",
-                "coverage": {
-                    "count": 10,
-                    "total": 10,
-                    "percentage": 100
-                }
-            },
-            {
-                "name": "Drivers License",
-                "division": "10 - OR",
-                "coverage": {
-                    "count": 10,
-                    "total": 10,
-                    "percentage": 100
-                }
-            },
-            {
-                "name": "Drivers License_BACKSIDE",
-                "division": "10 - OR",
-                "coverage": {
-                    "count": 10,
-                    "total": 10,
-                    "percentage": 100
-                }
-            },
-            {
-                "name": "E-VERIFY",
-                "division": "10 - OR",
-                "coverage": {
-                    "count": 10,
-                    "total": 10,
-                    "percentage": 100
-                }
-            },
-            {
-                "name": "EVerify",
-                "division": "10 - OR",
-                "coverage": {
-                    "count": 10,
-                    "total": 10,
-                    "percentage": 100
-                }
-            },
-            {
-                "name": "Emergency Contact",
-                "division": "10 - OR",
-                "coverage": {
-                    "count": 10,
-                    "total": 10,
-                    "percentage": 100
-                }
-            },
-            {
-                "name": "Fraud/Waste/Abuse/ HIPPA TP Compliance",
-                "division": "10 - OR",
-                "coverage": {
-                    "count": 10,
-                    "total": 10,
-                    "percentage": 100
-                }
-            },
-            {
-                "name": "Health Attestation",
-                "division": "10 - OR",
-                "coverage": {
-                    "count": 10,
-                    "total": 10,
-                    "percentage": 100
-                }
-            },
-            {
-                "name": "I-9",
-                "division": "10 - OR",
-                "coverage": {
-                    "count": 10,
-                    "total": 10,
-                    "percentage": 100
-                }
-            },
-            {
-                "name": "I-9 Form",
-                "division": "10 - OR",
-                "coverage": {
-                    "count": 10,
-                    "total": 10,
-                    "percentage": 100
-                }
-            },
-            {
-                "name": "Majestic Cultural Compentence",
-                "division": "10 - OR",
-                "coverage": {
-                    "count": 10,
-                    "total": 10,
-                    "percentage": 100
-                }
-            },
-            {
-                "name": "Motor Vehicle Report Court Purposes (MVR)",
-                "division": "10 - OR",
-                "coverage": {
-                    "count": 10,
-                    "total": 10,
-                    "percentage": 100
-                }
-            },
-            {
-                "name": "Ohio Driver's License Verification",
-                "division": "10 - OR",
-                "coverage": {
-                    "count": 10,
-                    "total": 10,
-                    "percentage": 100
-                }
-            },
-            {
-                "name": "Purchase Your Courses",
-                "division": "10 - OR",
-                "coverage": {
-                    "count": 10,
-                    "total": 10,
-                    "percentage": 100
-                }
-            },
-            {
-                "name": "SOCIAL SECURITY CARD",
-                "division": "10 - OR",
-                "coverage": {
-                    "count": 10,
-                    "total": 10,
-                    "percentage": 100
-                }
-            },
-            {
-                "name": "TriMet Background Release Form A&B",
-                "division": "10 - OR",
-                "coverage": {
-                    "count": 10,
-                    "total": 10,
-                    "percentage": 100
-                }
-            },
-            {
-                "name": "W9",
-                "division": "10 - OR",
-                "coverage": {
-                    "count": 10,
-                    "total": 10,
-                    "percentage": 100
-                }
-            },
-            {
-                "name": "Motor Vehicle Report (MVR)",
-                "division": "10 - OR",
-                "coverage": {
-                    "count": 10,
-                    "total": 10,
-                    "percentage": 100
-                }
-            },
-            {
-                "name": "BackgroundCheck",
-                "division": "10 - OR",
-                "coverage": {
-                    "count": 10,
-                    "total": 10,
                     "percentage": 100
                 }
             },
@@ -7038,6 +7038,11 @@
         ],
         "status_mappings": [
             {
+                "status": "REGISTRATION",
+                "division": "10 - OR",
+                "order": "1"
+            },
+            {
                 "status": "ONBOARDING",
                 "division": "11 - GA",
                 "order": "1"
@@ -7094,11 +7099,6 @@
             },
             {
                 "status": "ONBOARDING",
-                "division": "10 - OR",
-                "order": "2"
-            },
-            {
-                "status": "ONBOARDING",
                 "division": "12 - PA",
                 "order": "2"
             },
@@ -7141,6 +7141,11 @@
                 "status": "ONBOARDING",
                 "division": "99 - AUTOSYNC",
                 "order": "2"
+            },
+            {
+                "status": "ONBOARDING",
+                "division": "10 - OR",
+                "order": "4"
             }
         ]
     },
@@ -8026,11 +8031,6 @@
             },
             {
                 "status": "IN-SERVICE",
-                "division": "10 - OR",
-                "order": "13"
-            },
-            {
-                "status": "IN-SERVICE",
                 "division": "11 - GA",
                 "order": "13"
             },
@@ -8053,6 +8053,11 @@
                 "status": "IN-SERVICE",
                 "division": "8 - OH",
                 "order": "14"
+            },
+            {
+                "status": "IN-SERVICE",
+                "division": "10 - OR",
+                "order": "15"
             }
         ]
     },
@@ -8761,11 +8766,6 @@
         "status_mappings": [
             {
                 "status": "APPROVED FOR SERVICE",
-                "division": "10 - OR",
-                "order": "10"
-            },
-            {
-                "status": "APPROVED FOR SERVICE",
                 "division": "11 - GA",
                 "order": "10"
             },
@@ -8813,6 +8813,11 @@
                 "status": "APPROVED FOR SERVICE",
                 "division": "8 - OH",
                 "order": "11"
+            },
+            {
+                "status": "APPROVED FOR SERVICE",
+                "division": "10 - OR",
+                "order": "12"
             },
             {
                 "status": "APPROVED FOR CONTRACTING",
@@ -8990,7 +8995,7 @@
             {
                 "status": "APPROVED FOR CONTRACTING",
                 "division": "10 - OR",
-                "order": "2"
+                "order": "4"
             },
             {
                 "status": "APPROVED FOR CONTRACTING",
@@ -9506,11 +9511,6 @@
         "status_mappings": [
             {
                 "status": "APPROVED FOR LEASING",
-                "division": "10 - OR",
-                "order": "12"
-            },
-            {
-                "status": "APPROVED FOR LEASING",
                 "division": "11 - GA",
                 "order": "12"
             },
@@ -9548,6 +9548,11 @@
                 "status": "APPROVED FOR LEASING",
                 "division": "8 - OH",
                 "order": "13"
+            },
+            {
+                "status": "APPROVED FOR LEASING",
+                "division": "10 - OR",
+                "order": "14"
             },
             {
                 "status": "Vehicle Leasing- TEST",
@@ -11652,11 +11657,6 @@
         "status_mappings": [
             {
                 "status": "DOT SCREENING",
-                "division": "10 - OR",
-                "order": "3"
-            },
-            {
-                "status": "DOT SCREENING",
                 "division": "11 - GA",
                 "order": "3"
             },
@@ -11704,6 +11704,11 @@
                 "status": "DOT SCREENING (NON)",
                 "division": "99 - AUTOSYNC",
                 "order": "4"
+            },
+            {
+                "status": "DOT SCREENING",
+                "division": "10 - OR",
+                "order": "5"
             }
         ]
     },
@@ -11773,11 +11778,6 @@
         "status_mappings": [
             {
                 "status": "BUSINESS BANKING",
-                "division": "10 - OR",
-                "order": "2"
-            },
-            {
-                "status": "BUSINESS BANKING",
                 "division": "3 - TX",
                 "order": "2"
             },
@@ -11785,6 +11785,11 @@
                 "status": "BUSINESS BANKING",
                 "division": "5 - CA",
                 "order": "2"
+            },
+            {
+                "status": "BUSINESS BANKING",
+                "division": "10 - OR",
+                "order": "4"
             }
         ]
     },
@@ -11996,7 +12001,7 @@
             {
                 "status": "LICENSING",
                 "division": "10 - OR",
-                "order": "2"
+                "order": "4"
             }
         ]
     },
@@ -12048,13 +12053,13 @@
         "status_mappings": [
             {
                 "status": "POLICY",
-                "division": "10 - OR",
-                "order": "2"
+                "division": "3 - TX",
+                "order": "3"
             },
             {
                 "status": "POLICY",
-                "division": "3 - TX",
-                "order": "3"
+                "division": "10 - OR",
+                "order": "4"
             }
         ]
     }

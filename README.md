@@ -3,6 +3,11 @@
 **Data-driven operator certification requirements using Pizza Status inference system.**
 cd /home/eurorescue/Desktop/Orion_Operator_Lifecycle_Automation
 python3 -m http.server 8000
+
+cd /home/eurorescue/Desktop/Orion_Operator_Lifecycle_Automation python tools/custom_server.py    
+
+cd "C:\Users\PC\Desktop\Projects\Orion_Operator_Lifecycle_Automation-master"
+python tools/custom_server.py "C:\Users\PC\Desktop\Projects\Orion_Operator_Lifecycle_Automation-master"
 ---
 
 ## 🍕 Pizza Status Requirements System

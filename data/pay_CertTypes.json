@@ -28590,7 +28590,7 @@
         "isBackground": null,
         "isAgency": true,
         "isScheduled": false,
-        "PizzaStatusID": "D884F3D1-8AA3-48A3-B172-DF754283F4C2",
+        "PizzaStatusID": null,
         "SignNowTemplateID": null,
         "isPassport": false,
         "isDOT": null,
@@ -37830,7 +37830,7 @@
         "isBackground": null,
         "isAgency": true,
         "isScheduled": false,
-        "PizzaStatusID": "D884F3D1-8AA3-48A3-B172-DF754283F4C2",
+        "PizzaStatusID": null,
         "SignNowTemplateID": null,
         "isPassport": false,
         "isDOT": null,
@@ -84520,7 +84520,7 @@
         "isBackground": null,
         "isAgency": true,
         "isScheduled": false,
-        "PizzaStatusID": "D884F3D1-8AA3-48A3-B172-DF754283F4C2",
+        "PizzaStatusID": null,
         "SignNowTemplateID": null,
         "isPassport": false,
         "isDOT": null,
@@ -92692,5 +92692,61 @@
         "DivisionID": "99 - AUTOSYNC",
         "CertificationType": "Added in Session",
         "CertificationID": "TEMP-xwgseijur"
+    },
+    {
+        "Certification": "Driver License ",
+        "PizzaStatusID": "D884F3D1-8AA3-48A3-B172-DF754283F4C2",
+        "DivisionID": "12 - PA",
+        "CertificationType": "Added in Session",
+        "CertificationID": "TEMP-79sgcslez"
+    },
+    {
+        "Certification": "Driver License ",
+        "PizzaStatusID": "D884F3D1-8AA3-48A3-B172-DF754283F4C2",
+        "DivisionID": "2 - IL",
+        "CertificationType": "Added in Session",
+        "CertificationID": "TEMP-jgkcqvu5a"
+    },
+    {
+        "Certification": "Driver License ",
+        "PizzaStatusID": "D884F3D1-8AA3-48A3-B172-DF754283F4C2",
+        "DivisionID": "3 - TX",
+        "CertificationType": "Added in Session",
+        "CertificationID": "TEMP-3r1aihi31"
+    },
+    {
+        "Certification": "Driver License ",
+        "PizzaStatusID": "D884F3D1-8AA3-48A3-B172-DF754283F4C2",
+        "DivisionID": "5 - CA",
+        "CertificationType": "Added in Session",
+        "CertificationID": "TEMP-bndf5sdfq"
+    },
+    {
+        "Certification": "Driver License ",
+        "PizzaStatusID": "D884F3D1-8AA3-48A3-B172-DF754283F4C2",
+        "DivisionID": "6 - FL",
+        "CertificationType": "Added in Session",
+        "CertificationID": "TEMP-e8o9fbbi6"
+    },
+    {
+        "Certification": "Driver License ",
+        "PizzaStatusID": "D884F3D1-8AA3-48A3-B172-DF754283F4C2",
+        "DivisionID": "7 - MI",
+        "CertificationType": "Added in Session",
+        "CertificationID": "TEMP-y21rwlmdc"
+    },
+    {
+        "Certification": "Driver License ",
+        "PizzaStatusID": "D884F3D1-8AA3-48A3-B172-DF754283F4C2",
+        "DivisionID": "8 - OH",
+        "CertificationType": "Added in Session",
+        "CertificationID": "TEMP-x02yya2rb"
+    },
+    {
+        "Certification": "Driver License ",
+        "PizzaStatusID": "D884F3D1-8AA3-48A3-B172-DF754283F4C2",
+        "DivisionID": "99 - AUTOSYNC",
+        "CertificationType": "Added in Session",
+        "CertificationID": "TEMP-67en017xi"
     }
 ]

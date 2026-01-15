@@ -1,0 +1,18 @@
+Statuses for Division 2 - IL (IsOperator only, not deleted, with PizzaStatusID): 16 found
+
+- In-Service (ID: 549AAC1C-7DA5-4E93-BE4B-0A2E1D67804B) | In-Service
+- DOT Screening (ID: A99FAAE6-69F1-43C8-9C13-1D80FE7738B5) | DOT Screening Description
+- Orientation (ID: 50A8EB96-3D62-47BF-9B21-33C2EE676224) | Orientation Description
+- Onboarding (ID: 37403C54-6A79-42EB-8C2E-3C59638C4D6A) | Onboarding Descriptions
+- Credentialing (ID: 0AFED8D9-D0FC-4CB6-A062-4240A13D5CBB) | Credentialing Description
+- DOT Screening (ID: 80E13E31-FC68-4AA2-BCE7-48A4A1FFBB2B) | DOT Screening Description
+- Vehicle Leasing (ID: F8A05A66-09D9-4C19-A808-643BF3E3A798) | Vehicle Leasing Description
+- Credentialing (ID: 15D421BC-7EFC-4A58-89E8-697101DF5458) | Credentialing Description
+- Contracting (ID: 0F3DDDE2-1920-4E71-A40A-7610F5C58FAC) | Contracting Description
+- Orientation (ID: 9814CCF3-6F40-4480-BB3B-76DA6E727947) | Orientation Description
+- Vehicle Leasing (ID: 8546AB07-6C55-408D-97D3-91B11455CE48) | Vehicle Leasing Description
+- Contracting (ID: 40F52A7D-AB81-4C73-995D-C4F0FF4802FB) | Contracting Description
+- Compliance Review (ID: 0034DB30-00F3-430F-9B45-C5860823FC75) | Compliance Review
+- Compliance Review (ID: 569C3481-69A6-4CDC-87E8-D500E66770CD) | Compliance Review
+- Onboarding (ID: D884F3D1-8AA3-48A3-B172-DF754283F4C2) | Onboarding Descriptions
+- In-Service (ID: FA64C4A7-322A-40F0-A161-EEDD422F49C2) | In-Service

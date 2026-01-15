@@ -15,11 +15,17 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+            background: linear-gradient(135deg, #e2e6f0 0%, #e0e1e3 50%, #dedede 100%);
             min-height: 100vh;
             padding: 20px;
             color: #e2e8f0;
         }
+/* Accordion custom style */
+.accordion-body {
+    background: #5b657a !important;
+    border-radius: 0 0 12px 12px;
+    color: white;
+}
 
         .container {
             max-width: 1600px;
@@ -1658,88 +1664,103 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>🔄 Operator Lifecycle Workflow Builder</h1>
-            <p class="subtitle">Drag and drop to reorder steps • Validate certification requirements in real-time</p>
-        </header>
 
-        <div class="unsaved-indicator" id="unsavedIndicator">
-            ⚠ Unsaved Changes
-        </div>
-
-        <div class="stats-panel" id="statsPanel">
-            <div class="stat-card">
-                <div class="stat-value" id="totalOperators">81</div>
-                <div class="stat-label">Total Operators</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="validSteps">0</div>
-                <div class="stat-label">Valid Steps</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="invalidSteps">0</div>
-                <div class="stat-label">Steps with Issues</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="complianceRate">0%</div>
-                <div class="stat-label">Compliance Rate</div>
-            </div>
-        </div>
-
-        <div class="legend">
-            <div class="legend-item">
-                <div class="legend-color valid"></div>
-                <span>All operators have required certifications</span>
-            </div>
-            <div class="legend-item">
-                <div class="legend-color invalid"></div>
-                <span>Some operators missing required certifications</span>
-            </div>
-        </div>
-
-        <div class="controls">
-            <!-- Edit/View mode toggle removed -->
-            <!-- Division filter for Edit/View mode removed (mainDivisionFilter is used instead) -->
-
-            <button class="btn btn-primary" onclick="resetToIdealFlow()" id="resetBtn">🔄 Reset to Ideal Flow</button>
-            <button class="btn btn-success" onclick="validateAll()" id="validateBtn">✓ Validate All</button>
-            <button class="btn btn-danger" onclick="showIssues()" id="issuesBtn">⚠ Show Issues</button>
-            <button class="btn btn-success" id="saveBtn" onclick="saveChanges()" style="display: none;">💾 Save Changes</button>
-        </div>
-
-        <!-- Control Center Panel -->
-        <div class="control-panel">
+    <div class="container" style="display: flex; flex-direction: row;">
+        <div class="vertical-panel" style="width: 360px; min-width: 300px; max-width: 420px; background: linear-gradient(135deg, #232b3b 0%, #1e293b 100%); border-radius: 18px; margin: 30px 20px 30px 30px; padding: 28px 18px; display: flex; flex-direction: column; gap: 28px; height: fit-content; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">
+                        <!-- Add Status to Division Accordion (moved and restyled) -->
+                        <div class="accordion" id="addStatusAccordion" style="background: #232b3b; border-radius: 12px; box-shadow: 0 2px 8px rgba(60,60,80,0.10); margin-bottom: 10px;">
+                            <div class="accordion-item border-primary" style="background: #232b3b; border-radius: 12px;">
+                                <h2 class="accordion-header" id="addStatusHeading">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#addStatusCollapse" aria-expanded="false" aria-controls="addStatusCollapse" style="background: linear-gradient(90deg, #6366f1 0%, #60a5fa 100%); color: #fff; font-weight: bold; border-radius: 12px 12px 0 0;">
+                                        <i class="bi bi-plus-circle me-2"></i> Add Status to Division
+                                    </button>
+                                </h2>
+                                <div id="addStatusCollapse" class="accordion-collapse collapse" aria-labelledby="addStatusHeading" data-bs-parent="#addStatusAccordion">
+                                    <div class="accordion-body" style="background: #f1f5f9; border-radius: 0 0 12px 12px;">
+                                        <form id="addStatusForm" onsubmit="return false;">
+                                            <div class="mb-3">
+                                                <label for="addStatusDivision" class="form-label">Division</label>
+                                                <input id="addStatusDivision" class="form-control bg-white" readonly />
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="addStatusNameSelect" class="form-label">Status Name</label>
+                                                <select id="addStatusNameSelect" class="form-select" onchange="handleStatusSelectChange()"></select>
+                                                <div class="form-text">Select an existing status or type a new one below if not listed.</div>
+                                            </div>
+                                            <div class="mb-3" style="display: none;" id="newStatusInputContainer">
+                                                <label for="addStatusNameInput" class="form-label">New Status Name</label>
+                                                <input type="text" id="addStatusNameInput" class="form-control" placeholder="Enter new status name...">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="addStatusPosition" class="form-label">Insert Position</label>
+                                                <select id="addStatusPosition" class="form-select"></select>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="pizzaStatusesDropdown" class="form-label">Pizza Statuses (All)</label>
+                                                <select id="pizzaStatusesDropdown" class="form-select"></select>
+                                                <div class="form-text">All Pizza Statuses from pay_PizzaStatuses.json</div>
+                                            </div>
+                                            <div class="d-flex justify-content-end gap-2">
+                                                <button type="reset" class="btn btn-secondary">Clear</button>
+                                                <button type="button" class="btn btn-primary" id="addStatusConfirmBtn">Add Status</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
             <h3>🎛️ Control Center</h3>
-            
+            <div class="stats-panel" id="statsPanel">
+                <div class="stat-card">
+                    <div class="stat-value" id="totalOperators">81</div>
+                    <div class="stat-label">Total Operators</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="validSteps">0</div>
+                    <div class="stat-label">Valid Steps</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="invalidSteps">0</div>
+                    <div class="stat-label">Steps with Issues</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="complianceRate">0%</div>
+                    <div class="stat-label">Compliance Rate</div>
+                </div>
+            </div>
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-color valid"></div>
+                    <span>All operators have required certifications</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color invalid"></div>
+                    <span>Some operators missing required certifications</span>
+                </div>
+            </div>
             <div class="search-bar">
                 <span class="search-icon">🔍</span>
                 <input type="text" id="globalSearch" class="search-input" placeholder="Search certifications, operators, or statuses..." oninput="handleGlobalSearch()">
                 <button class="clear-search" onclick="clearGlobalSearch()" style="display: none;">×</button>
             </div>
-            
             <div class="filter-options">
                 <button class="filter-btn active" data-filter="all" onclick="setFilter('all')">All Statuses</button>
                 <button class="filter-btn" data-filter="valid" onclick="setFilter('valid')">✓ Valid Only</button>
                 <button class="filter-btn" data-filter="invalid" onclick="setFilter('invalid')">⚠ Invalid Only</button>
             </div>
-            
             <div class="division-filter-section" style="margin: 15px 0;">
                 <label style="display: block; margin-bottom: 8px; color: #94a3b8; font-size: 0.9rem;">📍 Filter by Division:</label>
                 <select id="mainDivisionFilter" onchange="handleMainDivisionFilter()" style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid rgba(148, 163, 184, 0.2); background: rgba(30, 41, 59, 0.6); color: #e2e8f0; font-size: 0.95rem;">
                     <option value="ALL">🌐 All Divisions</option>
                 </select>
             </div>
-            
-            <div class="bulk-actions">
-                <button class="bulk-btn" onclick="showBulkAddModal()">➕ Bulk Add Cert</button>
-                <button class="bulk-btn success" onclick="showExportModal()">📊 Export Report</button>
-                <button class="bulk-btn" onclick="showCertAnalytics()">📈 Analytics</button>
-                <button class="bulk-btn danger" onclick="confirmClearAll()">🗑️ Clear All Certs</button>
-            </div>
+            <button class="btn btn-danger" onclick="showIssues()" id="issuesBtn">⚠ Show Issues</button>
+            <button class="btn btn-success" id="saveBtn" onclick="saveChanges()" style="display: none;">💾 Save Changes</button>
+            <button class="bulk-btn success" onclick="showExportModal()">📊 Export Report</button>
+            <button class="bulk-btn" onclick="showCertAnalytics()">📈 Analytics</button>
+            <button class="bulk-btn danger" onclick="confirmClearAll()">🗑️ Clear All Certs</button>
         </div>
-
-        <div class="workflow-canvas">
+        <div class="workflow-canvas" style="flex: 1;">
             <div class="workflow-steps" id="workflowSteps">
                 <!-- Steps will be dynamically generated here -->
             </div>
@@ -2147,46 +2168,68 @@
 
         // Initialize workflow based on Dynamic Status Types
         function initializeDynamicWorkflow() {
-             if (mainDivisionFilter === 'ALL') {
-                 // Use legacy ideal flow as fallback or aggregated view
-                 currentWorkflow = [...idealFlow];
-             } else {
-                 // Build workflow SPECIFIC to this division based on statusTypes OrderID
-                 const divStatuses = statusTypes.filter(st => {
-                     // 1. Check Division (robust match)
-                     if (!isDivisionMatch(st.DivisionID, mainDivisionFilter)) return false;
+            if (mainDivisionFilter === 'ALL') {
+                // Use legacy ideal flow as fallback or aggregated view
+                currentWorkflow = [...idealFlow];
+            } else {
+                // Use StatusTypes for filtering, matching Python script logic
+                // Ensure statusTypes and pizzaStatuses are loaded
+                if (typeof window.statusTypes === 'undefined') {
+                    var xhrST = new XMLHttpRequest();
+                    xhrST.open('GET', '../data/pay_StatusTypes.json', false);
+                    xhrST.send(null);
+                    if (xhrST.status === 200) {
+                        window.statusTypes = JSON.parse(xhrST.responseText);
+                    } else {
+                        window.statusTypes = [];
+                    }
+                }
+                if (typeof window.pizzaStatuses === 'undefined') {
+                    var xhrPS = new XMLHttpRequest();
+                    xhrPS.open('GET', '../data/pay_PizzaStatuses.json', false);
+                    xhrPS.send(null);
+                    if (xhrPS.status === 200) {
+                        window.pizzaStatuses = JSON.parse(xhrPS.responseText);
+                    } else {
+                        window.pizzaStatuses = [];
+                    }
+                }
+                const statusTypesArr = window.statusTypes;
+                const pizzaStatusesArr = window.pizzaStatuses;
+                const pizzaStatusMap = {};
+                pizzaStatusesArr.forEach(p => { if (p.ID) pizzaStatusMap[p.ID] = p; });
 
-                     // 2. Check Deleted (robust: any truthy value for isDeleted/IsDelete)
-                     if (st.isDeleted === true || st.IsDelete === true || String(st.isDeleted).toLowerCase() === 'true' || String(st.IsDelete).toLowerCase() === 'true' || st.isDeleted === 1 || st.IsDelete === 1 || String(st.isDeleted) === '1' || String(st.IsDelete) === '1') return false;
+                // Filter StatusTypes for the selected division, matching the script logic
+                let divStatuses = statusTypesArr.filter(st => {
+                    return (
+                        st.DivisionID === mainDivisionFilter &&
+                        !(st.isDeleted === true || st.IsDelete === true || String(st.isDeleted).trim() === '1' || String(st.IsDelete).trim() === '1' || String(st.isDeleted).trim().toLowerCase() === 'true' || String(st.IsDelete).trim().toLowerCase() === 'true') &&
+                        st.PizzaStatusID &&
+                        pizzaStatusMap[st.PizzaStatusID] &&
+                        (String(st.isActive || '1').trim() === '1' || st.isActive === true) &&
+                        pizzaStatusMap[st.PizzaStatusID].IsOperator === true
+                    );
+                });
 
-                     // 3. Exclude Fleet, Providers, OutOfServiceFlag (robust for boolean or 1/"1")
-                     if (st.Fleet === true || st.Fleet === 1 || String(st.Fleet) === '1') return false;
-                     if (st.Providers === true || st.Providers === 1 || String(st.Providers) === '1') return false;
-                     if (st.OutOfServiceFlag === true || st.OutOfServiceFlag === 1 || String(st.OutOfServiceFlag) === '1') return false;
+                // Sort by OrderID (as integer, fallback to 9999 if missing)
+                divStatuses.sort((a, b) => {
+                    const ordA = parseInt(a.OrderID) || 9999;
+                    const ordB = parseInt(b.OrderID) || 9999;
+                    return ordA - ordB;
+                });
 
-                     // 4. Must be linked to a PizzaStatus and is_operator must be true
-                     if (!st.PizzaStatusID || !pizzaStatusRequirements[st.PizzaStatusID]) return false;
-                     if (pizzaStatusRequirements[st.PizzaStatusID].is_operator !== true) return false;
-
-                     return true;
-                 }).sort((a, b) => {
-                     const ordA = parseInt(a.OrderID) || 999;
-                     const ordB = parseInt(b.OrderID) || 999;
-                     return ordA - ordB;
-                 });
-                 
-                 if (divStatuses.length > 0) {
-                     currentWorkflow = divStatuses.map(st => ({
-                         step: parseInt(st.OrderID),
-                         status: st.Status,
-                         statusId: st.Id || st.ID || null
-                     }));
-                 } else {
-                     // Fallback if no specific configuration found
-                     console.warn(`No specific statuses found for ${mainDivisionFilter}, using default flow.`);
-                     currentWorkflow = [...idealFlow];
-                 }
-             }
+                if (divStatuses.length > 0) {
+                    currentWorkflow = divStatuses.map((st, idx) => ({
+                        step: (parseInt(st.OrderID) || (idx + 1)),
+                        status: st.Status,
+                        statusId: st.Id || st.ID || null
+                    }));
+                } else {
+                    // Fallback if no specific configuration found
+                    console.warn(`No StatusTypes found for ${mainDivisionFilter}, using default flow.`);
+                    currentWorkflow = [...idealFlow];
+                }
+            }
         }
 
         // Render the workflow
@@ -2558,8 +2601,8 @@
                     if (mainDivisionFilter === 'ALL') {
                         certs.add(certName);
                     } else {
-                        // Check if division matches (handle both "12 - PA" and "12-PA" formats)
-                        if (divisionId && divisionId.includes(mainDivisionFilter.replace(' - ', '-').split('-')[0])) {
+                        // Require exact DivisionID match (Python logic)
+                        if (divisionId && divisionId === mainDivisionFilter) {
                             certs.add(certName);
                         }
                     }
@@ -3089,8 +3132,12 @@
             if (statusData) {
                 const divisions = statusData.divisions || {};
                 Object.values(divisions).forEach(divData => {
-                    const required = divData.required || [];
-                    const exists = required.some(c => c.cert === certName);
+                    let required = divData.required || [];
+                    // Remove any duplicates (normalize by name)
+                    required = required.filter((c, idx, arr) =>
+                        arr.findIndex(x => normalizeCertName(x.cert) === normalizeCertName(c.cert)) === idx
+                    );
+                    const exists = required.some(c => normalizeCertName(c.cert) === normalizeCertName(certName));
                     if (!exists) {
                         required.push({
                             cert: certName,
@@ -3098,8 +3145,9 @@
                             total: divData.total_operators || 0,
                             percentage: 100.0
                         });
-                        divData.required = required;
                     }
+                    // Always assign deduped array back
+                    divData.required = required;
                 });
             } else {
                 console.warn('Status not found in certRequirements:', statusName);
@@ -3259,9 +3307,113 @@
 
         // Save changes - exports to pay_PizzaStatusRequirements.json format
         async function saveChanges() {
+
             if (!hasUnsavedChanges) {
                 alert('No changes to save');
                 return;
+            }
+
+            // --- SQL DIFF GENERATOR ---
+            function escapeSqlString(str) {
+                return String(str ?? '').replace(/'/g, "''");
+            }
+
+            function generateStatusSqlDiff(oldArr, newArr) {
+                let sql = '';
+                const oldMap = {};
+                oldArr.forEach(row => {
+                    if (row.Status && row.DivisionID) {
+                        oldMap[row.Status + '||' + row.DivisionID] = row;
+                    }
+                });
+                const newMap = {};
+                newArr.forEach(row => {
+                    if (row.Status && row.DivisionID) {
+                        newMap[row.Status + '||' + row.DivisionID] = row;
+                    }
+                });
+                // Detect removed
+                for (const key in oldMap) {
+                    if (!newMap[key]) {
+                        const row = oldMap[key];
+                        sql += `DELETE FROM pay_StatusTypes WHERE Status = '${escapeSqlString(row.Status)}' AND DivisionID = '${escapeSqlString(row.DivisionID)}';\n`;
+                    }
+                }
+                // Detect added
+                for (const key in newMap) {
+                    if (!oldMap[key]) {
+                        const row = newMap[key];
+                        sql += `INSERT INTO pay_StatusTypes (Status, DivisionID, OrderID, PizzaStatusID, Description, isDeleted) VALUES ('${escapeSqlString(row.Status)}', '${escapeSqlString(row.DivisionID)}', '${escapeSqlString(row.OrderID)}', '${escapeSqlString(row.PizzaStatusID)}', '${escapeSqlString(row.Description)}', '${row.isDeleted ? 1 : 0}');\n`;
+                    }
+                }
+                // Detect updates
+                for (const key in newMap) {
+                    if (oldMap[key]) {
+                        const oldRow = oldMap[key];
+                        const newRow = newMap[key];
+                        // Compare all relevant fields
+                        const fields = ['OrderID','PizzaStatusID','Description','isDeleted'];
+                        let updates = [];
+                        fields.forEach(f => {
+                            if ((oldRow[f]||'') != (newRow[f]||'')) {
+                                let val = newRow[f];
+                                if (f === 'isDeleted') val = newRow[f] ? 1 : 0;
+                                updates.push(`${f} = '${escapeSqlString(val)}'`);
+                            }
+                        });
+                        if (updates.length > 0) {
+                            sql += `UPDATE pay_StatusTypes SET ${updates.join(', ')} WHERE Status = '${escapeSqlString(newRow.Status)}' AND DivisionID = '${escapeSqlString(newRow.DivisionID)}';\n`;
+                        }
+                    }
+                }
+                return sql;
+            }
+
+            function generateCertSqlDiff(oldReq, newReq) {
+                let sql = '';
+                // For each status/division, compare certs
+                for (const status in newReq) {
+                    const newDivs = newReq[status].divisions || {};
+                    const oldDivs = (oldReq[status] && oldReq[status].divisions) ? oldReq[status].divisions : {};
+                    for (const div in newDivs) {
+                        const newCerts = (newDivs[div].required || []).map(c => c.cert);
+                        const oldCerts = (oldDivs[div] && oldDivs[div].required) ? oldDivs[div].required.map(c => c.cert) : [];
+                        // Added certs
+                        newCerts.forEach(cert => {
+                            if (!oldCerts.includes(cert)) {
+                                sql += `INSERT INTO pay_StatusCerts (Status, DivisionID, Certification) VALUES ('${escapeSqlString(status)}', '${escapeSqlString(div)}', '${escapeSqlString(cert)}');\n`;
+                            }
+                        });
+                        // Removed certs
+                        oldCerts.forEach(cert => {
+                            if (!newCerts.includes(cert)) {
+                                sql += `DELETE FROM pay_StatusCerts WHERE Status = '${escapeSqlString(status)}' AND DivisionID = '${escapeSqlString(div)}' AND Certification = '${escapeSqlString(cert)}';\n`;
+                            }
+                        });
+                    }
+                }
+                return sql;
+            }
+
+            // Generate SQL for status and cert changes
+            let sqlScript = '';
+            if (window.originalStatusTypes && Array.isArray(window.originalStatusTypes)) {
+                sqlScript += generateStatusSqlDiff(window.originalStatusTypes, statusTypes);
+            }
+            if (window.originalCertRequirements && typeof window.originalCertRequirements === 'object') {
+                sqlScript += generateCertSqlDiff(window.originalCertRequirements, certRequirements);
+            }
+
+            if (sqlScript) {
+                const sqlBlob = new Blob([sqlScript], { type: 'text/sql' });
+                const sqlUrl = URL.createObjectURL(sqlBlob);
+                const a = document.createElement('a');
+                a.href = sqlUrl;
+                a.download = 'workflow_changes.sql';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(sqlUrl);
             }
 
             // Convert current requirements back to pizza status format
@@ -4142,51 +4294,6 @@
 
     </script>
 
-
-                <!-- Add Status Accordion (Bootstrap, improved design) -->
-                <div class="d-flex justify-content-end mb-3" id="addStatusAccordionContainer">
-                    <div class="accordion w-100" id="addStatusAccordion" style="max-width: 600px; margin: 0 auto;">
-                        <div class="accordion-item border-primary">
-                            <h2 class="accordion-header" id="addStatusHeading">
-                                <button class="accordion-button collapsed bg-primary text-white fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#addStatusCollapse" aria-expanded="false" aria-controls="addStatusCollapse">
-                                    <i class="bi bi-plus-circle me-2"></i> Add Status to Division
-                                </button>
-                            </h2>
-                            <div id="addStatusCollapse" class="accordion-collapse collapse" aria-labelledby="addStatusHeading" data-bs-parent="#addStatusAccordion">
-                                <div class="accordion-body bg-light">
-                                    <form id="addStatusForm" onsubmit="return false;">
-                                        <div class="mb-3">
-                                            <label for="addStatusDivision" class="form-label">Division</label>
-                                            <input id="addStatusDivision" class="form-control bg-white" readonly />
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="addStatusNameSelect" class="form-label">Status Name</label>
-                                            <select id="addStatusNameSelect" class="form-select" onchange="handleStatusSelectChange()"></select>
-                                            <div class="form-text">Select an existing status or type a new one below if not listed.</div>
-                                        </div>
-                                        <div class="mb-3" style="display: none;" id="newStatusInputContainer">
-                                            <label for="addStatusNameInput" class="form-label">New Status Name</label>
-                                            <input type="text" id="addStatusNameInput" class="form-control" placeholder="Enter new status name...">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="addStatusPosition" class="form-label">Insert Position</label>
-                                            <select id="addStatusPosition" class="form-select"></select>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="pizzaStatusesDropdown" class="form-label">Pizza Statuses (All)</label>
-                                            <select id="pizzaStatusesDropdown" class="form-select"></select>
-                                            <div class="form-text">All Pizza Statuses from pay_PizzaStatuses.json</div>
-                                        </div>
-                                        <div class="d-flex justify-content-end gap-2">
-                                            <button type="reset" class="btn btn-secondary">Clear</button>
-                                            <button type="button" class="btn btn-primary" id="addStatusConfirmBtn">Add Status</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
     <!-- Confirmation Modal -->
     <div id="confirmModal" class="modal-overlay">

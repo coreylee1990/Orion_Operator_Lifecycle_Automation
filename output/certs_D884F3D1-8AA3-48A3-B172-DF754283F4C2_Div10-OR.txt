@@ -1,0 +1,45 @@
+Certifications with PizzaStatusID D884F3D1-8AA3-48A3-B172-DF754283F4C2 and DivisionID 10 - OR:
+
+- Certification: Driver's License_BACKSIDE
+  Description: Driver License_Back
+  DivisionID: 10 - OR
+
+- Certification: Social Security Card
+  Description: Social Security Card
+  DivisionID: 10 - OR
+
+- Certification: Purchase Your Courses
+  Description: Website that offers discounted CTAA and Def Drive Courses
+  DivisionID: 10 - OR
+
+- Certification: TriMet Background Release Form A&B
+  Description: TriMet Release Form A&B
+  DivisionID: 10 - OR
+
+- Certification: Badge Photo
+  Description: Badge Photo
+  DivisionID: 10 - OR
+
+- Certification: Driver License
+  Description: Driver License
+  DivisionID: 10 - OR
+
+- Certification: Defensive Driving
+  Description: Defensive Driving
+  DivisionID: 10 - OR
+
+- Certification: Motor Vehicle Report (MVR)
+  Description: UNKNOWN
+  DivisionID: 10 - OR
+
+- Certification: BackgroundCheck
+  Description: UNKNOWN
+  DivisionID: 10 - OR
+
+- Certification: W9
+  Description: W9
+  DivisionID: 10 - OR
+
+- Certification: CTAA Passenger Assistance
+  Description: CTAA Passenger Assistance
+  DivisionID: 10 - OR
